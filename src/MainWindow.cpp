@@ -3,7 +3,10 @@
 
 MainWindow::MainWindow(QWidget* parent) :
 	QMainWindow(parent),
-	m_Ui(new Ui::MainWindow)
+	m_Ui(new Ui::MainWindow),
+	m_AttrTreeModel(nullptr),
+	m_SceneTreeModel(nullptr),
+	m_Scene(nullptr)
 {
 	m_Ui->setupUi(this);
 
@@ -36,10 +39,50 @@ void MainWindow::Initialize()
 		this, SLOT(OnShapePicked(physx::PxShape*))
 	);
 
+	QObject::connect(
+		GetActionOpen(), SIGNAL(triggered()),
+		this, SLOT(OpenFileFolder())
+	);
+
+	QObject::connect(
+		GetActionZoomToScene(), SIGNAL(triggered()),
+		this, SLOT(ZoomToScene())
+	);
+
 	GetSceneTreeView()->setExpandsOnDoubleClick(true);
 	GetAttrTreeView()->setExpandsOnDoubleClick(true);
 
 	show();
+}
+
+void MainWindow::OpenFileFolder()
+{
+	auto fileName = QFileDialog::getOpenFileName(
+		this,
+		tr("open a collection file."),
+		"D:/",
+		tr("Collection Files(*.col_xml)")
+	);
+	if (fileName.isEmpty())
+	{
+		return;
+	}
+
+	if (m_Scene)
+	{
+		delete m_Scene;
+	}
+	m_Scene = new Scene();
+	m_Scene->Load({ fileName.toStdString() });
+
+	GetGlWidget()->SetScene(m_Scene);
+	m_SceneTreeModel = new SceneTreeModel(m_Scene);
+	GetSceneTreeView()->setModel(m_SceneTreeModel);
+}
+
+void MainWindow::ZoomToScene()
+{
+	GetGlWidget()->ResetCamera();
 }
 
 void MainWindow::OnShapePicked(physx::PxShape* shape)

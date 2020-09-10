@@ -112,20 +112,12 @@
      <string>File</string>
     </property>
     <addaction name="actionopen"/>
-    <addaction name="actionSave"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuCamera">
     <property name="title">
      <string>Camera</string>
     </property>
-    <addaction name="actionLook_at_point"/>
-    <addaction name="actionReset_scene"/>
     <addaction name="actionZoom_to_scene"/>
-    <addaction name="separator"/>
-    <addaction name="actionZoom_to_selcted"/>
-    <addaction name="actionCenter_at_selected"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuCamera"/>

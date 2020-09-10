@@ -23,11 +23,8 @@ public:
 	explicit GlWidget(QWidget *parent = NULL);
 	virtual ~GlWidget();
 
-	void    ActiveScene(int sceneIdx);
-	void    AddScene(Scene *scene);
-
+	void    SetScene(Scene *scene);
 	void    ResetCamera();
-
 	void    SetPickedShapeIds(std::vector<int>& ids);
 	void    SetPickedShapes(std::vector<physx::PxShape*>& shapes);
 
@@ -61,8 +58,6 @@ private:
 
 	std::vector<int>                    m_PickedShapeIds;
 
-	QVector<Scene*>                     m_Scenes;
-	int                                 m_ActiveSceneIdx;
 	Scene*                              m_ActiveScene;
 						                
 	bool                                m_MouseLeftBtnPressed;

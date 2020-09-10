@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QApplication>
 #include <QMainWindow>
 #include <QDesktopWidget>
+#include <QFileDialog>
 #include <QStyle>
 #include <QSize>
 #include <QTimer>
@@ -27,20 +27,25 @@ public:
 	explicit MainWindow(QWidget* parent = NULL);
 	~MainWindow();
 
-	inline GlWidget*    GetGlWidget()       const { return m_Ui->glWidget;      }
-	inline QTreeView*   GetSceneTreeView()  const { return m_Ui->sceneTreeView; }
-	inline QTreeView*   GetAttrTreeView()   const { return m_Ui->attrTreeView;  }
-
-public slots:
-	void OnShapePicked(physx::PxShape* shape);
+	inline QAction*     GetActionOpen()          const { return m_Ui->actionopen; }
+	inline QAction*     GetActionZoomToScene()   const { return m_Ui->actionZoom_to_scene; }
+	inline GlWidget*    GetGlWidget()            const { return m_Ui->glWidget;      }
+	inline QTreeView*   GetSceneTreeView()       const { return m_Ui->sceneTreeView; }
+	inline QTreeView*   GetAttrTreeView()        const { return m_Ui->attrTreeView;  }
 
 private slots:
 	void Initialize();
+	void OpenFileFolder();
+	void ZoomToScene();
+	void OnShapePicked(physx::PxShape* shape);
 	void OnSceneTreeViewClick(const QModelIndex& index);
 
 private:
-	Ui::MainWindow* m_Ui;
-	AttrTreeModel*  m_AttrTreeModel;
+	Ui::MainWindow*  m_Ui;
+	AttrTreeModel*   m_AttrTreeModel;
+	SceneTreeModel*  m_SceneTreeModel;
+
+	Scene*           m_Scene;
 
 	void showItemAttr(void* ptr, const QString& typeName);
 	void showSelectedShape(void* ptr, const QString& typeName);

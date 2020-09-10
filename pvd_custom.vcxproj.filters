@@ -124,6 +124,9 @@
     <ClCompile Include="src\TreeViewScene.cpp">
       <Filter>Source Files\Examples\UI</Filter>
     </ClCompile>
+    <ClCompile Include="src\App.cpp">
+      <Filter>Source Files\Examples</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderFunc.h">
@@ -180,6 +183,9 @@
     </QtMoc>
     <QtMoc Include="src\TreeViewAttr.h">
       <Filter>Header Files\Examples\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\App.h">
+      <Filter>Header Files\Examples</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

@@ -188,6 +188,7 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\CameraBase.cpp" />
     <ClCompile Include="src\CameraFTPS.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="src\TreeViewScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\App.h" />
     <ClInclude Include="src\CameraBase.h" />
     <ClInclude Include="src\CameraFTPS.h" />
     <QtMoc Include="src\TreeViewScene.h" />

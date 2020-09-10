@@ -7,7 +7,6 @@ GlWidget::GlWidget(QWidget* parent) :
 	m_Camera(new Camera),
 	m_Renderer(new Renderer),
 	m_PickedShapeIds({}),
-	m_ActiveSceneIdx(-1),
 	m_ActiveScene(nullptr),
 	m_MouseLeftBtnPressed(false),
 	m_MouseRightBtnPressed(false)
@@ -21,24 +20,21 @@ GlWidget::~GlWidget()
 }
 
 
-void GlWidget::ActiveScene(int sceneIdx)
+void GlWidget::SetScene(Scene *scene)
 {
-	Q_ASSERT(m_Scenes.size() > sceneIdx && m_Scenes[sceneIdx] != NULL);
+	m_ActiveScene = scene;
 
-	m_ActiveSceneIdx = sceneIdx;
-	m_ActiveScene = m_Scenes[sceneIdx];
-
+	createRenderObjects();
 	ResetCamera();
 }
 
-void GlWidget::AddScene(Scene *scene)
-{
-	m_Scenes.push_back(scene);
-}
-
-
 void GlWidget::ResetCamera()
 {
+	if (!m_ActiveScene)
+	{
+		return;
+	}
+
 	physx::PxBounds3 aabb = m_ActiveScene->GetAABB();
 	glm::vec3 center = PhysxHelper::PxVec3ToGlmVector3(aabb.getCenter());
 	glm::vec3 minimum = PhysxHelper::PxVec3ToGlmVector3(aabb.minimum);
@@ -50,7 +46,6 @@ void GlWidget::ResetCamera()
 	m_Camera->SetOrthgonalData(minimum, maximum);
 	m_Camera->SetRotateRadius(glm::distance(eye, center));
 }
-
 
 void GlWidget::SetPickedShapeIds(std::vector<int>& ids)
 { 
@@ -72,8 +67,6 @@ void GlWidget::SetPickedShapes(std::vector<physx::PxShape*>& shapes)
 void GlWidget::initializeGL()
 {
 	m_Renderer->Init();
-
-	createRenderObjects();
 
 	m_Camera->SetAspectRatio((float)m_Width / (float)m_Height);
 	m_Camera->SetViewPort(0.0f, 0.0f, (float)m_Width, (float)m_Height);
