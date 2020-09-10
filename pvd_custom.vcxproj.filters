@@ -65,6 +65,12 @@
     <Filter Include="Source Files\Engine\Camera">
       <UniqueIdentifier>{dc31bab7-9903-4389-93fb-e13a9292d362}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Examples\UI">
+      <UniqueIdentifier>{5316db33-3adc-419e-82af-7d8a26886e29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Examples\UI">
+      <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Scene.cpp">
@@ -106,11 +112,17 @@
     <ClCompile Include="src\CameraFTPS.cpp">
       <Filter>Source Files\Engine\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\MainWindow.cpp">
-      <Filter>Source Files\Examples</Filter>
-    </ClCompile>
     <ClCompile Include="src\GlWidget.cpp">
-      <Filter>Source Files\Examples</Filter>
+      <Filter>Source Files\Examples\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainWindow.cpp">
+      <Filter>Source Files\Examples\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeViewAttr.cpp">
+      <Filter>Source Files\Examples\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeViewScene.cpp">
+      <Filter>Source Files\Examples\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,11 +169,17 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\MainWindow.h">
-      <Filter>Header Files\Examples</Filter>
-    </QtMoc>
     <QtMoc Include="src\GlWidget.h">
-      <Filter>Header Files\Examples</Filter>
+      <Filter>Header Files\Examples\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\MainWindow.h">
+      <Filter>Header Files\Examples\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TreeViewScene.h">
+      <Filter>Header Files\Examples\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TreeViewAttr.h">
+      <Filter>Header Files\Examples\UI</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

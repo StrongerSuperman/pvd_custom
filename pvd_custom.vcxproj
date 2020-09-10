@@ -203,10 +203,14 @@
     <ClCompile Include="src\PhysicsScene.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\PhysxHelper.cpp" />
+    <ClCompile Include="src\TreeViewAttr.cpp" />
+    <ClCompile Include="src\TreeViewScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraBase.h" />
     <ClInclude Include="src\CameraFTPS.h" />
+    <QtMoc Include="src\TreeViewScene.h" />
+    <QtMoc Include="src\TreeViewAttr.h" />
     <QtMoc Include="src\MainWindow.h" />
     <ClInclude Include="src\RenderObject.h" />
     <ClInclude Include="src\RenderFunc.h" />

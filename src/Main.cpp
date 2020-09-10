@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
 	glWidget->ActiveScene(0);
 
 	QTreeView* sceneTreeView = mainWindow.GetSceneTreeView();
-	TreeModel  treeModel(&scene);
-	sceneTreeView->setModel(&treeModel);
+	SceneTreeModel  sceneTreeModel(&scene);
+	sceneTreeView->setModel(&sceneTreeModel);
 
 	application.exec();
 }
