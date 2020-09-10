@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Examples">
+      <UniqueIdentifier>{cb30a3b1-42e6-4116-9cc0-6540d51272d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Examples">
+      <UniqueIdentifier>{125a92d1-c703-4d72-85d2-649b95ed5d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{9a60d292-c2ca-4bdf-8c2f-2f3644913994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Render">
+      <UniqueIdentifier>{28fe2eae-02bc-4d70-83c3-fb515b0b20af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Physics">
+      <UniqueIdentifier>{c56e8d34-2d11-479a-8fa5-ff7e9b846e85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Camera">
+      <UniqueIdentifier>{45f4bfde-23c2-4c2f-8edb-f64ec4d47a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{182d0294-a332-4843-a560-085bef15e082}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Render">
+      <UniqueIdentifier>{5dbbf250-d4e4-4393-80ec-6a891d95b6a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Physics">
+      <UniqueIdentifier>{9a351139-0aae-4a16-8fbe-a95f0b669101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Camera">
+      <UniqueIdentifier>{dc31bab7-9903-4389-93fb-e13a9292d362}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>Source Files\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderFunc.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderProgram.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderProgramPhong.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderObject.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
+      <Filter>Source Files\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysxHelper.cpp">
+      <Filter>Source Files\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysicsScene.cpp">
+      <Filter>Source Files\Engine\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files\Engine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraBase.cpp">
+      <Filter>Source Files\Engine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraFTPS.cpp">
+      <Filter>Source Files\Engine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainWindow.cpp">
+      <Filter>Source Files\Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GlWidget.cpp">
+      <Filter>Source Files\Examples</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\RenderFunc.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderProgram.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderProgramPhong.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderObject.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene.h">
+      <Filter>Header Files\Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PhysxHelper.h">
+      <Filter>Header Files\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PhysicsScene.h">
+      <Filter>Header Files\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics.h">
+      <Filter>Header Files\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h">
+      <Filter>Header Files\Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraBase.h">
+      <Filter>Header Files\Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraFTPS.h">
+      <Filter>Header Files\Engine\Camera</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\MainWindow.h">
+      <Filter>Header Files\Examples</Filter>
+    </QtMoc>
+    <QtMoc Include="src\GlWidget.h">
+      <Filter>Header Files\Examples</Filter>
+    </QtMoc>
+  </ItemGroup>
+</Project>
