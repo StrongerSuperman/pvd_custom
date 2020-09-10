@@ -13,12 +13,12 @@ public:
 	explicit PhysicsScene();
 	virtual ~PhysicsScene();
 
-	inline Physics*                GetPhysics() const { return m_Physics; };
-	inline virtual physx::PxScene* GetPxScene() const { return m_PxScene; };
+	inline Physics*        GetPhysics() const          { return m_Physics; };
+	inline physx::PxScene* GetPxScene() const override { return m_PxScene; };
 
-	virtual void Initialize();
-	virtual void Deinitialize();
-	virtual void Update();
+	virtual void Initialize() override;
+	virtual void Deinitialize() override;
+	virtual void Update() override;
 
 protected:
 	Physics*           m_Physics;

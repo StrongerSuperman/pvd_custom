@@ -27,7 +27,7 @@ class CameraBase
 
 public:
 	CameraBase();
-	~CameraBase();
+	virtual ~CameraBase();
 
 	void                   SetEyeAndDir(glm::vec3& eye, glm::vec3& dir);
 	void                   SetEye(glm::vec3& eye);

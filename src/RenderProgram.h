@@ -14,7 +14,7 @@ public:
 	virtual void Init() = 0;
 	virtual void Render(const RenderObject& object, const Camera& camera) = 0;
 
-	inline virtual void     SetPickedRenderObjects(const std::vector<int>& ids) { m_PickedRenderObjectIds = ids;   };
+	inline void             SetPickedRenderObjects(const std::vector<int>& ids) { m_PickedRenderObjectIds = ids;  };
 	inline std::vector<int> GetPickedRenderObjects()                            { return m_PickedRenderObjectIds; };
 
 protected:

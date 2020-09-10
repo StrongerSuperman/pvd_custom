@@ -10,7 +10,7 @@ class CameraFTPS : public CameraBase
 {
 public:
 	CameraFTPS();
-	~CameraFTPS();
+	virtual ~CameraFTPS();
 
 	inline void  SetRotateRadius(float radius) { m_RotateRadius = radius; };
 	inline float GetRotateRadius() const { return m_RotateRadius; };

@@ -17,8 +17,8 @@ using shapesMap = std::map<physx::PxShape*, std::pair<uint, physx::PxRigidActor*
 class Scene
 {
 public:
-	explicit Scene();
-	virtual ~Scene();
+	Scene();
+	~Scene();
 
 	void Load(std::vector<std::string> filenames);
 	physx::PxBounds3 GetAABB() const;

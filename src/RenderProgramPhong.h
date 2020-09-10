@@ -9,11 +9,11 @@ public:
 	explicit RenderProgramPhong();
 	virtual ~RenderProgramPhong();
 
-	virtual void Init();
-	virtual void Render(const RenderObject& object, const Camera& camera);
+	void Init() override;
+	void Render(const RenderObject& object, const Camera& camera) override;
 
 protected:
-	virtual void OnInitShader();
+	void OnInitShader() override;
 
 	void SetVetexAttrEnable(bool enable);
 

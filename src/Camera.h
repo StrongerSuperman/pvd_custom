@@ -26,7 +26,7 @@ class Camera : public CameraFTPS
 
 public:
 	Camera();
-	~Camera();
+	virtual ~Camera();
 
 	void	HandleMouseLeftBtnPress(int x, int y);
 	void	HandleMouseRightBtnPress(int x, int y);

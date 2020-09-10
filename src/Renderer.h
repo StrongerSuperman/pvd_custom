@@ -8,8 +8,8 @@
 class Renderer
 {
 public:
-	explicit Renderer();
-	virtual ~Renderer();
+	Renderer();
+	~Renderer();
 
 	void Init();
 	void Render(std::vector<RenderObject> &objects, Camera &camera);
