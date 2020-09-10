@@ -90,15 +90,17 @@ void CameraFTPS::OrbitRotate(float deltaX, float deltaY)
 	auto eye = GetEye();
 	auto dir = GetDir();
 
+	glm::vec3 up = glm::vec3(0, 1, 0);
 	glm::vec3 center = eye + m_RotateRadius * dir;
-	glm::vec3 right = glm::normalize(glm::cross(dir, glm::vec3(0, 1, 0)));
-	glm::vec3 up = glm::normalize(glm::cross(right, dir));
+	glm::vec3 right = glm::normalize(glm::cross(dir, up));
 
 	glm::vec3 tmpEye = eye - center;
 
+	// left-right rotate
 	m_Yaw += deltaX;
 	tmpEye = rotatePointByVector(tmpEye, up, deltaX);
 
+	// up-down rotate
 	m_Pitch += deltaY;
 	if (-80.0f < m_Pitch && m_Pitch < 80.0f)
 	{

@@ -99,9 +99,10 @@ void RenderProgramPhong::Render(const RenderObject& object, const Camera& camera
 	SetCameraViewMatrix(camera.GetViewMatrix());
 	SetCameraProjectionMatrix(camera.GetProjectionMatrix());
 
-	if (GetPickedRenderObject() == object.Id)
+	auto pickedIds = GetPickedRenderObjects();
+	if (std::find(pickedIds.begin(), pickedIds.end(), object.Id) != pickedIds.end())
 	{
-		SetObjectColor(glm::vec3(0.4f, 0.4f, 0.4f));
+		SetObjectColor(glm::vec3(0.5f, 0.5f, 0.5f));
 	}
 	else
 	{

@@ -150,11 +150,14 @@ QVariant AttrTreeModel::headerData(int section, Qt::Orientation orientation, int
 }
 
 
+
 void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem *parent)
 {
 	if (dataType == QString("PxScene"))
 	{
 		auto scene = reinterpret_cast<physx::PxScene*>(dataPtr);
+		(void)(scene);
+		return;
 	}
 	else if (dataType == QString("PxRigidStatics"))
 	{
@@ -168,6 +171,7 @@ void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem
 	{
 		auto actor = reinterpret_cast<physx::PxRigidStatic*>(dataPtr);
 
+		// GlobalPose
 		{
 			auto name0 = QString("GlobalPose");
 			QString value0;
@@ -177,24 +181,63 @@ void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem
 				QString value1;
 				auto pose = actor->getGlobalPose().p;
 				value1.sprintf("[%.3f, %.3f, %.3f]", pose.x, pose.y, pose.z);
-				auto poseNode = createChildNode(globalPoseNode, name1, value1);
+				createChildNode(globalPoseNode, name1, value1);
 			}
 			{
 				auto name2 = QString("Rotate");
 				QString value2;
 				auto rotate = actor->getGlobalPose().q;
 				value2.sprintf("[%.3f, %.3f, %.3f, %.3f]", rotate.x, rotate.y, rotate.z, rotate.w);
-				auto rotateNode = createChildNode(globalPoseNode, name2, value2);
+				createChildNode(globalPoseNode, name2, value2);
 			}
 		}
 	}
 	else if (dataType == QString("PxRigidDynamic"))
 	{
 		auto actor = reinterpret_cast<physx::PxRigidDynamic*>(dataPtr);
+
+		// GlobalPose
+		{
+			auto name0 = QString("GlobalPose");
+			QString value0;
+			auto globalPoseNode = createChildNode(parent, name0, value0);
+			{
+				auto name1 = QString("Pose");
+				QString value1;
+				auto pose = actor->getGlobalPose().p;
+				value1.sprintf("[%.3f, %.3f, %.3f]", pose.x, pose.y, pose.z);
+				createChildNode(globalPoseNode, name1, value1);
+			}
+			{
+				auto name2 = QString("Rotate");
+				QString value2;
+				auto rotate = actor->getGlobalPose().q;
+				value2.sprintf("[%.3f, %.3f, %.3f, %.3f]", rotate.x, rotate.y, rotate.z, rotate.w);
+				createChildNode(globalPoseNode, name2, value2);
+			}
+		}
 	}
 	else if (dataType == QString("PxShape"))
 	{
 		auto shape = reinterpret_cast<physx::PxShape*>(dataPtr);
+
+		// SimulationFilterData
+		{
+			auto name0 = QString("SimulationFilterData");
+			QString value0;
+			auto data = shape->getSimulationFilterData();
+			value0.sprintf("[%d, %d, %d, %d]", data.word0, data.word1, data.word2, data.word3);
+			createChildNode(parent, name0, value0);
+		}
+
+		// QueryFilterData
+		{
+			auto name1 = QString("QueryFilterData");
+			QString value1;
+			auto data = shape->getQueryFilterData();
+			value1.sprintf("[%d, %d, %d, %d]", data.word0, data.word1, data.word2, data.word3);
+			createChildNode(parent, name1, value1);
+		}
 	}
 }
 

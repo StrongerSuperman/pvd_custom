@@ -27,14 +27,16 @@ public:
 	void    AddScene(Scene *scene);
 
 	void    ResetCamera();
-	void    SetPickedShapeId(int id);
 
-	inline  int       GetPickedShapeId()        { return m_PickedShapeId; };
-	inline  Scene*    GetActiveScene() const    { return m_ActiveScene;   };
-	inline  Camera*   GetCamera()      const    { return m_Camera;        };
+	void    SetPickedShapeIds(std::vector<int>& ids);
+	void    SetPickedShapes(std::vector<physx::PxShape*>& shapes);
+
+	inline  Scene*   GetActiveScene() const    { return m_ActiveScene;   };
+	inline  Camera*  GetCamera()      const    { return m_Camera;        };
 
 signals:
 	void Initialized();
+	void ShapePicked(physx::PxShape*);
 
 protected:
 	virtual void initializeGL();
@@ -57,7 +59,7 @@ private:
 	Renderer*                           m_Renderer;
 	std::vector<RenderObject>           m_RenderObjects;
 
-	int                                 m_PickedShapeId;
+	std::vector<int>                    m_PickedShapeIds;
 
 	QVector<Scene*>                     m_Scenes;
 	int                                 m_ActiveSceneIdx;

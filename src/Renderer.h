@@ -13,7 +13,7 @@ public:
 
 	void Init();
 	void Render(std::vector<RenderObject> &objects, Camera &camera);
-	void SetPickedRenderObjectId(int id);
+	void SetPickedRenderObjectIds(const std::vector<int>& ids);
 
 private:
 	RenderProgram*          m_RenderProgram;

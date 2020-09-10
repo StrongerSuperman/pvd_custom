@@ -6,7 +6,7 @@ GlWidget::GlWidget(QWidget* parent) :
 	m_Height(1),
 	m_Camera(new Camera),
 	m_Renderer(new Renderer),
-	m_PickedShapeId(-1),
+	m_PickedShapeIds({}),
 	m_ActiveSceneIdx(-1),
 	m_ActiveScene(nullptr),
 	m_MouseLeftBtnPressed(false),
@@ -51,10 +51,21 @@ void GlWidget::ResetCamera()
 	m_Camera->SetRotateRadius(glm::distance(eye, center));
 }
 
-void GlWidget::SetPickedShapeId(int id)
+
+void GlWidget::SetPickedShapeIds(std::vector<int>& ids)
+{ 
+	m_PickedShapeIds = ids; 
+	m_Renderer->SetPickedRenderObjectIds(ids); 
+}
+
+void GlWidget::SetPickedShapes(std::vector<physx::PxShape*>& shapes) 
 {
-	m_PickedShapeId = id;
-	m_Renderer->SetPickedRenderObjectId(m_PickedShapeId);
+	std::vector<int> ids;
+	for each (auto &shape in shapes)
+	{
+		ids.push_back(m_ActiveScene->GetShapesMap()[shape].first);
+	}
+	SetPickedShapeIds(ids);
 }
 
 
@@ -186,11 +197,12 @@ void GlWidget::onCameraRayCast()
 	auto isHit = PhysxHelper::RayCast(m_Camera->GetMouseClickRay(), m_ActiveScene->GetPhysicsScene()->GetPxScene(), hitinfo);
 	if (isHit)
 	{
-		m_PickedShapeId = m_ActiveScene->GetShapesMap()[hitinfo.block.shape].first;
+		m_PickedShapeIds = { static_cast<int>(m_ActiveScene->GetShapesMap()[hitinfo.block.shape].first) };
 	}
 	else
 	{
-		m_PickedShapeId = -1;
+		m_PickedShapeIds = {};
 	}
-	SetPickedShapeId(m_PickedShapeId);
+	SetPickedShapeIds(m_PickedShapeIds);
+	emit ShapePicked(hitinfo.block.shape);
 }

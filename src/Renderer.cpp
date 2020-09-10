@@ -25,7 +25,7 @@ void Renderer::Render(std::vector<RenderObject> &objects, Camera &camera)
 	}
 }
 
-void Renderer::SetPickedRenderObjectId(int id)
+void Renderer::SetPickedRenderObjectIds(const std::vector<int>& ids)
 {
-	m_RenderProgram->SetPickedRenderObject(id);
+	m_RenderProgram->SetPickedRenderObjects(ids);
 }

@@ -4,9 +4,7 @@
 RenderProgram::RenderProgram():
 	m_VertexShader(0),
 	m_FragmentShader(0),
-	m_ShaderProgram(0),
-
-	m_PickedRenderObjectId(-1)
+	m_ShaderProgram(0)
 {
 }
 

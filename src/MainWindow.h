@@ -31,6 +31,9 @@ public:
 	inline QTreeView*   GetSceneTreeView()  const { return m_Ui->sceneTreeView; }
 	inline QTreeView*   GetAttrTreeView()   const { return m_Ui->attrTreeView;  }
 
+public slots:
+	void OnShapePicked(physx::PxShape* shape);
+
 private slots:
 	void Initialize();
 	void OnSceneTreeViewClick(const QModelIndex& index);
@@ -39,5 +42,7 @@ private:
 	Ui::MainWindow* m_Ui;
 	AttrTreeModel*  m_AttrTreeModel;
 
-	void showItemAttr(void* m_pxPtr, const QString& typeName);
+	void showItemAttr(void* ptr, const QString& typeName);
+	void showSelectedShape(void* ptr, const QString& typeName);
+	void deleteAttrTreeModel();
 };
