@@ -12,7 +12,6 @@ RenderFunc* RenderFunc::GetInstance()
 		if (!m_Instance)
 		{
 			m_Instance = new RenderFunc;
-			m_Instance->initializeOpenGLFunctions();
 		}
 		m_Mutex.unlock();
 	}
@@ -173,6 +172,7 @@ GLuint RenderFunc::CreateIndicesBuffer(uint indexNum, const void* indices, bool 
 
 RenderFunc::RenderFunc()
 {
+	initializeOpenGLFunctions();
 }
 
 RenderFunc::~RenderFunc()

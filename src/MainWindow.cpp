@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, QSize(1000, 610), qApp->desktop()->availableGeometry()));
 
-	QTimer::singleShot(2000, this, SLOT(Initialize()));
+	QTimer::singleShot(2000, this, SLOT(OnInitialize()));
 }
 
 MainWindow::~MainWindow()
@@ -22,7 +22,7 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::Initialize()
+void MainWindow::OnInitialize()
 {
 	QObject::connect(
 		GetSceneTreeView(), SIGNAL(clicked(const QModelIndex)),
@@ -41,12 +41,12 @@ void MainWindow::Initialize()
 
 	QObject::connect(
 		GetActionOpen(), SIGNAL(triggered()),
-		this, SLOT(OpenFileFolder())
+		this, SLOT(OnOpenFileFolder())
 	);
 
 	QObject::connect(
 		GetActionZoomToScene(), SIGNAL(triggered()),
-		this, SLOT(ZoomToScene())
+		this, SLOT(OnZoomToScene())
 	);
 
 	GetSceneTreeView()->setExpandsOnDoubleClick(true);
@@ -55,7 +55,7 @@ void MainWindow::Initialize()
 	show();
 }
 
-void MainWindow::OpenFileFolder()
+void MainWindow::OnOpenFileFolder()
 {
 	auto fileName = QFileDialog::getOpenFileName(
 		this,
@@ -80,7 +80,7 @@ void MainWindow::OpenFileFolder()
 	GetSceneTreeView()->setModel(m_SceneTreeModel);
 }
 
-void MainWindow::ZoomToScene()
+void MainWindow::OnZoomToScene()
 {
 	GetGlWidget()->ResetCamera();
 }

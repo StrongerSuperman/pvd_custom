@@ -34,9 +34,9 @@ public:
 	inline QTreeView*   GetAttrTreeView()        const { return m_Ui->attrTreeView;  }
 
 private slots:
-	void Initialize();
-	void OpenFileFolder();
-	void ZoomToScene();
+	void OnInitialize();
+	void OnOpenFileFolder();
+	void OnZoomToScene();
 	void OnShapePicked(physx::PxShape* shape);
 	void OnSceneTreeViewClick(const QModelIndex& index);
 

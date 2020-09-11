@@ -35,6 +35,26 @@ void AllocatorCallback::deallocate(void* ptr)
 	free(reinterpret_cast<void*>(unaligned));
 }
 
+
+Physics* Physics::GetInstance()
+{
+	static Physics*  m_Instance;
+	static std::mutex   m_Mutex;
+
+	if (!m_Instance)
+	{
+		m_Mutex.lock();
+		if (!m_Instance)
+		{
+			m_Instance = new Physics;
+		}
+		m_Mutex.unlock();
+	}
+
+	return m_Instance;
+}
+
+
 Physics::Physics() :
 	m_Foundation(nullptr),
 	m_Physics(nullptr),

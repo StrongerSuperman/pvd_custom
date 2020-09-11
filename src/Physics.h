@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mutex>
 #include <iostream>
 
 #include <foundation/PxFoundation.h>
@@ -45,8 +46,8 @@ public:
 class Physics
 {
 public:
-	explicit Physics();
-	virtual ~Physics();
+	static Physics* GetInstance();
+	
 
 	void InitPhysics();
 	void ResetPhysics();
@@ -60,6 +61,14 @@ public:
 	void StartSimulate();
 
 private:
+	Physics();
+	Physics(const Physics &) = delete;
+	virtual Physics& operator=(const Physics &) = delete;
+	~Physics();
+
+	static Physics*                      m_Instance;
+	static std::mutex                    m_Mutex;
+
 	physx::PxFoundation*                 m_Foundation;
 	physx::PxPhysics*                    m_Physics;
 	physx::PxCooking*                    m_Cooking;
