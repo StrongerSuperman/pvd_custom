@@ -52,6 +52,20 @@ void RenderFunc::SetPositionNormalAttrEnable(GLint position, GLint normal, bool 
 	}
 }
 
+void RenderFunc::SetPositionAttrEnable(GLint position, bool enable)
+{
+	if (enable)
+	{
+		glEnableVertexAttribArray(position);
+
+		glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)(0 * sizeof(float)));
+	}
+	else
+	{
+		glDisableVertexAttribArray(position);
+	}
+}
+
 void RenderFunc::SetVector3f(GLuint uniform, const glm::vec3& vec3)
 {
 	glUniform3f(uniform, vec3.x, vec3.y, vec3.z);
@@ -62,14 +76,24 @@ void RenderFunc::SetMatrix4f(GLuint uniform, const glm::mat4x4& mat)
 	glUniformMatrix4fv(uniform, 1, GL_FALSE, &mat[0][0]);
 }
 
-void RenderFunc::DrawElements(uint count)
+void RenderFunc::DrawElementsTriangle(uint count)
 {
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, NULL);
 }
 
-void RenderFunc::DrawArrays(uint count)
+void RenderFunc::DrawArraysTriangle(uint count)
 {
 	glDrawArrays(GL_TRIANGLES, 0, count);
+}
+
+void RenderFunc::DrawElementsLine(uint count)
+{
+	glDrawElements(GL_LINES, count, GL_UNSIGNED_SHORT, NULL);
+}
+
+void RenderFunc::DrawArraysLine(uint count)
+{
+	glDrawArrays(GL_LINES, 0, count);
 }
 
 

@@ -9,6 +9,8 @@
 
 #include <QOpenGLWidget>
 
+#include <glm/vec3.hpp>
+
 #include "Scene.h"
 #include "Camera.h"
 #include "Renderer.h"
@@ -55,6 +57,7 @@ private:
 	Camera*                             m_Camera;
 	Renderer*                           m_Renderer;
 	std::vector<RenderObject>           m_RenderObjects;
+	std::vector<RenderObject>           m_RenderObjectsLine;
 
 	std::vector<int>                    m_PickedShapeIds;
 
@@ -65,4 +68,5 @@ private:
 
 	void createRenderObjects();
 	void onCameraRayCast();
+	void genRenderObjectRay(const Ray& ray);
 };

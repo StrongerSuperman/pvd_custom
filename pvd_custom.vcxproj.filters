@@ -127,6 +127,9 @@
     <ClCompile Include="src\App.cpp">
       <Filter>Source Files\Examples</Filter>
     </ClCompile>
+    <ClCompile Include="src\RenderProgramLine.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderFunc.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="src\CameraFTPS.h">
       <Filter>Header Files\Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderProgramLine.h">
+      <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

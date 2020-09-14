@@ -2,30 +2,40 @@
 
 
 Renderer::Renderer():
-	m_RenderProgram(nullptr)
+	m_RenderProgramPhong(nullptr),
+	m_RenderProgramLine(nullptr)
 {
 }
 
 Renderer::~Renderer()
 {
-	delete m_RenderProgram;
+	delete m_RenderProgramPhong;
+	delete m_RenderProgramLine;
 }
 
 void Renderer::Init()
 {
-	m_RenderProgram = new RenderProgramPhong;
-	m_RenderProgram->Init();
+	m_RenderProgramPhong = new RenderProgramPhong;
+	m_RenderProgramLine = new RenderProgramLine;
 }
 
 void Renderer::Render(std::vector<RenderObject> &objects, Camera &camera)
 {
 	for each(auto &object in objects)
 	{
-		m_RenderProgram->Render(object, camera);
+		m_RenderProgramPhong->Render(object, camera);
+	}
+}
+
+void Renderer::RenderLine(std::vector<RenderObject> &objects, Camera &camera)
+{
+	for each(auto &object in objects)
+	{
+		m_RenderProgramLine->Render(object, camera);
 	}
 }
 
 void Renderer::SetPickedRenderObjectIds(const std::vector<int>& ids)
 {
-	m_RenderProgram->SetPickedRenderObjects(ids);
+	m_RenderProgramPhong->SetPickedRenderObjects(ids);
 }

@@ -94,6 +94,7 @@ void GlWidget::paintGL()
 	glEnable(GL_CULL_FACE);
 
 	m_Renderer->Render(m_RenderObjects, *m_Camera);
+	m_Renderer->RenderLine(m_RenderObjectsLine, *m_Camera);
 
 	QTimer::singleShot(1000 / 60, this, SLOT(update()));
 }
@@ -198,4 +199,23 @@ void GlWidget::onCameraRayCast()
 	}
 	SetPickedShapeIds(m_PickedShapeIds);
 	emit ShapePicked(hitinfo.block.shape);
+
+	genRenderObjectRay(m_Camera->GetMouseClickRay());
+}
+
+void GlWidget::genRenderObjectRay(const Ray& ray)
+{
+	auto startP = ray.GetOrigin();
+	auto endP = startP + 10000.0f*ray.GetDirection();
+
+	m_RenderObjectsLine.clear();
+	GLfloat vertices[] =
+	{
+		startP.x, startP.y, startP.z,
+		endP.x,   endP.y,   endP.z,
+	};
+	glm::mat4x4 model;
+	glm::vec3 color(0, 1, 0);
+	auto renderObject = CreateRenderObject(0, static_cast<void *>(vertices), 2, nullptr, 0, model, color);
+	m_RenderObjectsLine.push_back(renderObject);
 }

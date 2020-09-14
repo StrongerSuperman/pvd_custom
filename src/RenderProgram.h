@@ -11,7 +11,6 @@ public:
 	explicit RenderProgram();
 	virtual ~RenderProgram();
 
-	virtual void Init() = 0;
 	virtual void Render(const RenderObject& object, const Camera& camera) = 0;
 
 	inline void             SetPickedRenderObjects(const std::vector<int>& ids) { m_PickedRenderObjectIds = ids;  };

@@ -1,6 +1,6 @@
 #include "RenderProgramPhong.h"
 
-const char* VERTEX_SHADER_CODE =
+const char* VERTEX_SHADER_CODE_PHONG =
 {
 	"#version 420 \n"
 	"in vec3 inPos;\n"
@@ -20,7 +20,7 @@ const char* VERTEX_SHADER_CODE =
 	"}\n"
 };
 
-const char* FRAGMENT_SHADER_CODE =
+const char* FRAGMENT_SHADER_CODE_PHONG =
 {
   "#version 420 \n"
 	"in vec3 fragPos;\n"
@@ -68,15 +68,11 @@ RenderProgramPhong::RenderProgramPhong():
 	m_UniformLightPosition(-1),
 	m_UniformLightColor(-1)
 {
+	InitShader(VERTEX_SHADER_CODE_PHONG, FRAGMENT_SHADER_CODE_PHONG);
 }
 
 RenderProgramPhong::~RenderProgramPhong()
 {
-}
-
-void RenderProgramPhong::Init()
-{
-	InitShader(VERTEX_SHADER_CODE, FRAGMENT_SHADER_CODE);
 }
 
 void RenderProgramPhong::Render(const RenderObject& object, const Camera& camera)
@@ -114,11 +110,11 @@ void RenderProgramPhong::Render(const RenderObject& object, const Camera& camera
 
 	if (object.RenderBuffer.IndicesNum > 0)
 	{
-		GetRenderFunc()->DrawElements(object.RenderBuffer.IndicesNum);
+		GetRenderFunc()->DrawElementsTriangle(object.RenderBuffer.IndicesNum);
 	}
 	else
 	{
-		GetRenderFunc()->DrawArrays(object.RenderBuffer.VerticesNum);
+		GetRenderFunc()->DrawArraysTriangle(object.RenderBuffer.VerticesNum);
 	}
 
 	SetVetexAttrEnable(false);
