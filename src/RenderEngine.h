@@ -10,10 +10,10 @@
 #include <QOpenGLFunctions>
 
 
-class RenderFunc : public QOpenGLFunctions
+class RenderEngine : public QOpenGLFunctions
 {
 public:
-	static RenderFunc* GetInstance();
+	static RenderEngine* GetInstance();
 
 	void UseProgram(GLuint program);
 	void BindVerticesBuffer(GLuint verticesBuffer);
@@ -35,12 +35,12 @@ public:
 	GLuint CreateVertexBuffer(GLenum type, uint size, const void* data);
 
 private:
-	RenderFunc();
-	RenderFunc(const RenderFunc &) = delete;
-	virtual RenderFunc& operator=(const RenderFunc &) = delete;
-	~RenderFunc();
+	RenderEngine();
+	RenderEngine(const RenderEngine &) = delete;
+	virtual RenderEngine& operator=(const RenderEngine &) = delete;
+	~RenderEngine();
 
-	static RenderFunc*         m_Instance;
+	static RenderEngine*       m_Instance;
 	static std::mutex          m_Mutex;
 
 	std::vector<GLuint>        m_VertexBuffers;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderFunc.h"
+#include "RenderEngine.h"
 #include "RenderObject.h"
 #include "Camera.h"
 
@@ -21,7 +21,7 @@ protected:
 	void               InitShader(const char* vertexShader, const char* fragShader);
 
 	void               SetProgramEnable(bool enable);
-	RenderFunc*        GetRenderFunc();
+	RenderEngine*      GetRenderEngine();
 	GLuint             GetShaderProgram();
 	
 	std::vector<int>   m_PickedRenderObjectIds;

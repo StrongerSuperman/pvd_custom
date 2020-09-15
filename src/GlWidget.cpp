@@ -188,7 +188,7 @@ void GlWidget::onCameraRayCast()
 	}
 
 	physx::PxRaycastBuffer hitinfo;
-	auto isHit = PhysxHelper::RayCast(m_Camera->GetMouseClickRay(), m_ActiveScene->GetPhysicsScene()->GetPxScene(), hitinfo);
+	auto isHit = PhysxHelper::RayCast(m_Camera->GetMouseClickRay(), m_ActiveScene->GetPhysicsWorld ()->GetPxScene(), hitinfo);
 	if (isHit)
 	{
 		m_PickedShapeIds = { static_cast<int>(m_ActiveScene->GetShapesMap()[hitinfo.block.shape].first) };
@@ -218,4 +218,15 @@ void GlWidget::genRenderObjectRay(const Ray& ray)
 	glm::vec3 color(0, 1, 0);
 	auto renderObject = CreateRenderObject(0, static_cast<void *>(vertices), 2, nullptr, 0, model, color);
 	m_RenderObjectsLine.push_back(renderObject);
+}
+
+void GlWidget::renderObjectRay(const Ray& ray)
+{
+	auto startP = ray.GetOrigin();
+	auto endP = startP + 10000.0f*ray.GetDirection();
+
+	glBegin(GL_LINES);
+	glVertex3f(startP.x, startP.y, startP.z);
+	glVertex3f(endP.x, endP.y, endP.z);
+	glEnd();
 }

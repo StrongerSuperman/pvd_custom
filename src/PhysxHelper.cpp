@@ -148,10 +148,10 @@ bool PhysxHelper::DumpBinaryMetaData(const char* filename, physx::PxSerializatio
 	return true;
 }
 
-bool PhysxHelper::LoadCollectionFile(std::vector<std::string>& filenames, PhysicsScene* physicsScene)
+bool PhysxHelper::LoadCollectionFile(std::vector<std::string>& filenames, PhysicsWorld* physicsWorld)
 {
-	physx::PxCooking*               ck = physicsScene->GetPhysics()->GetCooking();
-	physx::PxSerializationRegistry* sr = physicsScene->GetPhysics()->GetSerializationRegistry();
+	physx::PxCooking*               ck = physicsWorld->GetPhysicsEngine()->GetCooking();
+	physx::PxSerializationRegistry* sr = physicsWorld->GetPhysicsEngine()->GetSerializationRegistry();
 
 	// collection that may have shared objects
 	physx::PxCollection*            sharedCollection = NULL;
@@ -178,7 +178,7 @@ bool PhysxHelper::LoadCollectionFile(std::vector<std::string>& filenames, Physic
 			printf("Loaded: \"%s\"\n", filename);
 		}
 
-		physicsScene->GetPxScene()->addCollection(*collection);
+		physicsWorld->GetPxScene()->addCollection(*collection);
 
 		if (i == 0)
 		{

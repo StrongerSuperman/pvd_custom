@@ -1,21 +1,21 @@
 #include "Scene.h"
 
 Scene::Scene():
-	m_PhysicsScene(new PhysicsScene)
+	m_PhysicsWorld(new PhysicsWorld)
 {
-	m_PhysicsScene->Initialize();
+	m_PhysicsWorld->Initialize();
 }
 
 Scene::~Scene()
 {
-	delete m_PhysicsScene;
+	delete m_PhysicsWorld;
 }
 
 
 void Scene::Load(std::vector<std::string> filenames)
 {
 	// load colleciton
-	if (!PhysxHelper::LoadCollectionFile(filenames, m_PhysicsScene))
+	if (!PhysxHelper::LoadCollectionFile(filenames, m_PhysicsWorld))
 	{
 		return;
 	}
@@ -29,11 +29,11 @@ void Scene::Load(std::vector<std::string> filenames)
 	PhysxHelper::heightFieldNum = 0;
 
 	// load actors
-	auto actorsNum = m_PhysicsScene->GetPxScene()->getNbActors(
+	auto actorsNum = m_PhysicsWorld->GetPxScene()->getNbActors(
 		physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC);
 	Q_ASSERT(actorsNum);
 	m_Actors.resize(actorsNum);
-	m_PhysicsScene->GetPxScene()->getActors(
+	m_PhysicsWorld->GetPxScene()->getActors(
 		physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC,
 		reinterpret_cast<physx::PxActor**>(&m_Actors[0]), actorsNum);
 

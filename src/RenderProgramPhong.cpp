@@ -79,14 +79,14 @@ void RenderProgramPhong::Render(const RenderObject& object, const Camera& camera
 {
 	SetProgramEnable(true);
 
-	GetRenderFunc()->BindVerticesBuffer(object.RenderBuffer.VerticesBuffer);
+	GetRenderEngine()->BindVerticesBuffer(object.RenderBuffer.VerticesBuffer);
 	if (object.RenderBuffer.IndicesNum > 0)
 	{
-		GetRenderFunc()->BindIndicesBuffer(object.RenderBuffer.IndicesBuffer);
+		GetRenderEngine()->BindIndicesBuffer(object.RenderBuffer.IndicesBuffer);
 	}
 	else
 	{
-		GetRenderFunc()->BindIndicesBuffer(0);
+		GetRenderEngine()->BindIndicesBuffer(0);
 	}
 
 	SetVetexAttrEnable(true);
@@ -110,17 +110,17 @@ void RenderProgramPhong::Render(const RenderObject& object, const Camera& camera
 
 	if (object.RenderBuffer.IndicesNum > 0)
 	{
-		GetRenderFunc()->DrawElementsTriangle(object.RenderBuffer.IndicesNum);
+		GetRenderEngine()->DrawElementsTriangle(object.RenderBuffer.IndicesNum);
 	}
 	else
 	{
-		GetRenderFunc()->DrawArraysTriangle(object.RenderBuffer.VerticesNum);
+		GetRenderEngine()->DrawArraysTriangle(object.RenderBuffer.VerticesNum);
 	}
 
 	SetVetexAttrEnable(false);
 
-	GetRenderFunc()->BindVerticesBuffer(0);
-	GetRenderFunc()->BindIndicesBuffer(0);
+	GetRenderEngine()->BindVerticesBuffer(0);
+	GetRenderEngine()->BindIndicesBuffer(0);
 
 	SetProgramEnable(false);
 }
@@ -128,54 +128,54 @@ void RenderProgramPhong::Render(const RenderObject& object, const Camera& camera
 
 void RenderProgramPhong::SetVetexAttrEnable(bool enable)
 {
-	GetRenderFunc()->SetPositionNormalAttrEnable(m_AttributePosition, m_AttributeNormal, enable);
+	GetRenderEngine()->SetPositionNormalAttrEnable(m_AttributePosition, m_AttributeNormal, enable);
 }
 
 void RenderProgramPhong::SetObjectColor(const glm::vec3& color)
 {
-	GetRenderFunc()->SetVector3f(m_UniformColor, color);
+	GetRenderEngine()->SetVector3f(m_UniformColor, color);
 }
 
 void RenderProgramPhong::SetObjectModelMatrix(const glm::mat4x4& mat)
 {
-	GetRenderFunc()->SetMatrix4f(m_UniformModelMat, mat);
+	GetRenderEngine()->SetMatrix4f(m_UniformModelMat, mat);
 }
 
 void RenderProgramPhong::SetCameraPosition(const glm::vec3& pos)
 {
-	GetRenderFunc()->SetVector3f(m_UniformViewPosition, pos);
+	GetRenderEngine()->SetVector3f(m_UniformViewPosition, pos);
 }
 
 void RenderProgramPhong::SetCameraViewMatrix(const glm::mat4x4& mat)
 {
-	GetRenderFunc()->SetMatrix4f(m_UniformViewMat, mat);
+	GetRenderEngine()->SetMatrix4f(m_UniformViewMat, mat);
 }
 
 void RenderProgramPhong::SetCameraProjectionMatrix(const glm::mat4x4& mat)
 {
-	GetRenderFunc()->SetMatrix4f(m_UniformProjectionMat, mat);
+	GetRenderEngine()->SetMatrix4f(m_UniformProjectionMat, mat);
 }
 
 void RenderProgramPhong::SetLightPosition(const glm::vec3& pos)
 {
-	GetRenderFunc()->SetVector3f(m_UniformLightPosition, pos);
+	GetRenderEngine()->SetVector3f(m_UniformLightPosition, pos);
 }
 
 void RenderProgramPhong::SetLightColor(const glm::vec3& color)
 {
-	GetRenderFunc()->SetVector3f(m_UniformLightColor, color);
+	GetRenderEngine()->SetVector3f(m_UniformLightColor, color);
 }
 
 
 void RenderProgramPhong::OnInitShader()
 {
-	m_AttributePosition = GetRenderFunc()->glGetAttribLocation(GetShaderProgram(), "inPos");
-	m_AttributeNormal = GetRenderFunc()->glGetAttribLocation(GetShaderProgram(), "inNormal");
-	m_UniformModelMat = GetRenderFunc()->glGetUniformLocation(GetShaderProgram(), "model");
-	m_UniformViewMat = GetRenderFunc()->glGetUniformLocation(GetShaderProgram(), "view");
-	m_UniformProjectionMat = GetRenderFunc()->glGetUniformLocation(GetShaderProgram(), "projection");
-	m_UniformColor = GetRenderFunc()->glGetUniformLocation(GetShaderProgram(), "objectColor");
-	m_UniformViewPosition = GetRenderFunc()->glGetUniformLocation(GetShaderProgram(), "viewPos");
-	m_UniformLightPosition = GetRenderFunc()->glGetUniformLocation(GetShaderProgram(), "lightPos");
-	m_UniformLightColor = GetRenderFunc()->glGetUniformLocation(GetShaderProgram(), "lightColor");
+	m_AttributePosition = GetRenderEngine()->glGetAttribLocation(GetShaderProgram(), "inPos");
+	m_AttributeNormal = GetRenderEngine()->glGetAttribLocation(GetShaderProgram(), "inNormal");
+	m_UniformModelMat = GetRenderEngine()->glGetUniformLocation(GetShaderProgram(), "model");
+	m_UniformViewMat = GetRenderEngine()->glGetUniformLocation(GetShaderProgram(), "view");
+	m_UniformProjectionMat = GetRenderEngine()->glGetUniformLocation(GetShaderProgram(), "projection");
+	m_UniformColor = GetRenderEngine()->glGetUniformLocation(GetShaderProgram(), "objectColor");
+	m_UniformViewPosition = GetRenderEngine()->glGetUniformLocation(GetShaderProgram(), "viewPos");
+	m_UniformLightPosition = GetRenderEngine()->glGetUniformLocation(GetShaderProgram(), "lightPos");
+	m_UniformLightColor = GetRenderEngine()->glGetUniformLocation(GetShaderProgram(), "lightColor");
 }

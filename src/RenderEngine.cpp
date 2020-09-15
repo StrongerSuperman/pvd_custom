@@ -1,17 +1,17 @@
-#include "RenderFunc.h"
+#include "RenderEngine.h"
 
 
-RenderFunc* RenderFunc::GetInstance()
+RenderEngine* RenderEngine::GetInstance()
 {
-	static RenderFunc*  m_Instance;
-	static std::mutex   m_Mutex;
+	static RenderEngine*  m_Instance;
+	static std::mutex     m_Mutex;
 
 	if (!m_Instance)
 	{
 		m_Mutex.lock();
 		if (!m_Instance)
 		{
-			m_Instance = new RenderFunc;
+			m_Instance = new RenderEngine;
 		}
 		m_Mutex.unlock();
 	}
@@ -20,22 +20,22 @@ RenderFunc* RenderFunc::GetInstance()
 }
 
 
-void RenderFunc::UseProgram(GLuint program)
+void RenderEngine::UseProgram(GLuint program)
 {
 	glUseProgram(program);
 }
 
-void RenderFunc::BindVerticesBuffer(GLuint verticesBuffer)
+void RenderEngine::BindVerticesBuffer(GLuint verticesBuffer)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
 }
 
-void RenderFunc::BindIndicesBuffer(GLuint indicesBuffer)
+void RenderEngine::BindIndicesBuffer(GLuint indicesBuffer)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer);
 }
 
-void RenderFunc::SetPositionNormalAttrEnable(GLint position, GLint normal, bool enable)
+void RenderEngine::SetPositionNormalAttrEnable(GLint position, GLint normal, bool enable)
 {
 	if (enable)
 	{
@@ -52,7 +52,7 @@ void RenderFunc::SetPositionNormalAttrEnable(GLint position, GLint normal, bool 
 	}
 }
 
-void RenderFunc::SetPositionAttrEnable(GLint position, bool enable)
+void RenderEngine::SetPositionAttrEnable(GLint position, bool enable)
 {
 	if (enable)
 	{
@@ -66,38 +66,38 @@ void RenderFunc::SetPositionAttrEnable(GLint position, bool enable)
 	}
 }
 
-void RenderFunc::SetVector3f(GLuint uniform, const glm::vec3& vec3)
+void RenderEngine::SetVector3f(GLuint uniform, const glm::vec3& vec3)
 {
 	glUniform3f(uniform, vec3.x, vec3.y, vec3.z);
 }
 
-void RenderFunc::SetMatrix4f(GLuint uniform, const glm::mat4x4& mat)
+void RenderEngine::SetMatrix4f(GLuint uniform, const glm::mat4x4& mat)
 {
 	glUniformMatrix4fv(uniform, 1, GL_FALSE, &mat[0][0]);
 }
 
-void RenderFunc::DrawElementsTriangle(uint count)
+void RenderEngine::DrawElementsTriangle(uint count)
 {
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, NULL);
 }
 
-void RenderFunc::DrawArraysTriangle(uint count)
+void RenderEngine::DrawArraysTriangle(uint count)
 {
 	glDrawArrays(GL_TRIANGLES, 0, count);
 }
 
-void RenderFunc::DrawElementsLine(uint count)
+void RenderEngine::DrawElementsLine(uint count)
 {
 	glDrawElements(GL_LINES, count, GL_UNSIGNED_SHORT, NULL);
 }
 
-void RenderFunc::DrawArraysLine(uint count)
+void RenderEngine::DrawArraysLine(uint count)
 {
 	glDrawArrays(GL_LINES, 0, count);
 }
 
 
-GLuint RenderFunc::CreateShader(const char *shaderText, GLenum type)
+GLuint RenderEngine::CreateShader(const char *shaderText, GLenum type)
 {
 	GLint status = 0;
 	GLint infoLength = 0;
@@ -124,7 +124,7 @@ GLuint RenderFunc::CreateShader(const char *shaderText, GLenum type)
 	return shader;
 }
 
-GLuint RenderFunc::CreateProgram(GLuint vertexShader, GLuint fragmentShader)
+GLuint RenderEngine::CreateProgram(GLuint vertexShader, GLuint fragmentShader)
 {
 	GLint status = 0;
 	GLint infoLength = 0;
@@ -153,7 +153,7 @@ GLuint RenderFunc::CreateProgram(GLuint vertexShader, GLuint fragmentShader)
 	return program;
 }
 
-GLuint RenderFunc::CreateVertexBuffer(GLenum type, uint size, const void* data)
+GLuint RenderEngine::CreateVertexBuffer(GLenum type, uint size, const void* data)
 {
 	GLuint vertexBuffer;
 
@@ -167,7 +167,7 @@ GLuint RenderFunc::CreateVertexBuffer(GLenum type, uint size, const void* data)
 	return vertexBuffer;
 }
 
-GLuint RenderFunc::CreateVerticesBufferWithGenNormal(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices)
+GLuint RenderEngine::CreateVerticesBufferWithGenNormal(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices)
 {
 	std::vector<glm::vec3> buffer(vertexNum * 2);
 	GenNormalFromVertex(vertexNum, vertices, indexNum, indices, has16BitIndices, buffer);
@@ -176,12 +176,12 @@ GLuint RenderFunc::CreateVerticesBufferWithGenNormal(uint vertexNum, const void*
 	return CreateVertexBuffer(GL_ARRAY_BUFFER, sizeof(float) * 6 * vertexNum, data);
 }
 
-GLuint RenderFunc::CreateVerticesBuffer(uint vertexNum, const void* vertices)
+GLuint RenderEngine::CreateVerticesBuffer(uint vertexNum, const void* vertices)
 {
 	return CreateVertexBuffer(GL_ARRAY_BUFFER, sizeof(float) * 6 * vertexNum, vertices);
 }
 
-GLuint RenderFunc::CreateIndicesBuffer(uint indexNum, const void* indices, bool has16BitIndices)
+GLuint RenderEngine::CreateIndicesBuffer(uint indexNum, const void* indices, bool has16BitIndices)
 {
 	if (has16BitIndices)
 	{
@@ -194,12 +194,12 @@ GLuint RenderFunc::CreateIndicesBuffer(uint indexNum, const void* indices, bool 
 }
 
 
-RenderFunc::RenderFunc()
+RenderEngine::RenderEngine()
 {
 	initializeOpenGLFunctions();
 }
 
-RenderFunc::~RenderFunc()
+RenderEngine::~RenderEngine()
 {
 	for each (auto vertexBuffer in m_VertexBuffers)
 	{

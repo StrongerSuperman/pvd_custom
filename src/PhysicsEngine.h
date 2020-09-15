@@ -43,10 +43,10 @@ public:
 	virtual physx::PxScene* GetPxScene() const = 0;
 };
 
-class Physics
+class PhysicsEngine
 {
 public:
-	static Physics* GetInstance();
+	static PhysicsEngine* GetInstance();
 	
 
 	void InitPhysics();
@@ -61,12 +61,12 @@ public:
 	void StartSimulate();
 
 private:
-	Physics();
-	Physics(const Physics &) = delete;
-	virtual Physics& operator=(const Physics &) = delete;
-	~Physics();
+	PhysicsEngine();
+	PhysicsEngine(const PhysicsEngine &) = delete;
+	virtual PhysicsEngine& operator=(const PhysicsEngine &) = delete;
+	~PhysicsEngine();
 
-	static Physics*                      m_Instance;
+	static PhysicsEngine*                m_Instance;
 	static std::mutex                    m_Mutex;
 
 	physx::PxFoundation*                 m_Foundation;

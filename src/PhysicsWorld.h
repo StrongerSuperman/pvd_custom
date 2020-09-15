@@ -5,17 +5,17 @@
 #include <extensions/PxDefaultCpuDispatcher.h>
 #include <extensions/PxDefaultSimulationFilterShader.h>
 
-#include "Physics.h"
+#include "PhysicsEngine.h"
 
 
-class PhysicsScene : public IPhysicsSceneProvider
+class PhysicsWorld : public IPhysicsSceneProvider
 {
 public:
-	explicit PhysicsScene();
-	virtual ~PhysicsScene();
+	explicit PhysicsWorld();
+	virtual ~PhysicsWorld();
 
-	inline Physics*        GetPhysics() const          { return Physics::GetInstance(); };
-	inline physx::PxScene* GetPxScene() const override { return m_PxScene;              };
+	inline PhysicsEngine*  GetPhysicsEngine() const          { return PhysicsEngine::GetInstance(); };
+	inline physx::PxScene* GetPxScene()       const override { return m_PxScene;                    };
 
 	virtual void Initialize() override;
 	virtual void Deinitialize() override;

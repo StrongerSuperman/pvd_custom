@@ -69,4 +69,5 @@ private:
 	void createRenderObjects();
 	void onCameraRayCast();
 	void genRenderObjectRay(const Ray& ray);
+	void renderObjectRay(const Ray& ray);
 };

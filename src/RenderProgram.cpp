@@ -10,9 +10,9 @@ RenderProgram::RenderProgram():
 
 RenderProgram::~RenderProgram()
 {
-	GetRenderFunc()->glDeleteProgram(m_ShaderProgram);
-	GetRenderFunc()->glDeleteShader(m_VertexShader);
-	GetRenderFunc()->glDeleteShader(m_FragmentShader);
+	GetRenderEngine()->glDeleteProgram(m_ShaderProgram);
+	GetRenderEngine()->glDeleteShader(m_VertexShader);
+	GetRenderEngine()->glDeleteShader(m_FragmentShader);
 }
 
 
@@ -20,19 +20,19 @@ void RenderProgram::SetProgramEnable(bool enable)
 {
 	if (enable)
 	{
-		GetRenderFunc()->UseProgram(GetShaderProgram());
+		GetRenderEngine()->UseProgram(GetShaderProgram());
 	}
 	else
 	{
-		GetRenderFunc()->UseProgram(0);
+		GetRenderEngine()->UseProgram(0);
 	}
 }
 
 void RenderProgram::InitShader(const char* vertexShader, const char* fragShader)
 {
-	m_VertexShader = GetRenderFunc()->CreateShader(vertexShader, GL_VERTEX_SHADER);
-	m_FragmentShader = GetRenderFunc()->CreateShader(fragShader, GL_FRAGMENT_SHADER);
-	m_ShaderProgram = GetRenderFunc()->CreateProgram(m_VertexShader, m_FragmentShader);
+	m_VertexShader = GetRenderEngine()->CreateShader(vertexShader, GL_VERTEX_SHADER);
+	m_FragmentShader = GetRenderEngine()->CreateShader(fragShader, GL_FRAGMENT_SHADER);
+	m_ShaderProgram = GetRenderEngine()->CreateProgram(m_VertexShader, m_FragmentShader);
 
 	OnInitShader();
 }
@@ -41,9 +41,9 @@ void RenderProgram::OnInitShader()
 {
 }
 
-RenderFunc* RenderProgram::GetRenderFunc()
+RenderEngine* RenderProgram::GetRenderEngine()
 {
-	return RenderFunc::GetInstance();
+	return RenderEngine::GetInstance();
 }
 
 GLuint RenderProgram::GetShaderProgram()

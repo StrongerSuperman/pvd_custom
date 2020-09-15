@@ -1,4 +1,4 @@
-#include "Physics.h"
+#include "PhysicsEngine.h"
 
 
 void ErrorCallback::reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line)
@@ -36,17 +36,17 @@ void AllocatorCallback::deallocate(void* ptr)
 }
 
 
-Physics* Physics::GetInstance()
+PhysicsEngine* PhysicsEngine::GetInstance()
 {
-	static Physics*  m_Instance;
-	static std::mutex   m_Mutex;
+	static PhysicsEngine*  m_Instance;
+	static std::mutex      m_Mutex;
 
 	if (!m_Instance)
 	{
 		m_Mutex.lock();
 		if (!m_Instance)
 		{
-			m_Instance = new Physics;
+			m_Instance = new PhysicsEngine;
 		}
 		m_Mutex.unlock();
 	}
@@ -55,7 +55,7 @@ Physics* Physics::GetInstance()
 }
 
 
-Physics::Physics() :
+PhysicsEngine::PhysicsEngine() :
 	m_Foundation(nullptr),
 	m_Physics(nullptr),
 	m_Cooking(nullptr),
@@ -67,12 +67,12 @@ Physics::Physics() :
 	InitPhysics();
 }
 
-Physics::~Physics()
+PhysicsEngine::~PhysicsEngine()
 {
 	ResetPhysics();
 }
 
-void Physics::InitPhysics()
+void PhysicsEngine::InitPhysics()
 {
 	m_Foundation = PxCreateFoundation(PX_FOUNDATION_VERSION, m_AllocatorCallback, m_ErrorCallback);
 	m_Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_Foundation, physx::PxTolerancesScale());
@@ -81,7 +81,7 @@ void Physics::InitPhysics()
 	PxInitExtensions(*m_Physics, nullptr);
 }
 
-void Physics::ResetPhysics()
+void PhysicsEngine::ResetPhysics()
 {
 	PxCloseExtensions();
 	m_Physics->release();
@@ -89,12 +89,12 @@ void Physics::ResetPhysics()
 	m_SerializationRegistry->release();
 }
 
-void Physics::StartSimulate()
+void PhysicsEngine::StartSimulate()
 {
 	simulate();
 }
 
-void Physics::simulate()
+void PhysicsEngine::simulate()
 {
 	if (m_ActiveScene == nullptr)
 		return;

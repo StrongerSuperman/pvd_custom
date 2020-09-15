@@ -17,7 +17,7 @@
 #include "PxPhysicsAPI.h"
 
 #include "RenderObject.h"
-#include "PhysicsScene.h"
+#include "PhysicsWorld.h"
 #include "Camera.h"
 
 # define M_PI 3.14159265358979323846
@@ -45,7 +45,7 @@ namespace PhysxHelper
 	physx::PxCollection* DeserializeCollection(physx::PxInputData& inputData, bool isBinary, physx::PxCollection* sharedCollection, physx::PxSerializationRegistry* sr, physx::PxCooking* ck);
 	void SerializeCollection(physx::PxCollection& collection, physx::PxCollection* externalRefs, const char* filename, bool toBinary, physx::PxSerializationRegistry* sr);
 	bool DumpBinaryMetaData(const char* filename, physx::PxSerializationRegistry* sr);
-	bool LoadCollectionFile(std::vector<std::string>& filenames, PhysicsScene* physicsScene);
+	bool LoadCollectionFile(std::vector<std::string>& filenames, PhysicsWorld* physicsWorld);
 
 	void CreateRenderObjectFromShapes(std::vector<RenderObject> &objects, const std::map<physx::PxShape*, std::pair<uint, physx::PxRigidActor*>> &pxShapesMap);
 	RenderObject CreateRenderObjectFromPxGeometry(uint id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color);

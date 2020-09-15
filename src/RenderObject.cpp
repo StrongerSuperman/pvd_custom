@@ -27,13 +27,13 @@ RenderObject CreateRenderObjectWithGenNormal(uint id, const void* vertices, uint
 
 RenderBuffer CreateRenderBuffer(const void* vertices, uint vertexNum, const void* indices, uint indexNum, bool has16BitIndices)
 {
-	GLuint verticesBuffer = RenderFunc::GetInstance()->CreateVerticesBuffer(vertexNum, vertices);
+	GLuint verticesBuffer = RenderEngine::GetInstance()->CreateVerticesBuffer(vertexNum, vertices);
 	return DoCreateRenderBuffer(verticesBuffer, vertexNum, indices, indexNum, has16BitIndices);
 }
 
 RenderBuffer CreateRenderBufferWithGenNormal(const void* vertices, uint vertexNum, const void* indices, uint indexNum, bool has16BitIndices)
 {
-	GLuint verticesBuffer = RenderFunc::GetInstance()->CreateVerticesBufferWithGenNormal(vertexNum, vertices, indexNum, indices, has16BitIndices);
+	GLuint verticesBuffer = RenderEngine::GetInstance()->CreateVerticesBufferWithGenNormal(vertexNum, vertices, indexNum, indices, has16BitIndices);
 	return DoCreateRenderBuffer(verticesBuffer, vertexNum, indices, indexNum, has16BitIndices);
 }
 
@@ -42,7 +42,7 @@ RenderBuffer DoCreateRenderBuffer(GLuint verticesBuffer, uint vertexNum, const v
 	GLuint indicesBuffer;
 	if (indexNum > 0)
 	{
-		indicesBuffer = RenderFunc::GetInstance()->CreateIndicesBuffer(indexNum, indices, has16BitIndices);
+		indicesBuffer = RenderEngine::GetInstance()->CreateIndicesBuffer(indexNum, indices, has16BitIndices);
 	}
 	else
 	{

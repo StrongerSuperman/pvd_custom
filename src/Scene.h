@@ -8,7 +8,7 @@
 #include <PxRigidStatic.h>
 #include <PxRigidDynamic.h>
 
-#include "PhysicsScene.h"
+#include "physicsWorld.h"
 #include "PhysxHelper.h"
 
 
@@ -25,10 +25,10 @@ public:
 
 	inline std::vector<physx::PxRigidActor*>      GetActors()       const { return m_Actors;       };
 	inline shapesMap                              GetShapesMap()    const { return m_PxShapesMap;  };
-	inline PhysicsScene*                          GetPhysicsScene() const { return m_PhysicsScene; };
+	inline PhysicsWorld*                          GetPhysicsWorld() const { return m_PhysicsWorld; };
 
 private:
 	std::vector<physx::PxRigidActor*>  m_Actors;
 	shapesMap                          m_PxShapesMap;
-	PhysicsScene*                      m_PhysicsScene;
+	PhysicsWorld*                      m_PhysicsWorld;
 };
