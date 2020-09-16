@@ -79,9 +79,6 @@
     <ClCompile Include="src\RenderProgram.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderProgramPhong.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderObject.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
@@ -118,9 +115,6 @@
     <ClCompile Include="src\App.cpp">
       <Filter>Source Files\Examples</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderProgramLine.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderEngine.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
@@ -130,12 +124,18 @@
     <ClCompile Include="src\PhysicsWorld.cpp">
       <Filter>Source Files\Engine\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\RenderProgramPhong.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderProgramPhongTriangle.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderProgramPhongLine.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderProgram.h">
-      <Filter>Header Files\Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RenderProgramPhong.h">
       <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderObject.h">
@@ -159,9 +159,6 @@
     <ClInclude Include="src\CameraFTPS.h">
       <Filter>Header Files\Engine\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="src\RenderProgramLine.h">
-      <Filter>Header Files\Engine\Render</Filter>
-    </ClInclude>
     <ClInclude Include="src\RenderEngine.h">
       <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
@@ -170,6 +167,15 @@
     </ClInclude>
     <ClInclude Include="src\PhysicsWorld.h">
       <Filter>Header Files\Engine\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderProgramPhong.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderProgramPhongTriangle.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderProgramPhongLine.h">
+      <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

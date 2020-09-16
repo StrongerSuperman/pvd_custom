@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "RenderProgramPhong.h"
-#include "RenderProgramLine.h"
+#include "RenderProgramPhongTriangle.h"
+#include "RenderProgramPhongLine.h"
 
 
 class Renderer
@@ -18,6 +18,6 @@ public:
 	void SetPickedRenderObjectIds(const std::vector<int>& ids);
 
 private:
-	RenderProgram*          m_RenderProgramPhong;
-	RenderProgram*          m_RenderProgramLine;
+	RenderProgram*          m_RenderProgramPhongTriangle;
+	RenderProgram*          m_RenderProgramPhongLine;
 };

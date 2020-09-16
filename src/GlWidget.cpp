@@ -206,27 +206,18 @@ void GlWidget::onCameraRayCast()
 void GlWidget::genRenderObjectRay(const Ray& ray)
 {
 	auto startP = ray.GetOrigin();
+	auto startPNormal = glm::normalize(startP);
 	auto endP = startP + 10000.0f*ray.GetDirection();
+	auto endPNormal = glm::normalize(endP);
 
 	m_RenderObjectsLine.clear();
 	GLfloat vertices[] =
 	{
-		startP.x, startP.y, startP.z,
-		endP.x,   endP.y,   endP.z,
+		startP.x, startP.y, startP.z, startPNormal.x, startPNormal.y, startPNormal.z,
+		endP.x, endP.y, endP.z, endPNormal.x, endPNormal.y, endPNormal.z,
 	};
 	glm::mat4x4 model;
 	glm::vec3 color(0, 1, 0);
 	auto renderObject = CreateRenderObject(0, static_cast<void *>(vertices), 2, nullptr, 0, model, color);
 	m_RenderObjectsLine.push_back(renderObject);
-}
-
-void GlWidget::renderObjectRay(const Ray& ray)
-{
-	auto startP = ray.GetOrigin();
-	auto endP = startP + 10000.0f*ray.GetDirection();
-
-	glBegin(GL_LINES);
-	glVertex3f(startP.x, startP.y, startP.z);
-	glVertex3f(endP.x, endP.y, endP.z);
-	glEnd();
 }

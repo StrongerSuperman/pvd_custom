@@ -18,12 +18,14 @@ public:
 	void UseProgram(GLuint program);
 	void BindVerticesBuffer(GLuint verticesBuffer);
 	void BindIndicesBuffer(GLuint indicesBuffer);
-	void SetPositionNormalAttrEnable(GLint position, GLint normal, bool enable);
-	void SetPositionAttrEnable(GLint position, bool enable);
 	void SetVector3f(GLuint uniform, const glm::vec3& vec3);
 	void SetMatrix4f(GLuint uniform, const glm::mat4x4& mat);
+
+	void SetPNAttrTriangleEnable(GLint position, GLint normal, bool enable);
+	void SetPAttrTriangleEnable(GLint position, bool enable);
 	void DrawElementsTriangle(uint count);
 	void DrawArraysTriangle(uint count);
+
 	void DrawElementsLine(uint count);
 	void DrawArraysLine(uint count);
 

@@ -199,8 +199,9 @@
     <ClCompile Include="src\GlWidget.cpp" />
     <ClCompile Include="src\PhysicsEngine.cpp" />
     <ClCompile Include="src\RenderProgram.cpp" />
-    <ClCompile Include="src\RenderProgramLine.cpp" />
+    <ClCompile Include="src\RenderProgramPhongLine.cpp" />
     <ClCompile Include="src\RenderProgramPhong.cpp" />
+    <ClCompile Include="src\RenderProgramPhongTriangle.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\PhysicsWorld.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -220,8 +221,9 @@
     <ClInclude Include="src\PhysxHelper.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\RenderProgram.h" />
-    <ClInclude Include="src\RenderProgramLine.h" />
+    <ClInclude Include="src\RenderProgramPhongLine.h" />
     <ClInclude Include="src\RenderProgramPhong.h" />
+    <ClInclude Include="src\RenderProgramPhongTriangle.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Scene.h" />
     <QtMoc Include="src\GlWidget.h">

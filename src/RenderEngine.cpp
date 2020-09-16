@@ -35,7 +35,18 @@ void RenderEngine::BindIndicesBuffer(GLuint indicesBuffer)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer);
 }
 
-void RenderEngine::SetPositionNormalAttrEnable(GLint position, GLint normal, bool enable)
+void RenderEngine::SetVector3f(GLuint uniform, const glm::vec3& vec3)
+{
+	glUniform3f(uniform, vec3.x, vec3.y, vec3.z);
+}
+
+void RenderEngine::SetMatrix4f(GLuint uniform, const glm::mat4x4& mat)
+{
+	glUniformMatrix4fv(uniform, 1, GL_FALSE, &mat[0][0]);
+}
+
+
+void RenderEngine::SetPNAttrTriangleEnable(GLint position, GLint normal, bool enable)
 {
 	if (enable)
 	{
@@ -52,7 +63,7 @@ void RenderEngine::SetPositionNormalAttrEnable(GLint position, GLint normal, boo
 	}
 }
 
-void RenderEngine::SetPositionAttrEnable(GLint position, bool enable)
+void RenderEngine::SetPAttrTriangleEnable(GLint position, bool enable)
 {
 	if (enable)
 	{
@@ -66,16 +77,6 @@ void RenderEngine::SetPositionAttrEnable(GLint position, bool enable)
 	}
 }
 
-void RenderEngine::SetVector3f(GLuint uniform, const glm::vec3& vec3)
-{
-	glUniform3f(uniform, vec3.x, vec3.y, vec3.z);
-}
-
-void RenderEngine::SetMatrix4f(GLuint uniform, const glm::mat4x4& mat)
-{
-	glUniformMatrix4fv(uniform, 1, GL_FALSE, &mat[0][0]);
-}
-
 void RenderEngine::DrawElementsTriangle(uint count)
 {
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, NULL);
@@ -85,6 +86,7 @@ void RenderEngine::DrawArraysTriangle(uint count)
 {
 	glDrawArrays(GL_TRIANGLES, 0, count);
 }
+
 
 void RenderEngine::DrawElementsLine(uint count)
 {

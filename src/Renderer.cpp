@@ -2,28 +2,28 @@
 
 
 Renderer::Renderer():
-	m_RenderProgramPhong(nullptr),
-	m_RenderProgramLine(nullptr)
+	m_RenderProgramPhongTriangle(nullptr),
+	m_RenderProgramPhongLine(nullptr)
 {
 }
 
 Renderer::~Renderer()
 {
-	delete m_RenderProgramPhong;
-	delete m_RenderProgramLine;
+	delete m_RenderProgramPhongTriangle;
+	delete m_RenderProgramPhongLine;
 }
 
 void Renderer::Init()
 {
-	m_RenderProgramPhong = new RenderProgramPhong;
-	m_RenderProgramLine = new RenderProgramLine;
+	m_RenderProgramPhongTriangle = new RenderProgramPhongTriangle;
+	m_RenderProgramPhongLine = new RenderProgramPhongLine;
 }
 
 void Renderer::Render(std::vector<RenderObject> &objects, Camera &camera)
 {
 	for each(auto &object in objects)
 	{
-		m_RenderProgramPhong->Render(object, camera);
+		m_RenderProgramPhongTriangle->Render(object, camera);
 	}
 }
 
@@ -31,11 +31,11 @@ void Renderer::RenderLine(std::vector<RenderObject> &objects, Camera &camera)
 {
 	for each(auto &object in objects)
 	{
-		m_RenderProgramLine->Render(object, camera);
+		m_RenderProgramPhongLine->Render(object, camera);
 	}
 }
 
 void Renderer::SetPickedRenderObjectIds(const std::vector<int>& ids)
 {
-	m_RenderProgramPhong->SetPickedRenderObjects(ids);
+	m_RenderProgramPhongTriangle->SetPickedRenderObjects(ids);
 }
