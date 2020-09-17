@@ -16,10 +16,10 @@ public:
 class RenderObject
 {
 public:
-	uint             Id;
-	glm::mat4x4      ModelMatrix;
-	glm::vec3        Color;
-	RenderBuffer     RenderBuffer;
+	mutable uint             Id;
+	mutable glm::mat4x4      ModelMatrix;
+	mutable glm::vec3        Color;
+	RenderBuffer             RenderBuffer;
 };
 
 

@@ -76,9 +76,6 @@
     <ClCompile Include="src\Scene.cpp">
       <Filter>Source Files\Examples</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderProgram.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderObject.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
@@ -127,17 +124,11 @@
     <ClCompile Include="src\RenderProgramPhong.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderProgramPhongTriangle.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RenderProgramPhongLine.cpp">
+    <ClCompile Include="src\RenderProgramBase.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\RenderProgram.h">
-      <Filter>Header Files\Engine\Render</Filter>
-    </ClInclude>
     <ClInclude Include="src\RenderObject.h">
       <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
@@ -171,10 +162,7 @@
     <ClInclude Include="src\RenderProgramPhong.h">
       <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
-    <ClInclude Include="src\RenderProgramPhongTriangle.h">
-      <Filter>Header Files\Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RenderProgramPhongLine.h">
+    <ClInclude Include="src\RenderProgramBase.h">
       <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
   </ItemGroup>

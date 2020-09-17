@@ -1,18 +1,16 @@
 #pragma once
 
-#include "RenderProgram.h"
+#include "RenderProgramBase.h"
 
 
-class RenderProgramPhong : public RenderProgram
+class RenderProgramPhong : public RenderProgramBase
 {
 public:
 	explicit RenderProgramPhong();
 	virtual ~RenderProgramPhong();
 
-	virtual void Render(const RenderObject& object, const Camera& camera) = 0;
-
-protected:
-	void OnInitShader() override;
+	void SetPNAttrEnable(bool enable);
+	void SetPAttrEnable(bool enable);
 
 	void SetObjectColor(const glm::vec3& color);
 	void SetObjectModelMatrix(const glm::mat4x4& mat);
@@ -24,13 +22,8 @@ protected:
 	void SetLightPosition(const glm::vec3& pos);
 	void SetLightColor(const glm::vec3& color);
 
-	inline GLint GetAttributePosition() const { return m_AttributePosition; };
-	inline GLint GetAttributeNormal() const { return m_AttributeNormal; };
-	inline GLint GetAttributeColor() const { return m_AttributeColor; };
-
-	void StartProgram(const RenderObject& object);
-	void SetShaderUniform(const RenderObject& object, const Camera& camera);
-	void EndProgram();
+protected:
+	void OnInitShader() override;
 
 private:
 	GLint  m_AttributePosition;

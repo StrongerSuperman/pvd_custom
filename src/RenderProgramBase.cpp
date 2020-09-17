@@ -1,14 +1,14 @@
-#include "RenderProgram.h"
+#include "RenderProgramBase.h"
 
 
-RenderProgram::RenderProgram():
+RenderProgramBase::RenderProgramBase():
 	m_VertexShader(0),
 	m_FragmentShader(0),
 	m_ShaderProgram(0)
 {
 }
 
-RenderProgram::~RenderProgram()
+RenderProgramBase::~RenderProgramBase()
 {
 	GetRenderEngine()->glDeleteProgram(m_ShaderProgram);
 	GetRenderEngine()->glDeleteShader(m_VertexShader);
@@ -16,7 +16,7 @@ RenderProgram::~RenderProgram()
 }
 
 
-void RenderProgram::SetProgramEnable(bool enable)
+void RenderProgramBase::SetProgramEnable(bool enable)
 {
 	if (enable)
 	{
@@ -28,7 +28,7 @@ void RenderProgram::SetProgramEnable(bool enable)
 	}
 }
 
-void RenderProgram::InitShader(const char* vertexShader, const char* fragShader)
+void RenderProgramBase::InitShader(const char* vertexShader, const char* fragShader)
 {
 	m_VertexShader = GetRenderEngine()->CreateShader(vertexShader, GL_VERTEX_SHADER);
 	m_FragmentShader = GetRenderEngine()->CreateShader(fragShader, GL_FRAGMENT_SHADER);
@@ -37,16 +37,6 @@ void RenderProgram::InitShader(const char* vertexShader, const char* fragShader)
 	OnInitShader();
 }
 
-void RenderProgram::OnInitShader()
+void RenderProgramBase::OnInitShader()
 {
-}
-
-RenderEngine* RenderProgram::GetRenderEngine()
-{
-	return RenderEngine::GetInstance();
-}
-
-GLuint RenderProgram::GetShaderProgram()
-{
-	return m_ShaderProgram;
 }

@@ -46,7 +46,7 @@ void RenderEngine::SetMatrix4f(GLuint uniform, const glm::mat4x4& mat)
 }
 
 
-void RenderEngine::SetPNAttrTriangleEnable(GLint position, GLint normal, bool enable)
+void RenderEngine::SetPNAttrEnable(GLint position, GLint normal, bool enable)
 {
 	if (enable)
 	{
@@ -63,7 +63,7 @@ void RenderEngine::SetPNAttrTriangleEnable(GLint position, GLint normal, bool en
 	}
 }
 
-void RenderEngine::SetPAttrTriangleEnable(GLint position, bool enable)
+void RenderEngine::SetPAttrEnable(GLint position, bool enable)
 {
 	if (enable)
 	{
@@ -77,6 +77,7 @@ void RenderEngine::SetPAttrTriangleEnable(GLint position, bool enable)
 	}
 }
 
+
 void RenderEngine::DrawElementsTriangle(uint count)
 {
 	glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, NULL);
@@ -86,7 +87,6 @@ void RenderEngine::DrawArraysTriangle(uint count)
 {
 	glDrawArrays(GL_TRIANGLES, 0, count);
 }
-
 
 void RenderEngine::DrawElementsLine(uint count)
 {

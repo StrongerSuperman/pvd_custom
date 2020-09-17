@@ -76,6 +76,17 @@ RenderProgramPhong::~RenderProgramPhong()
 }
 
 
+void RenderProgramPhong::SetPNAttrEnable(bool enable)
+{
+	GetRenderEngine()->SetPNAttrEnable(m_AttributePosition, m_AttributeNormal, enable);
+}
+
+void RenderProgramPhong::SetPAttrEnable(bool enable)
+{
+	GetRenderEngine()->SetPAttrEnable(m_AttributePosition, enable);
+}
+
+
 void RenderProgramPhong::SetObjectColor(const glm::vec3& color)
 {
 	GetRenderEngine()->SetVector3f(m_UniformColor, color);
@@ -109,50 +120,6 @@ void RenderProgramPhong::SetLightPosition(const glm::vec3& pos)
 void RenderProgramPhong::SetLightColor(const glm::vec3& color)
 {
 	GetRenderEngine()->SetVector3f(m_UniformLightColor, color);
-}
-
-
-void RenderProgramPhong::StartProgram(const RenderObject& object)
-{
-	SetProgramEnable(true);
-
-	GetRenderEngine()->BindVerticesBuffer(object.RenderBuffer.VerticesBuffer);
-	if (object.RenderBuffer.IndicesNum > 0)
-	{
-		GetRenderEngine()->BindIndicesBuffer(object.RenderBuffer.IndicesBuffer);
-	}
-	else
-	{
-		GetRenderEngine()->BindIndicesBuffer(0);
-	}
-}
-
-void RenderProgramPhong::SetShaderUniform(const RenderObject& object, const Camera& camera)
-{
-	SetObjectModelMatrix(object.ModelMatrix);
-	SetCameraViewMatrix(camera.GetViewMatrix());
-	SetCameraProjectionMatrix(camera.GetProjectionMatrix());
-
-	auto pickedIds = GetPickedRenderObjects();
-	if (std::find(pickedIds.begin(), pickedIds.end(), object.Id) != pickedIds.end())
-	{
-		SetObjectColor(glm::vec3(0.5f, 0.5f, 0.5f));
-	}
-	else
-	{
-		SetObjectColor(object.Color);
-	}
-	SetCameraPosition(camera.GetEye());
-	SetLightPosition(camera.GetEye() + glm::vec3(10.0, 10.0, 10.0));
-	SetLightColor(glm::vec3(1.0, 1.0, 1.0));
-}
-
-void RenderProgramPhong::EndProgram()
-{
-	GetRenderEngine()->BindVerticesBuffer(0);
-	GetRenderEngine()->BindIndicesBuffer(0);
-
-	SetProgramEnable(false);
 }
 
 
