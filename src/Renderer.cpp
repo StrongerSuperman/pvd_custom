@@ -20,11 +20,11 @@ void Renderer::Init()
 	m_RenderProgramPhong = new RenderProgramPhong;
 }
 
-void Renderer::Render(std::vector<RenderObject> &objects, Camera &camera)
+void Renderer::Render(const std::vector<RenderObject> &objects, const Camera &camera)
 {
 	for each(auto &object in objects)
 	{
-		render(const_cast<RenderObject*>(&object), &camera);
+		render(&object, &camera);
 	}
 }
 
@@ -34,13 +34,45 @@ void Renderer::ClearBuffer()
 }
 
 
-void Renderer::render(RenderObject* object, Camera* camera)
+void Renderer::render(const RenderObject* object, const Camera* camera)
 {
-	m_RenderProgramPhong->SetProgramEnable(true);
 	bindObject(object);
+	sendShaderData(object, camera);
+	drawObject(object);
+	bindObject(nullptr);
+}
 
-	m_RenderProgramPhong->SetPNAttrEnable(true);
-	setShaderUniform(object, camera);
+void Renderer::bindObject(const RenderObject* object)
+{
+	if (object)
+	{
+		m_RenderProgramPhong->SetProgramEnable(true);
+
+		GetRenderEngine()->BindVerticesBuffer(object->renderBuffer.verticesBuffer);
+		if (object->renderBuffer.indicesNum > 0)
+		{
+			GetRenderEngine()->BindIndicesBuffer(object->renderBuffer.indicesBuffer);
+		}
+		else
+		{
+			GetRenderEngine()->BindIndicesBuffer(0);
+		}
+
+		m_RenderProgramPhong->SetPNAttrEnable(true);
+	}
+	else
+	{
+		m_RenderProgramPhong->SetPNAttrEnable(false);
+
+		GetRenderEngine()->BindVerticesBuffer(0);
+		GetRenderEngine()->BindIndicesBuffer(0);
+
+		m_RenderProgramPhong->SetProgramEnable(false);
+	}
+}
+
+void Renderer::drawObject(const RenderObject* object)
+{
 	if (object->renderBuffer.indicesNum > 0)
 	{
 		if (object->renderMode == RenderMode::Triangle)
@@ -63,33 +95,9 @@ void Renderer::render(RenderObject* object, Camera* camera)
 			GetRenderEngine()->DrawArraysLine(object->renderBuffer.verticesNum);
 		}
 	}
-	m_RenderProgramPhong->SetPNAttrEnable(false);
-	bindObject(nullptr);
-	m_RenderProgramPhong->SetProgramEnable(false);
 }
 
-void Renderer::bindObject(RenderObject* object)
-{
-	if (object)
-	{
-		GetRenderEngine()->BindVerticesBuffer(object->renderBuffer.verticesBuffer);
-		if (object->renderBuffer.indicesNum > 0)
-		{
-			GetRenderEngine()->BindIndicesBuffer(object->renderBuffer.indicesBuffer);
-		}
-		else
-		{
-			GetRenderEngine()->BindIndicesBuffer(0);
-		}
-	}
-	else
-	{
-		GetRenderEngine()->BindVerticesBuffer(0);
-		GetRenderEngine()->BindIndicesBuffer(0);
-	}
-}
-
-void Renderer::setShaderUniform(RenderObject* object, Camera* camera)
+void Renderer::sendShaderData(const RenderObject* object, const Camera* camera)
 {
 	m_RenderProgramPhong->SetObjectModelMatrix(object->renderData.modelMatrix);
 	m_RenderProgramPhong->SetCameraViewMatrix(camera->GetViewMatrix());

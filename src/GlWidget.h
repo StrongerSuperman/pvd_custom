@@ -6,17 +6,19 @@
 #include <QTimer>
 #include <QMouseEvent>
 #include <QKeyEvent>
-
 #include <QOpenGLWidget>
 
 #include <glm/vec3.hpp>
 
-#include "Scene.h"
 #include "Camera.h"
 #include "Renderer.h"
 #include "RenderObject.h"
 #include "RenderBuffer.h"
 #include "MeshCounter.h"
+#include "MathHelper.h"
+#include "RenderHelper.h"
+
+#include "Scene.h"
 
 
 class GlWidget : public QOpenGLWidget
@@ -58,10 +60,10 @@ private:
 
 	Camera*                             m_Camera;
 	Renderer*                           m_Renderer;
-	std::vector<RenderObject>           m_RenderObjects;
-	std::vector<RenderObject>           m_RenderObjectsLine;
 
-	std::vector<int>                    m_PickedShapeIds;
+	std::vector<RenderObject>   m_RenderObjects;
+	std::vector<RenderObject>   m_RenderObjectsLine;
+	std::vector<int>            m_PickedShapeIds;
 
 	Scene*                              m_ActiveScene;
 						                

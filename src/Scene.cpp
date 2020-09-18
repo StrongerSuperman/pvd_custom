@@ -13,10 +13,10 @@ Scene::~Scene()
 }
 
 
-void Scene::Load(std::vector<std::string> filenames)
+void Scene::Load(const std::vector<std::string>& filenames)
 {
 	// load colleciton
-	if (!PhysxHelper::LoadCollectionFile(filenames, m_PhysicsWorld))
+	if (!LoadCollectionFile(filenames, m_PhysicsWorld))
 	{
 		return;
 	}
@@ -24,14 +24,14 @@ void Scene::Load(std::vector<std::string> filenames)
 	// load actors
 	auto actorsNum = m_PhysicsWorld->GetPxScene()->getNbActors(
 		physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC);
-	Q_ASSERT(actorsNum);
+
 	m_Actors.resize(actorsNum);
 	m_PhysicsWorld->GetPxScene()->getActors(
 		physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC,
 		reinterpret_cast<physx::PxActor**>(&m_Actors[0]), actorsNum);
 
 	// load shapesMap
-	uint counter = 0;
+	int counter = 0;
 	for (int i = 0; i < m_Actors.size(); i++)
 	{
 		physx::PxU32 nbShapes = m_Actors[i]->getNbShapes();
@@ -41,7 +41,7 @@ void Scene::Load(std::vector<std::string> filenames)
 
 		for (physx::PxU32 j = 0; j < nbShapes; j++)
 		{
-			std::pair<uint, physx::PxRigidActor*> shapesData;
+			std::pair<int, physx::PxRigidActor*> shapesData;
 			shapesData.first = counter++;
 			shapesData.second = m_Actors[i];
 			m_PxShapesMap[shapes[j]] = shapesData;
@@ -56,5 +56,5 @@ physx::PxBounds3 Scene::GetAABB() const
 	{
 		worldBounds.push_back(actor->getWorldBounds());
 	}
-	return PhysxHelper::CalculateAABB(worldBounds);
+	return CalculateAABB(worldBounds);
 }

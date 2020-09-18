@@ -9,18 +9,19 @@
 #include <PxRigidDynamic.h>
 
 #include "physicsWorld.h"
-#include "PhysxHelper.h"
+#include "FileHelper.h"
+#include "MathHelper.h"
 
-
-using shapesMap = std::map<physx::PxShape*, std::pair<uint, physx::PxRigidActor*>>;
 
 class Scene
 {
+using shapesMap = std::map<physx::PxShape*, std::pair<int, physx::PxRigidActor*>>;
+
 public:
 	Scene();
 	~Scene();
 
-	void Load(std::vector<std::string> filenames);
+	void Load(const std::vector<std::string>& filenames);
 	physx::PxBounds3 GetAABB() const;
 
 	inline std::vector<physx::PxRigidActor*>      GetActors()       const { return m_Actors;       };
@@ -28,7 +29,7 @@ public:
 	inline PhysicsWorld*                          GetPhysicsWorld() const { return m_PhysicsWorld; };
 
 private:
-	std::vector<physx::PxRigidActor*>  m_Actors;
-	shapesMap                          m_PxShapesMap;
-	PhysicsWorld*                      m_PhysicsWorld;
+	std::vector<physx::PxRigidActor*>       m_Actors;
+	shapesMap                               m_PxShapesMap;
+	PhysicsWorld*                           m_PhysicsWorld;
 };

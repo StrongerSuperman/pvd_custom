@@ -85,9 +85,6 @@
     <ClCompile Include="src\RenderObject.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\PhysxHelper.cpp">
-      <Filter>Source Files\Engine\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -142,6 +139,15 @@
     <ClCompile Include="src\Ray.cpp">
       <Filter>Source Files\Engine\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="src\MathHelper.cpp">
+      <Filter>Source Files\Engine\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileHelper.cpp">
+      <Filter>Source Files\Engine\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderHelper.cpp">
+      <Filter>Source Files\Engine\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderObject.h">
@@ -149,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="src\Scene.h">
       <Filter>Header Files\Examples</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PhysxHelper.h">
-      <Filter>Header Files\Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer.h">
       <Filter>Header Files\Engine\Render</Filter>
@@ -187,6 +190,15 @@
       <Filter>Header Files\Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\Ray.h">
+      <Filter>Header Files\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MathHelper.h">
+      <Filter>Header Files\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileHelper.h">
+      <Filter>Header Files\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderHelper.h">
       <Filter>Header Files\Engine\Tools</Filter>
     </ClInclude>
   </ItemGroup>

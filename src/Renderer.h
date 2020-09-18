@@ -15,7 +15,7 @@ public:
 	~Renderer();
 
 	void Init();
-	void Render(std::vector<RenderObject> &objects, Camera &camera);
+	void Render(const std::vector<RenderObject> &objects, const Camera &camera);
 
 	void ClearBuffer();
 
@@ -26,9 +26,11 @@ private:
 	std::vector<int>         m_PickedObjIds;
 	RenderProgramPhong*      m_RenderProgramPhong;
 
-	void render(RenderObject* objects, Camera* camera);
-	void bindObject(RenderObject* object);
-	void setShaderUniform(RenderObject* object, Camera* camera);
+	void render(const RenderObject* objects, const Camera* camera);
+
+	void bindObject(const RenderObject* object);
+	void drawObject(const RenderObject* object);
+	void sendShaderData(const RenderObject* object, const Camera* camera);
 
 	inline RenderEngine*  GetRenderEngine() const { return RenderEngine::GetInstance(); };
 };

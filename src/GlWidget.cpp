@@ -37,9 +37,9 @@ void GlWidget::ResetCamera()
 	}
 
 	physx::PxBounds3 aabb = m_ActiveScene->GetAABB();
-	glm::vec3 center = PhysxHelper::PxVec3ToGlmVector3(aabb.getCenter());
-	glm::vec3 minimum = PhysxHelper::PxVec3ToGlmVector3(aabb.minimum);
-	glm::vec3 maximum = PhysxHelper::PxVec3ToGlmVector3(aabb.maximum);
+	glm::vec3 center = PxVec3ToGlmVector3(aabb.getCenter());
+	glm::vec3 minimum = PxVec3ToGlmVector3(aabb.minimum);
+	glm::vec3 maximum = PxVec3ToGlmVector3(aabb.maximum);
 	glm::vec3 eye = glm::vec3(center.x, center.y, maximum.z + 3 * (maximum.z - minimum.z));
 
 	m_Camera->SetEyeAndTarget(eye, center);
@@ -179,7 +179,7 @@ void GlWidget::createRenderObjects()
 	m_Renderer->ClearBuffer();
 
 	m_MeshCounter->Reset();
-	PhysxHelper::CreateRenderObjectFromShapes(m_RenderObjects, m_ActiveScene->GetShapesMap(), m_MeshCounter);
+	CreateRenderObjectFromShapes(m_RenderObjects, m_ActiveScene->GetShapesMap(), m_MeshCounter);
 	pintMeshCounter();
 }
 
@@ -191,7 +191,7 @@ void GlWidget::onCameraRayCast()
 	}
 
 	physx::PxRaycastBuffer hitinfo;
-	auto isHit = PhysxHelper::RayCast(m_Camera->GetMouseClickRay(), m_ActiveScene->GetPhysicsWorld ()->GetPxScene(), hitinfo);
+	auto isHit = RayCast(m_Camera->GetMouseClickRay(), m_ActiveScene->GetPhysicsWorld ()->GetPxScene(), hitinfo);
 	if (isHit)
 	{
 		m_PickedShapeIds = { static_cast<int>(m_ActiveScene->GetShapesMap()[hitinfo.block.shape].first) };

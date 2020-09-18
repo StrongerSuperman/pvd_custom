@@ -73,7 +73,8 @@ void MainWindow::OnOpenFileFolder()
 		delete m_Scene;
 	}
 	m_Scene = new Scene();
-	m_Scene->Load({ fileName.toStdString() });
+	const auto fileList = { fileName.toStdString() };
+	m_Scene->Load(fileList);
 
 	GetGlWidget()->SetScene(m_Scene);
 	m_SceneTreeModel = new SceneTreeModel(m_Scene);
