@@ -9,7 +9,8 @@ GlWidget::GlWidget(QWidget* parent) :
 	m_PickedShapeIds({}),
 	m_ActiveScene(nullptr),
 	m_MouseLeftBtnPressed(false),
-	m_MouseRightBtnPressed(false)
+	m_MouseRightBtnPressed(false),
+	m_MeshCounter(new MeshCounter)
 {
 }
 
@@ -40,11 +41,8 @@ void GlWidget::ResetCamera()
 	glm::vec3 minimum = PhysxHelper::PxVec3ToGlmVector3(aabb.minimum);
 	glm::vec3 maximum = PhysxHelper::PxVec3ToGlmVector3(aabb.maximum);
 	glm::vec3 eye = glm::vec3(center.x, center.y, maximum.z + 3 * (maximum.z - minimum.z));
-	glm::vec3 dir = glm::normalize(center - eye);
 
-	m_Camera->SetEyeAndDir(eye, dir);
-	m_Camera->SetOrthgonalData(minimum, maximum);
-	m_Camera->SetRotateRadius(glm::distance(eye, center));
+	m_Camera->SetEyeAndTarget(eye, center);
 }
 
 void GlWidget::SetPickedShapeIds(std::vector<int>& ids)
@@ -94,7 +92,7 @@ void GlWidget::paintGL()
 	glEnable(GL_CULL_FACE);
 
 	m_Renderer->Render(m_RenderObjects, *m_Camera);
-	m_Renderer->RenderLine(m_RenderObjectsLine, *m_Camera);
+	m_Renderer->Render(m_RenderObjectsLine, *m_Camera);
 
 	QTimer::singleShot(1000 / 60, this, SLOT(update()));
 }
@@ -177,7 +175,12 @@ void GlWidget::keyReleaseEvent(QKeyEvent *ev)
 void GlWidget::createRenderObjects()
 {
 	m_RenderObjects.clear();
-	PhysxHelper::CreateRenderObjectFromShapes(m_RenderObjects, m_ActiveScene->GetShapesMap());
+	m_RenderObjectsLine.clear();
+	m_Renderer->ClearBuffer();
+
+	m_MeshCounter->Reset();
+	PhysxHelper::CreateRenderObjectFromShapes(m_RenderObjects, m_ActiveScene->GetShapesMap(), m_MeshCounter);
+	pintMeshCounter();
 }
 
 void GlWidget::onCameraRayCast()
@@ -218,6 +221,23 @@ void GlWidget::genRenderObjectRay(const Ray& ray)
 	};
 	glm::mat4x4 model;
 	glm::vec3 color(0, 1, 0);
-	auto renderObject = CreateRenderObject(0, static_cast<void *>(vertices), 2, nullptr, 0, model, color);
-	m_RenderObjectsLine.push_back(renderObject);
+
+	auto renderData = RenderData(color, model);
+	auto renderbuffer = CreateRenderBuffer(static_cast<void *>(vertices), 2 , nullptr, 0);
+	auto lineObject = RenderObject(0, renderData, renderbuffer, RenderMode::Line);
+	m_RenderObjectsLine.push_back(lineObject);
+}
+
+
+void GlWidget::pintMeshCounter()
+{
+	qDebug() << "---------------------------";
+	qDebug() << "[sphereNum]: " << m_MeshCounter->sphereNum;
+	qDebug() << "[planeNum]: " << m_MeshCounter->planeNum;
+	qDebug() << "[capsuleNum]: " << m_MeshCounter->capsuleNum;
+	qDebug() << "[boxNum]: " << m_MeshCounter->boxNum;
+	qDebug() << "[convexMeshNum]: " << m_MeshCounter->convexMeshNum;
+	qDebug() << "[triangleMeshNum]: " << m_MeshCounter->triangleMeshNum;
+	qDebug() << "[heightFieldNum]: " << m_MeshCounter->heightFieldNum;
+	qDebug() << "---------------------------";
 }

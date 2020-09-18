@@ -13,6 +13,19 @@ CameraFTPS::~CameraFTPS()
 }
 
 
+void CameraFTPS::SetEyeAndTarget(glm::vec3& eye, glm::vec3& target)
+{
+	auto dir = glm::normalize(target - eye);
+	m_RotateRadius = glm::distance(eye, target);
+	m_Yaw = 0.0f;
+	m_Pitch = 0.0f;
+	m_Eye = eye;
+	m_Dir = dir;
+
+	UpdateViewMatrix();
+}
+
+
 void CameraFTPS::MoveForward(float delta)
 {
 	auto eye = GetEye();

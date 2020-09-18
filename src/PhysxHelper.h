@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <PxPhysics.h>
@@ -17,22 +18,17 @@
 #include "PxPhysicsAPI.h"
 
 #include "RenderObject.h"
+#include "RenderBuffer.h"
 #include "PhysicsWorld.h"
-#include "Camera.h"
+#include "MeshCounter.h"
+#include "Ray.h"
 
 # define M_PI 3.14159265358979323846
+using shapesMap = std::map<physx::PxShape*, std::pair<uint, physx::PxRigidActor*>>;
 
 
 namespace PhysxHelper
 {
-	static int sphereNum = 0;
-	static int planeNum = 0;
-	static int capsuleNum = 0;
-	static int boxNum = 0;
-	static int convexMeshNum = 0;
-	static int triangleMeshNum = 0;
-	static int heightFieldNum = 0;
-
 	glm::mat4x4 PxMat44ToGlmMatrix4x4(const physx::PxMat44 &mat);
 	glm::vec4 PxVec4ToGlmVector4(const physx::PxVec4 &vec4);
 	glm::vec3 PxVec3ToGlmVector3(const physx::PxVec3 &vec3);
@@ -47,9 +43,9 @@ namespace PhysxHelper
 	bool DumpBinaryMetaData(const char* filename, physx::PxSerializationRegistry* sr);
 	bool LoadCollectionFile(std::vector<std::string>& filenames, PhysicsWorld* physicsWorld);
 
-	void CreateRenderObjectFromShapes(std::vector<RenderObject> &objects, const std::map<physx::PxShape*, std::pair<uint, physx::PxRigidActor*>> &pxShapesMap);
-	RenderObject CreateRenderObjectFromPxGeometry(uint id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color);
-	RenderObject CreateCapsuleRenderObject(uint id, float halfHeight, float radius, uint slices, uint stacks, const glm::mat4x4& posMat, glm::vec3 color);
+	void CreateRenderObjectFromShapes(std::vector<RenderObject> &objects, const shapesMap &pxShapesMap, MeshCounter* counter);
+	RenderObject CreateRenderObjectFromPxGeometry(uint id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color, MeshCounter* counter);
+	RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slices, uint stacks);
 	glm::vec3 CastPhysxFilterDataToColor(physx::PxFilterData data);
 
 	bool RayCast(const Ray &ray, physx::PxScene* pxScene, physx::PxRaycastBuffer& hitinfo);

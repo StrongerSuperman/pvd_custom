@@ -71,6 +71,12 @@
     <Filter Include="Source Files\Examples\UI">
       <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Tools">
+      <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Tools">
+      <UniqueIdentifier>{35a2e9ee-358a-44a5-aa12-a5668089d9e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Scene.cpp">
@@ -127,6 +133,15 @@
     <ClCompile Include="src\RenderProgramBase.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
+    <ClCompile Include="src\RenderBuffer.cpp">
+      <Filter>Source Files\Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshCounter.cpp">
+      <Filter>Source Files\Engine\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ray.cpp">
+      <Filter>Source Files\Engine\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderObject.h">
@@ -164,6 +179,15 @@
     </ClInclude>
     <ClInclude Include="src\RenderProgramBase.h">
       <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderBuffer.h">
+      <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MeshCounter.h">
+      <Filter>Header Files\Engine\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Ray.h">
+      <Filter>Header Files\Engine\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

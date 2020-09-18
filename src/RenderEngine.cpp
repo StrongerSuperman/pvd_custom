@@ -169,18 +169,28 @@ GLuint RenderEngine::CreateVertexBuffer(GLenum type, uint size, const void* data
 	return vertexBuffer;
 }
 
-GLuint RenderEngine::CreateVerticesBufferWithGenNormal(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices)
+
+void RenderEngine::ClearVertexBuffer()
+{
+	for each (auto vertexBuffer in m_VertexBuffers)
+	{
+		glDeleteBuffers(1, &vertexBuffer);
+	}
+	m_VertexBuffers.clear();
+}
+
+GLuint RenderEngine::CreatePNVerticesBuffer(uint vertexNum, const void* vertices)
+{
+	return CreateVertexBuffer(GL_ARRAY_BUFFER, sizeof(float) * 6 * vertexNum, vertices);
+}
+
+GLuint RenderEngine::CreatePNVerticesBuffer2(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices)
 {
 	std::vector<glm::vec3> buffer(vertexNum * 2);
 	GenNormalFromVertex(vertexNum, vertices, indexNum, indices, has16BitIndices, buffer);
 
 	const void* data = reinterpret_cast<const void*>(&buffer[0]);
 	return CreateVertexBuffer(GL_ARRAY_BUFFER, sizeof(float) * 6 * vertexNum, data);
-}
-
-GLuint RenderEngine::CreateVerticesBuffer(uint vertexNum, const void* vertices)
-{
-	return CreateVertexBuffer(GL_ARRAY_BUFFER, sizeof(float) * 6 * vertexNum, vertices);
 }
 
 GLuint RenderEngine::CreateIndicesBuffer(uint indexNum, const void* indices, bool has16BitIndices)
@@ -203,10 +213,7 @@ RenderEngine::RenderEngine()
 
 RenderEngine::~RenderEngine()
 {
-	for each (auto vertexBuffer in m_VertexBuffers)
-	{
-		glDeleteBuffers(1, &vertexBuffer);
-	}
+	ClearVertexBuffer();
 }
 
 

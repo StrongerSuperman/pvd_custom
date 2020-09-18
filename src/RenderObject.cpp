@@ -1,59 +1,30 @@
 #include "RenderObject.h"
 
 
-RenderObject CreateRenderObject(uint id, const void* vertices, uint vertexNum, const void* indices, uint indexNum,
-	const glm::mat4x4& modelMatrix, const glm::vec3& color, bool has16BitIndices)
+RenderData::RenderData()
 {
-	return RenderObject
-	{
-		id,
-		modelMatrix,
-		color,
-		CreateRenderBuffer(vertices, vertexNum, indices, indexNum, has16BitIndices),
-	};
 }
 
-RenderObject CreateRenderObjectWithGenNormal(uint id, const void* vertices, uint vertexNum, const void* indices, uint indexNum,
-	const glm::mat4x4& modelMatrix, const glm::vec3& color, bool has16BitIndices)
+RenderData::RenderData(const glm::vec3& color, const glm::mat4x4& modelMatrix) :
+	color(color),
+	modelMatrix(modelMatrix)
 {
-	return RenderObject
-	{
-		id,
-		modelMatrix,
-		color,
-		CreateRenderBufferWithGenNormal(vertices, vertexNum, indices, indexNum, has16BitIndices),
-	};
 }
 
-RenderBuffer CreateRenderBuffer(const void* vertices, uint vertexNum, const void* indices, uint indexNum, bool has16BitIndices)
+RenderObject::RenderObject():
+	renderMode(RenderMode::Triangle),
+	renderBuffer(RenderBuffer(-1, -1, 0, 0))
 {
-	GLuint verticesBuffer = RenderEngine::GetInstance()->CreateVerticesBuffer(vertexNum, vertices);
-	return DoCreateRenderBuffer(verticesBuffer, vertexNum, indices, indexNum, has16BitIndices);
 }
 
-RenderBuffer CreateRenderBufferWithGenNormal(const void* vertices, uint vertexNum, const void* indices, uint indexNum, bool has16BitIndices)
+RenderObject::RenderObject(uint id, const RenderData& renderData, const RenderBuffer& renderBuffer, RenderMode renderMode) :
+	id(id),
+	renderData(renderData),
+	renderBuffer(renderBuffer),
+	renderMode(renderMode)
 {
-	GLuint verticesBuffer = RenderEngine::GetInstance()->CreateVerticesBufferWithGenNormal(vertexNum, vertices, indexNum, indices, has16BitIndices);
-	return DoCreateRenderBuffer(verticesBuffer, vertexNum, indices, indexNum, has16BitIndices);
 }
 
-RenderBuffer DoCreateRenderBuffer(GLuint verticesBuffer, uint vertexNum, const void* indices, uint indexNum, bool has16BitIndices)
+RenderObject::~RenderObject()
 {
-	GLuint indicesBuffer;
-	if (indexNum > 0)
-	{
-		indicesBuffer = RenderEngine::GetInstance()->CreateIndicesBuffer(indexNum, indices, has16BitIndices);
-	}
-	else
-	{
-		indicesBuffer = -1;
-	}
-
-	return RenderBuffer
-	{
-		verticesBuffer,
-		indicesBuffer,
-		vertexNum,
-		indexNum,
-	};
 }

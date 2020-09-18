@@ -12,7 +12,10 @@ public:
 	CameraFTPS();
 	virtual ~CameraFTPS();
 
-	inline void  SetRotateRadius(float radius) { m_RotateRadius = radius; };
+	void SetEyeAndTarget(glm::vec3& eye, glm::vec3& target);
+
+	inline float GetYaw() const { return m_Yaw; };
+	inline float GetPitch() const { return m_Pitch; };
 	inline float GetRotateRadius() const { return m_RotateRadius; };
 					       
 protected:

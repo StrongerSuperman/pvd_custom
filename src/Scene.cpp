@@ -1,5 +1,6 @@
 #include "Scene.h"
 
+
 Scene::Scene():
 	m_PhysicsWorld(new PhysicsWorld)
 {
@@ -19,14 +20,6 @@ void Scene::Load(std::vector<std::string> filenames)
 	{
 		return;
 	}
-
-	PhysxHelper::sphereNum = 0;
-	PhysxHelper::planeNum = 0;
-	PhysxHelper::capsuleNum = 0;
-	PhysxHelper::boxNum = 0;
-	PhysxHelper::convexMeshNum = 0;
-	PhysxHelper::triangleMeshNum = 0;
-	PhysxHelper::heightFieldNum = 0;
 
 	// load actors
 	auto actorsNum = m_PhysicsWorld->GetPxScene()->getNbActors(
@@ -54,16 +47,6 @@ void Scene::Load(std::vector<std::string> filenames)
 			m_PxShapesMap[shapes[j]] = shapesData;
 		}
 	}
-
-	std::cout << "---------------------------";
-	std::cout << "[sphereNum]: " << PhysxHelper::sphereNum;
-	std::cout << "[planeNum]: " << PhysxHelper::planeNum;
-	std::cout << "[capsuleNum]: " << PhysxHelper::capsuleNum;
-	std::cout << "[boxNum]: " << PhysxHelper::boxNum;
-	std::cout << "[convexMeshNum]: " << PhysxHelper::convexMeshNum;
-	std::cout << "[triangleMeshNum]: " << PhysxHelper::triangleMeshNum;
-	std::cout << "[heightFieldNum]: " << PhysxHelper::heightFieldNum;
-	std::cout << "---------------------------";
 }
 
 physx::PxBounds3 Scene::GetAABB() const

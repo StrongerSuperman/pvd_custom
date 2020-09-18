@@ -60,7 +60,12 @@ protected:
 	void                   UpdateViewMatrix();
 	void                   UpdateProjectionMatrix();
 
-private:
+	glm::vec3	           m_Eye;
+	glm::vec3	           m_Dir;
+	ViewPort               m_ViewPort;
+	glm::mat4x4            m_ViewMatrix;
+	glm::mat4x4            m_ProjectionMatrix;
+
 	ProjectionMode         m_ProjectionMode;
 
 	/*perspective projection data*/
@@ -76,10 +81,4 @@ private:
 	float                  m_Top;
 	float                  m_NearPlane;
 	float                  m_FarPlane;
-
-	glm::vec3	           m_Eye;
-	glm::vec3	           m_Dir;
-	ViewPort               m_ViewPort;
-	glm::mat4x4            m_ViewMatrix;
-	glm::mat4x4            m_ProjectionMatrix;
 };

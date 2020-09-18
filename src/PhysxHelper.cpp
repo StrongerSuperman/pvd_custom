@@ -199,7 +199,7 @@ bool PhysxHelper::LoadCollectionFile(std::vector<std::string>& filenames, Physic
 }
 
 
-void PhysxHelper::CreateRenderObjectFromShapes(std::vector<RenderObject> &objects, const std::map<physx::PxShape*, std::pair<uint, physx::PxRigidActor*>> &pxShapesMap)
+void PhysxHelper::CreateRenderObjectFromShapes(std::vector<RenderObject> &objects, const shapesMap &pxShapesMap, MeshCounter* counter)
 {
 	for (auto iter = pxShapesMap.begin(); iter != pxShapesMap.end(); iter++)
 	{
@@ -215,29 +215,30 @@ void PhysxHelper::CreateRenderObjectFromShapes(std::vector<RenderObject> &object
 		auto queryFilterData = shape->getQueryFilterData();
 		glm::vec3 color = PhysxHelper::CastPhysxFilterDataToColor(simulationFilterData);
 
-		objects.push_back(PhysxHelper::CreateRenderObjectFromPxGeometry(id, geomHd, posMat, color));
+		auto object = PhysxHelper::CreateRenderObjectFromPxGeometry(id, geomHd, posMat, color, counter);
+		objects.push_back(object);
 	}
 }
 
-RenderObject PhysxHelper::CreateRenderObjectFromPxGeometry(uint id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color)
+RenderObject PhysxHelper::CreateRenderObjectFromPxGeometry(uint id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color, MeshCounter* counter)
 {
 	switch (geomHd.getType())
 	{
 	case physx::PxGeometryType::eSPHERE:
 	{
-		PhysxHelper::sphereNum++;
+		counter->sphereNum++;
 		// TODO
 	}
 	break;
 	case physx::PxGeometryType::ePLANE:
 	{
-		PhysxHelper::planeNum++;
+		counter->planeNum++;
 		// TODO
 	}
 	break;
 	case physx::PxGeometryType::eCAPSULE:
 	{
-		PhysxHelper::capsuleNum++;
+		counter->capsuleNum++;
 
 		const physx::PxCapsuleGeometry& capsuleGeom = geomHd.capsule();
 		float halfHeight = capsuleGeom.halfHeight;
@@ -254,18 +255,20 @@ RenderObject PhysxHelper::CreateRenderObjectFromPxGeometry(uint id, const physx:
 
 		glm::vec3 capsuleColor(0, 0.8f, 0);
 
-		return PhysxHelper::CreateCapsuleRenderObject(id, halfHeight, radius, slices, stacks, modelMatrix, capsuleColor);
+		auto renderData = RenderData(capsuleColor, modelMatrix);
+		auto renderBuffer = PhysxHelper::CreateCapsuleRenderBuffer(halfHeight, radius, slices, stacks);
+		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
 	case physx::PxGeometryType::eBOX:
 	{
-		PhysxHelper::boxNum++;
+		counter->boxNum++;
 		// TODO
 	}
 	break;
 	case physx::PxGeometryType::eCONVEXMESH:
 	{
-		PhysxHelper::convexMeshNum++;
+		counter->convexMeshNum++;
 		// TODO
 		/*const physx::PxConvexMeshGeometry& convexGeom = geomHd.convexMesh();
 		const physx::PxConvexMesh& mesh = *convexGeom.convexMesh;
@@ -287,7 +290,7 @@ RenderObject PhysxHelper::CreateRenderObjectFromPxGeometry(uint id, const physx:
 	break;
 	case physx::PxGeometryType::eTRIANGLEMESH:
 	{
-		PhysxHelper::triangleMeshNum++;
+		counter->triangleMeshNum++;
 
 		const physx::PxTriangleMeshGeometry& triGeom = geomHd.triangleMesh();
 		const physx::PxTriangleMesh& mesh = *triGeom.triangleMesh;
@@ -304,12 +307,14 @@ RenderObject PhysxHelper::CreateRenderObjectFromPxGeometry(uint id, const physx:
 		mat.scale(scale);
 		glm::mat4x4 modelMatrix = PhysxHelper::PxMat44ToGlmMatrix4x4(mat);
 
-		return CreateRenderObjectWithGenNormal(id, vertices, vertexNum, indices, indexNum, modelMatrix, color, has16BitIndices);
+		auto renderData = RenderData(color, modelMatrix);
+		auto renderBuffer = CreateRenderBuffer2(vertices, vertexNum, indices, indexNum, has16BitIndices);
+		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
 	case physx::PxGeometryType::eHEIGHTFIELD:
 	{
-		PhysxHelper::heightFieldNum++;
+		counter->heightFieldNum++;
 		// TODO
 	}
 	break;
@@ -318,7 +323,7 @@ RenderObject PhysxHelper::CreateRenderObjectFromPxGeometry(uint id, const physx:
 	return RenderObject();
 }
 
-RenderObject PhysxHelper::CreateCapsuleRenderObject(uint id, float halfHeight, float radius, uint slices, uint stacks, const glm::mat4x4& posMat, glm::vec3 color)
+RenderBuffer PhysxHelper::CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slices, uint stacks)
 {
 	if (stacks % 2 > 0)
 	{
@@ -440,7 +445,8 @@ RenderObject PhysxHelper::CreateCapsuleRenderObject(uint id, float halfHeight, f
 
 	const void* vertices = reinterpret_cast<const void*>(&vertexes[0]);
 	const void* indices = reinterpret_cast<const void*>(&indexes[0]);
-	return CreateRenderObject(id, vertices, verticesNum, indices, trianglesNum * 3, posMat, color);
+
+	return CreateRenderBuffer(vertices, verticesNum, indices, trianglesNum * 3);
 }
 
 glm::vec3 PhysxHelper::CastPhysxFilterDataToColor(physx::PxFilterData data)

@@ -193,6 +193,9 @@
     <ClCompile Include="src\CameraFTPS.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\MeshCounter.cpp" />
+    <ClCompile Include="src\Ray.cpp" />
+    <ClCompile Include="src\RenderBuffer.cpp" />
     <ClCompile Include="src\RenderObject.cpp" />
     <ClCompile Include="src\RenderEngine.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -214,6 +217,9 @@
     <QtMoc Include="src\TreeViewScene.h" />
     <QtMoc Include="src\TreeViewAttr.h" />
     <QtMoc Include="src\MainWindow.h" />
+    <ClInclude Include="src\MeshCounter.h" />
+    <ClInclude Include="src\Ray.h" />
+    <ClInclude Include="src\RenderBuffer.h" />
     <ClInclude Include="src\RenderObject.h" />
     <ClInclude Include="src\RenderEngine.h" />
     <ClInclude Include="src\PhysxHelper.h" />

@@ -14,31 +14,23 @@ Renderer::~Renderer()
 	}
 }
 
+
 void Renderer::Init()
 {
 	m_RenderProgramPhong = new RenderProgramPhong;
 }
 
-
 void Renderer::Render(std::vector<RenderObject> &objects, Camera &camera)
 {
 	for each(auto &object in objects)
 	{
-		auto iter = std::find(m_PickedObjIds.begin(), m_PickedObjIds.end(), object.Id);
-		if (iter != m_PickedObjIds.end())
-		{
-			object.Color = glm::vec3(0.5f, 0.5f, 0.5f);
-		}
 		render(const_cast<RenderObject*>(&object), &camera);
 	}
 }
 
-void Renderer::RenderLine(std::vector<RenderObject> &objects, Camera &camera)
+void Renderer::ClearBuffer()
 {
-	for each(auto &object in objects)
-	{
-		renderLine(const_cast<RenderObject*>(&object), &camera);
-	}
+	GetRenderEngine()->ClearVertexBuffer();
 }
 
 
@@ -49,47 +41,41 @@ void Renderer::render(RenderObject* object, Camera* camera)
 
 	m_RenderProgramPhong->SetPNAttrEnable(true);
 	setShaderUniform(object, camera);
-	if (object->RenderBuffer.IndicesNum > 0)
+	if (object->renderBuffer.indicesNum > 0)
 	{
-		GetRenderEngine()->DrawElementsTriangle(object->RenderBuffer.IndicesNum);
+		if (object->renderMode == RenderMode::Triangle)
+		{
+			GetRenderEngine()->DrawElementsTriangle(object->renderBuffer.indicesNum);
+		}
+		else if (object->renderMode == RenderMode::Line)
+		{
+			GetRenderEngine()->DrawElementsLine(object->renderBuffer.indicesNum);
+		}
 	}
 	else
 	{
-		GetRenderEngine()->DrawArraysTriangle(object->RenderBuffer.VerticesNum);
+		if (object->renderMode == RenderMode::Triangle)
+		{
+			GetRenderEngine()->DrawArraysTriangle(object->renderBuffer.verticesNum);
+		}
+		else if (object->renderMode == RenderMode::Line)
+		{
+			GetRenderEngine()->DrawArraysLine(object->renderBuffer.verticesNum);
+		}
 	}
 	m_RenderProgramPhong->SetPNAttrEnable(false);
 	bindObject(nullptr);
 	m_RenderProgramPhong->SetProgramEnable(false);
 }
-
-void Renderer::renderLine(RenderObject* object, Camera* camera)
-{
-	m_RenderProgramPhong->SetProgramEnable(true);
-	bindObject(object);
-	m_RenderProgramPhong->SetPNAttrEnable(true);
-	setShaderUniform(object, camera);
-	if (object->RenderBuffer.IndicesNum > 0)
-	{
-		GetRenderEngine()->DrawElementsLine(object->RenderBuffer.IndicesNum);
-	}
-	else
-	{
-		GetRenderEngine()->DrawArraysLine(object->RenderBuffer.VerticesNum);
-	}
-	m_RenderProgramPhong->SetPNAttrEnable(false);
-	bindObject(nullptr);
-	m_RenderProgramPhong->SetProgramEnable(false);
-}
-
 
 void Renderer::bindObject(RenderObject* object)
 {
 	if (object)
 	{
-		GetRenderEngine()->BindVerticesBuffer(object->RenderBuffer.VerticesBuffer);
-		if (object->RenderBuffer.IndicesNum > 0)
+		GetRenderEngine()->BindVerticesBuffer(object->renderBuffer.verticesBuffer);
+		if (object->renderBuffer.indicesNum > 0)
 		{
-			GetRenderEngine()->BindIndicesBuffer(object->RenderBuffer.IndicesBuffer);
+			GetRenderEngine()->BindIndicesBuffer(object->renderBuffer.indicesBuffer);
 		}
 		else
 		{
@@ -105,10 +91,20 @@ void Renderer::bindObject(RenderObject* object)
 
 void Renderer::setShaderUniform(RenderObject* object, Camera* camera)
 {
-	m_RenderProgramPhong->SetObjectModelMatrix(object->ModelMatrix);
+	m_RenderProgramPhong->SetObjectModelMatrix(object->renderData.modelMatrix);
 	m_RenderProgramPhong->SetCameraViewMatrix(camera->GetViewMatrix());
 	m_RenderProgramPhong->SetCameraProjectionMatrix(camera->GetProjectionMatrix());
-	m_RenderProgramPhong->SetObjectColor(object->Color);
+
+	auto iter = std::find(m_PickedObjIds.begin(), m_PickedObjIds.end(), object->id);
+	if (iter != m_PickedObjIds.end())
+	{
+		m_RenderProgramPhong->SetObjectColor(glm::vec3(0.5f, 0.5f, 0.5f));
+	}
+	else
+	{
+		m_RenderProgramPhong->SetObjectColor(object->renderData.color);
+	}
+
 	m_RenderProgramPhong->SetCameraPosition(camera->GetEye());
 	m_RenderProgramPhong->SetLightPosition(camera->GetEye() + glm::vec3(10.0, 10.0, 10.0));
 	m_RenderProgramPhong->SetLightColor(glm::vec3(1.0, 1.0, 1.0));

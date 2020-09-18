@@ -31,10 +31,12 @@ public:
 
 	GLuint CreateShader(const char *shaderText, GLenum type);
 	GLuint CreateProgram(GLuint vertexShader, GLuint fragmentShader);
-	GLuint CreateVerticesBuffer(uint vertexNum, const void* vertices);
-	GLuint CreateVerticesBufferWithGenNormal(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices);
-	GLuint CreateIndicesBuffer(uint indexNum, const void* indices, bool has16BitIndices);
 	GLuint CreateVertexBuffer(GLenum type, uint size, const void* data);
+
+	void ClearVertexBuffer();
+	GLuint CreatePNVerticesBuffer(uint vertexNum, const void* vertices);
+	GLuint CreatePNVerticesBuffer2(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices);
+	GLuint CreateIndicesBuffer(uint indexNum, const void* indices, bool has16BitIndices);
 
 private:
 	RenderEngine();

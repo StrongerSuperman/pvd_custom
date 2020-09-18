@@ -15,6 +15,8 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include "RenderObject.h"
+#include "RenderBuffer.h"
+#include "MeshCounter.h"
 
 
 class GlWidget : public QOpenGLWidget
@@ -66,7 +68,11 @@ private:
 	bool                                m_MouseLeftBtnPressed;
 	bool                                m_MouseRightBtnPressed;
 
+	MeshCounter*                        m_MeshCounter;
+
 	void createRenderObjects();
 	void onCameraRayCast();
 	void genRenderObjectRay(const Ray& ray);
+
+	void pintMeshCounter();
 };
