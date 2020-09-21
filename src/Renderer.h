@@ -30,7 +30,7 @@ private:
 
 	void bindObject(const RenderObject* object);
 	void drawObject(const RenderObject* object);
-	void sendShaderData(const RenderObject* object, const Camera* camera);
+	void sendData(const RenderObject* object, const Camera* camera);
 
 	inline RenderEngine*  GetRenderEngine() const { return RenderEngine::GetInstance(); };
 };

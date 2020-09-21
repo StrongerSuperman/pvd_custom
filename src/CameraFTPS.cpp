@@ -19,10 +19,7 @@ void CameraFTPS::SetEyeAndTarget(glm::vec3& eye, glm::vec3& target)
 	m_RotateRadius = glm::distance(eye, target);
 	m_Yaw = 0.0f;
 	m_Pitch = 0.0f;
-	m_Eye = eye;
-	m_Dir = dir;
-
-	UpdateViewMatrix();
+	SetEyeAndDir(eye, dir);
 }
 
 
@@ -32,9 +29,8 @@ void CameraFTPS::MoveForward(float delta)
 	auto dir = GetDir();
 
 	eye = eye + delta * dir;
-	SetEye(eye);
 
-	UpdateViewMatrix();
+	SetEye(eye);
 }
 
 void CameraFTPS::MoveRight(float delta)
@@ -44,9 +40,8 @@ void CameraFTPS::MoveRight(float delta)
 
 	auto right = glm::normalize(glm::cross(dir, glm::vec3(0, 1, 0)));
 	eye = eye + delta * right;
-	SetEye(eye);
 
-	UpdateViewMatrix();
+	SetEye(eye);
 }
 
 void CameraFTPS::ZoomByFov(float delta)
@@ -64,7 +59,6 @@ void CameraFTPS::ZoomByFov(float delta)
 	}
 
 	SetFov(fov);
-	UpdateProjectionMatrix();
 }
 
 void CameraFTPS::ZoomByMove(float delta)
@@ -77,7 +71,6 @@ void CameraFTPS::ZoomByMove(float delta)
 	m_RotateRadius = glm::distance(center, eye);
 
 	SetEye(eye);
-	UpdateViewMatrix();
 }
 
 void CameraFTPS::EulerRotate(float deltaX, float deltaY)
@@ -95,7 +88,6 @@ void CameraFTPS::EulerRotate(float deltaX, float deltaY)
 	dir = glm::normalize(qy * qx * dir);
 
 	SetDir(dir);
-	UpdateViewMatrix();
 }
 
 void CameraFTPS::OrbitRotate(float deltaX, float deltaY)
@@ -128,9 +120,7 @@ void CameraFTPS::OrbitRotate(float deltaX, float deltaY)
 	eye = tmpEye + center;
 	dir = glm::normalize(center - eye);
 
-	SetEye(eye);
-	SetDir(dir);
-	UpdateViewMatrix();
+	SetEyeAndDir(eye, dir);
 }
 
 

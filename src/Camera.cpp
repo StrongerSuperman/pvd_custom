@@ -107,14 +107,15 @@ void Camera::HandleKey(unsigned char key)
 
 void Camera::updateRay(int x, int y)
 {
+	// code reference website: https://antongerdelan.net/opengl/raycasting.html
 	float mouseX = x / (GetViewPort().Width  * 0.5f) - 1.0f;
 	float mouseY = 1.0f - y / (GetViewPort().Height * 0.5f);
-	auto invVP = glm::inverse(GetProjectionViewMatrix());
-
-	glm::vec4 screenPos = glm::vec4(mouseX, mouseY, 1.0f, 1.0f);
-	glm::vec4 worldPos = invVP * screenPos;
-	glm::vec3 dir = glm::normalize(glm::vec3(worldPos));
+	auto rayClip = glm::vec4(mouseX, mouseY, -1.0f, 1.0f);
+	auto rayEye = glm::inverse(GetProjectionMatrix()) * rayClip;
+	rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0, 0.0);
+	auto rayDir = glm::vec3(glm::inverse(GetViewMatrix()) * rayEye);
+	rayDir = glm::normalize(rayDir);
 
 	m_Ray.SetOrigin(GetEye());
-	m_Ray.SetDirection(dir);
+	m_Ray.SetDirection(rayDir);
 }

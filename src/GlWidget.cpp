@@ -175,7 +175,6 @@ void GlWidget::keyReleaseEvent(QKeyEvent *ev)
 void GlWidget::createRenderObjects()
 {
 	m_RenderObjects.clear();
-	m_RenderObjectsLine.clear();
 	m_Renderer->ClearBuffer();
 
 	m_MeshCounter->Reset();
@@ -203,7 +202,8 @@ void GlWidget::onCameraRayCast()
 	SetPickedShapeIds(m_PickedShapeIds);
 	emit ShapePicked(hitinfo.block.shape);
 
-	genRenderObjectRay(m_Camera->GetMouseClickRay());
+	// for debug ray pickup function
+	//genRenderObjectRay(m_Camera->GetMouseClickRay());
 }
 
 void GlWidget::genRenderObjectRay(const Ray& ray)
@@ -213,14 +213,17 @@ void GlWidget::genRenderObjectRay(const Ray& ray)
 	auto endP = startP + 10000.0f*ray.GetDirection();
 	auto endPNormal = glm::normalize(endP);
 
+	physx::PxBounds3 aabb = m_ActiveScene->GetAABB();
+	glm::vec3 center = PxVec3ToGlmVector3(aabb.getCenter());
+
 	m_RenderObjectsLine.clear();
 	GLfloat vertices[] =
 	{
 		startP.x, startP.y, startP.z, startPNormal.x, startPNormal.y, startPNormal.z,
 		endP.x, endP.y, endP.z, endPNormal.x, endPNormal.y, endPNormal.z,
 	};
-	glm::mat4x4 model;
-	glm::vec3 color(0, 1, 0);
+	glm::mat4x4 model(1.0f);
+	glm::vec3 color(0, 0.8, 0.3);
 
 	auto renderData = RenderData(color, model);
 	auto renderbuffer = CreateRenderBuffer(static_cast<void *>(vertices), 2 , nullptr, 0);

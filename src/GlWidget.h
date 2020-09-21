@@ -59,17 +59,15 @@ private:
 
 	Camera*                             m_Camera;
 	Renderer*                           m_Renderer;
-
-	std::vector<RenderObject>   m_RenderObjects;
-	std::vector<RenderObject>   m_RenderObjectsLine;
-	std::vector<int>            m_PickedShapeIds;
-
 	Scene*                              m_ActiveScene;
+	MeshCounter*                        m_MeshCounter;
+
+	std::vector<RenderObject>           m_RenderObjects;
+	std::vector<RenderObject>           m_RenderObjectsLine;
+	std::vector<int>                    m_PickedShapeIds;
 						                
 	bool                                m_MouseLeftBtnPressed;
 	bool                                m_MouseRightBtnPressed;
-
-	MeshCounter*                        m_MeshCounter;
 
 	void createRenderObjects();
 	void onCameraRayCast();

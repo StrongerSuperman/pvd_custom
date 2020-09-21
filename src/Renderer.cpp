@@ -37,7 +37,7 @@ void Renderer::ClearBuffer()
 void Renderer::render(const RenderObject* object, const Camera* camera)
 {
 	bindObject(object);
-	sendShaderData(object, camera);
+	sendData(object, camera);
 	drawObject(object);
 	bindObject(nullptr);
 }
@@ -73,31 +73,31 @@ void Renderer::bindObject(const RenderObject* object)
 
 void Renderer::drawObject(const RenderObject* object)
 {
-	if (object->renderBuffer.indicesNum > 0)
+	if(object->renderMode == RenderMode::Triangle)
 	{
-		if (object->renderMode == RenderMode::Triangle)
+		if (object->renderBuffer.indicesNum > 0)
 		{
 			GetRenderEngine()->DrawElementsTriangle(object->renderBuffer.indicesNum);
 		}
-		else if (object->renderMode == RenderMode::Line)
-		{
-			GetRenderEngine()->DrawElementsLine(object->renderBuffer.indicesNum);
-		}
-	}
-	else
-	{
-		if (object->renderMode == RenderMode::Triangle)
+		else
 		{
 			GetRenderEngine()->DrawArraysTriangle(object->renderBuffer.verticesNum);
 		}
-		else if (object->renderMode == RenderMode::Line)
+	}
+	else if (object->renderMode == RenderMode::Line)
+	{
+		if (object->renderBuffer.indicesNum > 0)
+		{
+			GetRenderEngine()->DrawElementsLine(object->renderBuffer.indicesNum);
+		}
+		else
 		{
 			GetRenderEngine()->DrawArraysLine(object->renderBuffer.verticesNum);
 		}
 	}
 }
 
-void Renderer::sendShaderData(const RenderObject* object, const Camera* camera)
+void Renderer::sendData(const RenderObject* object, const Camera* camera)
 {
 	m_RenderProgramPhong->SetObjectModelMatrix(object->renderData.modelMatrix);
 	m_RenderProgramPhong->SetCameraViewMatrix(camera->GetViewMatrix());
