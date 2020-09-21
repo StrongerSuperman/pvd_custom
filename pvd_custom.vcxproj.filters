@@ -133,12 +133,6 @@
     <ClCompile Include="src\RenderBuffer.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\MeshCounter.cpp">
-      <Filter>Source Files\Engine\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Ray.cpp">
-      <Filter>Source Files\Engine\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="src\MathHelper.cpp">
       <Filter>Source Files\Engine\Tools</Filter>
     </ClCompile>
@@ -185,12 +179,6 @@
     </ClInclude>
     <ClInclude Include="src\RenderBuffer.h">
       <Filter>Header Files\Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MeshCounter.h">
-      <Filter>Header Files\Engine\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Ray.h">
-      <Filter>Header Files\Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\MathHelper.h">
       <Filter>Header Files\Engine\Tools</Filter>

@@ -1,6 +1,42 @@
 #include "MathHelper.h"
 
 
+Ray::Ray() :
+	m_Origin(glm::vec3(0, 0, 0)),
+	m_Direction(glm::vec3(0, 0, -1))
+{
+}
+
+Ray::Ray(const Ray& ray)
+{
+	m_Origin = ray.GetOrigin();
+	m_Direction = ray.GetDirection();
+}
+
+Ray::Ray(const glm::vec3& origin, const glm::vec3& direction)
+{
+	m_Origin = origin;
+	m_Direction = direction;
+}
+
+
+MeshCounter::MeshCounter()
+{
+	Reset();
+}
+
+void MeshCounter::Reset()
+{
+	sphereNum = 0;
+	planeNum = 0;
+	capsuleNum = 0;
+	boxNum = 0;
+	convexMeshNum = 0;
+	triangleMeshNum = 0;
+	heightFieldNum = 0;
+}
+
+
 glm::mat4x4 PxMat44ToGlmMatrix4x4(const physx::PxMat44 &mat)
 {
 	return glm::mat4x4(

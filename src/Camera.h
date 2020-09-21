@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CameraFTPS.h"
-#include "Ray.h"
+#include "MathHelper.h"
 
 
 class Camera : public CameraFTPS
