@@ -56,7 +56,8 @@ SceneTreeItem *SceneTreeItem::parentItem()
 
 
 SceneTreeModel::SceneTreeModel(Scene* scene, QObject *parent)
-	: QAbstractItemModel(parent)
+	: QAbstractItemModel(parent),
+	shape2ModelIndex(new QMap<physx::PxShape*, QModelIndex>)
 {
 	m_RootItem = new SceneTreeItem({ tr("Scene") }, nullptr);
 	setupModelData(scene, m_RootItem);
@@ -187,7 +188,8 @@ void SceneTreeModel::setupModelData(Scene* scene, SceneTreeItem *parent)
 		{
 			// shape node
 			auto shapeTypeName = QString("PxShape");
-			createChildNode(actorItem, shapeTypeName, static_cast<void*>(shape));
+			auto shape_item = createChildNode(actorItem, shapeTypeName, static_cast<void*>(shape));
+			shape2ModelIndex->insert(shape, getModelIndex(shape_item));
 		}
 	}
 }
@@ -209,7 +211,17 @@ SceneTreeItem* SceneTreeModel::createChildNode(SceneTreeItem *parent, QString& t
 	return item;
 }
 
-SceneTreeItem* SceneTreeModel::getSceneTreeItem(const QModelIndex &index)
+SceneTreeItem* SceneTreeModel::getItem(const QModelIndex &index)
 {
 	return static_cast<SceneTreeItem*>(index.internalPointer());
+}
+
+QModelIndex SceneTreeModel::getModelIndex(SceneTreeItem* item)
+{
+	return createIndex(item->row(), 0, item);
+}
+
+QModelIndex SceneTreeModel::findShapeIndex(physx::PxShape* shape)
+{
+	return shape2ModelIndex->value(shape, QModelIndex());
 }

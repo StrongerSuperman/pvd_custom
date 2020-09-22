@@ -88,18 +88,26 @@ void MainWindow::OnZoomToScene()
 
 void MainWindow::OnShapePicked(physx::PxShape* shape)
 {
-	showItemAttr(static_cast<void*>(shape), "PxShape");
+	if (!shape)
+	{
+		return;
+	}
+
+	auto modelIndex = m_SceneTreeModel->findShapeIndex(shape);
+	GetSceneTreeView()->setCurrentIndex(modelIndex);
+	OnSceneTreeViewClick(modelIndex);
 }
 
 void MainWindow::OnSceneTreeViewClick(const QModelIndex& index)
 {
 	auto sceneTreeModel = reinterpret_cast<SceneTreeModel*>(GetSceneTreeView()->model());
-	auto treeItem = sceneTreeModel->getSceneTreeItem(index);
+	auto treeItem = sceneTreeModel->getItem(index);
 	auto ptr = treeItem->getPxPtr();
 	auto typeName = treeItem->getPxTypeName();
 	showItemAttr(ptr, typeName);
 	showSelectedShape(ptr, typeName);
 }
+
 
 void MainWindow::showItemAttr(void* ptr, const QString& typeName)
 {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QMap>
+
 #include "ui_mainWindow.h"
 #include "Scene.h"
 
@@ -50,11 +52,14 @@ public:
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-	SceneTreeItem* getSceneTreeItem(const QModelIndex &index);
+	SceneTreeItem* getItem(const QModelIndex &index);
+	QModelIndex getModelIndex(SceneTreeItem* item);
+	QModelIndex findShapeIndex(physx::PxShape* shape);
 
 private:
 	void setupModelData(Scene* scene, SceneTreeItem *parent);
 	SceneTreeItem* createChildNode(SceneTreeItem *parent, QString& typeName, void* ptr, bool showNum=true);
 
-	SceneTreeItem *m_RootItem;
+	SceneTreeItem*                           m_RootItem;
+	QMap<physx::PxShape*, QModelIndex>*      shape2ModelIndex;
 };
