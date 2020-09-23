@@ -2,14 +2,23 @@
 
 
 Scene::Scene():
-	m_PhysicsWorld(new PhysicsWorld)
+	m_Camera(new Camera),
+	m_Renderer(new Renderer),
+	m_PhysicsWorld(new PhysicsWorld),
+	m_MeshCounter(new MeshCounter),
+	m_PickedShapeIds({})
+	
 {
 	m_PhysicsWorld->Initialize();
+	m_Renderer->Init();
 }
 
 Scene::~Scene()
 {
+	delete m_Camera;
+	delete m_Renderer;
 	delete m_PhysicsWorld;
+	delete m_MeshCounter;
 }
 
 
@@ -47,6 +56,9 @@ void Scene::Load(const std::vector<std::string>& filenames)
 			m_PxShapesMap[shapes[j]] = shapesData;
 		}
 	}
+
+	createRenderObjects();
+	ResetCamera();
 }
 
 physx::PxBounds3 Scene::GetAABB() const
@@ -57,4 +69,109 @@ physx::PxBounds3 Scene::GetAABB() const
 		worldBounds.push_back(actor->getWorldBounds());
 	}
 	return CalculateAABB(worldBounds);
+}
+
+
+void Scene::Render()
+{
+	m_Renderer->Render(m_RenderObjects, *m_Camera);
+	m_Renderer->Render(m_RenderObjectsLine, *m_Camera);
+}
+
+
+void Scene::ResetCamera()
+{
+	physx::PxBounds3 aabb = GetAABB();
+	glm::vec3 center = PxVec3ToGlmVector3(aabb.getCenter());
+	glm::vec3 minimum = PxVec3ToGlmVector3(aabb.minimum);
+	glm::vec3 maximum = PxVec3ToGlmVector3(aabb.maximum);
+	glm::vec3 eye = glm::vec3(center.x, center.y, maximum.z + 3 * (maximum.z - minimum.z));
+
+	m_Camera->SetEyeAndTarget(eye, center);
+}
+
+physx::PxShape* Scene::OnCameraRayCast()
+{
+	physx::PxRaycastBuffer hitinfo;
+	auto isHit = RayCast(m_Camera->GetMouseClickRay(), GetPhysicsWorld()->GetPxScene(), hitinfo);
+	if (isHit)
+	{
+		m_PickedShapeIds = { static_cast<int>(GetShapesMap()[hitinfo.block.shape].first) };
+	}
+	else
+	{
+		m_PickedShapeIds = {};
+	}
+	SetPickedShapeIds(m_PickedShapeIds);
+
+	// for debug ray pickup function
+	//genRenderObjectRay(m_Camera->GetMouseClickRay());
+
+	return hitinfo.block.shape;
+}
+
+
+void Scene::SetPickedShapeIds(std::vector<int>& ids)
+{
+	m_PickedShapeIds = ids;
+	m_Renderer->SetPickedRenderObjectIds(ids);
+}
+
+void Scene::SetPickedShapes(shapesList& shapes)
+{
+	std::vector<int> ids;
+	for each (auto &shape in shapes)
+	{
+		ids.push_back(GetShapesMap()[shape].first);
+	}
+	SetPickedShapeIds(ids);
+}
+
+
+void Scene::createRenderObjects()
+{
+	m_RenderObjects.clear();
+	m_Renderer->ClearBuffer();
+
+	m_MeshCounter->Reset();
+	CreateRenderObjectFromShapes(m_RenderObjects, GetShapesMap(), m_MeshCounter);
+	pintMeshCounter();
+}
+
+void Scene::genRenderObjectRay(const Ray& ray)
+{
+	auto startP = ray.GetOrigin();
+	auto startPNormal = glm::normalize(startP);
+	auto endP = startP + 10000.0f*ray.GetDirection();
+	auto endPNormal = glm::normalize(endP);
+
+	physx::PxBounds3 aabb = GetAABB();
+	glm::vec3 center = PxVec3ToGlmVector3(aabb.getCenter());
+
+	m_RenderObjectsLine.clear();
+	GLfloat vertices[] =
+	{
+		startP.x, startP.y, startP.z, startPNormal.x, startPNormal.y, startPNormal.z,
+		endP.x, endP.y, endP.z, endPNormal.x, endPNormal.y, endPNormal.z,
+	};
+	glm::mat4x4 model(1.0f);
+	glm::vec3 color(0, 0.8, 0.3);
+
+	auto renderData = RenderData(color, model);
+	auto renderbuffer = CreateRenderBuffer(static_cast<void *>(vertices), 2, nullptr, 0);
+	auto lineObject = RenderObject(0, renderData, renderbuffer, RenderMode::Line);
+	m_RenderObjectsLine.push_back(lineObject);
+}
+
+void Scene::pintMeshCounter()
+{
+	qDebug() << "---------------------------";
+	qDebug() << "[sphereNum]: " << m_MeshCounter->sphereNum;
+	qDebug() << "[planeNum]: " << m_MeshCounter->planeNum;
+	qDebug() << "[capsuleNum]: " << m_MeshCounter->capsuleNum;
+	qDebug() << "[boxNum]: " << m_MeshCounter->boxNum;
+	qDebug() << "[convexMeshNum]: " << m_MeshCounter->convexMeshNum;
+	qDebug() << "[triangleMeshNum]: " << m_MeshCounter->triangleMeshNum;
+	qDebug() << "[heightFieldNum]: " << m_MeshCounter->heightFieldNum;
+	qDebug() << "---------------------------";
 }

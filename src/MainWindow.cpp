@@ -19,6 +19,8 @@ MainWindow::~MainWindow()
 {
 	delete m_Ui;
 	deleteAttrTreeModel();
+	deleteSceneTreeModel();
+	delete m_Scene;
 }
 
 
@@ -60,7 +62,7 @@ void MainWindow::OnOpenFileFolder()
 
 void MainWindow::OnZoomToScene()
 {
-	GetGlWidget()->ResetCamera();
+	GetGlWidget()->GetActiveScene()->ResetCamera();
 }
 
 void MainWindow::OnShapePicked(physx::PxShape* shape)
@@ -87,22 +89,26 @@ void MainWindow::OnSceneTreeViewClick(const QModelIndex& index)
 
 void MainWindow::OnSliderKeyMoveSlide(int value)
 {
-	GetGlWidget()->GetCamera()->SetKeyMoveSpeed(static_cast<float>(value));
+	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
+	camera->SetKeyMoveSpeed(static_cast<float>(value));
 }
 
 void MainWindow::OnSliderMouseLeftSlide(int value)
 {
-	GetGlWidget()->GetCamera()->SetMouseLeftSpeed(static_cast<float>(value));
+	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
+	camera->SetMouseLeftSpeed(static_cast<float>(value));
 }
 
 void MainWindow::OnSliderMouseRightSlide(int value)
 {
-	GetGlWidget()->GetCamera()->SetMouseRightSpeed(static_cast<float>(value));
+	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
+	camera->SetMouseRightSpeed(static_cast<float>(value));
 }
 
 void MainWindow::OnSliderMouseScrollSlide(int value)
 {
-	GetGlWidget()->GetCamera()->SetMouseScrollSpeed(static_cast<float>(value));
+	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
+	camera->SetMouseScrollSpeed(static_cast<float>(value));
 }
 
 
@@ -194,7 +200,7 @@ void MainWindow::showSelectedShape(void* ptr, const QString& typeName)
 		shapes.push_back(shape);
 	}
 
-	GetGlWidget()->SetPickedShapes(shapes);
+	GetGlWidget()->GetActiveScene()->SetPickedShapes(shapes);
 }
 
 void MainWindow::deleteAttrTreeModel()
@@ -202,6 +208,15 @@ void MainWindow::deleteAttrTreeModel()
 	if (m_AttrTreeModel)
 	{
 		delete m_AttrTreeModel;
+		m_AttrTreeModel = nullptr;
+	}
+}
+
+void MainWindow::deleteSceneTreeModel()
+{
+	if (m_SceneTreeModel)
+	{
+		delete m_SceneTreeModel;
 		m_AttrTreeModel = nullptr;
 	}
 }

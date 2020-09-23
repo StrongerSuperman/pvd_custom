@@ -1,21 +1,10 @@
 #pragma once
 
-#include <vector>
-
 #include <QDebug>
 #include <QTimer>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QOpenGLWidget>
-
-#include <glm/vec3.hpp>
-
-#include "Camera.h"
-#include "Renderer.h"
-#include "RenderObject.h"
-#include "RenderBuffer.h"
-#include "MathHelper.h"
-#include "RenderHelper.h"
 
 #include "Scene.h"
 
@@ -29,12 +18,7 @@ public:
 	~GlWidget();
 
 	void    SetScene(Scene *scene);
-	void    ResetCamera();
-	void    SetPickedShapeIds(std::vector<int>& ids);
-	void    SetPickedShapes(std::vector<physx::PxShape*>& shapes);
-
-	inline  Scene*   GetActiveScene() const    { return m_ActiveScene;   };
-	inline  Camera*  GetCamera()      const    { return m_Camera;        };
+	inline  Scene*   GetActiveScene() const    { return m_ActiveScene; };
 
 signals:
 	void Initialized();
@@ -54,24 +38,11 @@ protected:
 	void keyReleaseEvent(QKeyEvent *ev) override;
 
 private:
-	int                                 m_Width;
-	int                                 m_Height;
+	int      m_Width;
+	int      m_Height;
+	
+	Scene*   m_ActiveScene;
 
-	Camera*                             m_Camera;
-	Renderer*                           m_Renderer;
-	Scene*                              m_ActiveScene;
-	MeshCounter*                        m_MeshCounter;
-
-	std::vector<RenderObject>           m_RenderObjects;
-	std::vector<RenderObject>           m_RenderObjectsLine;
-	std::vector<int>                    m_PickedShapeIds;
-						                
-	bool                                m_MouseLeftBtnPressed;
-	bool                                m_MouseRightBtnPressed;
-
-	void createRenderObjects();
-	void onCameraRayCast();
-	void genRenderObjectRay(const Ray& ray);
-
-	void pintMeshCounter();
+	bool     m_MouseLeftBtnPressed;
+	bool     m_MouseRightBtnPressed;
 };

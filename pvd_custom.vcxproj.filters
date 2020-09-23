@@ -35,12 +35,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files\Examples">
-      <UniqueIdentifier>{cb30a3b1-42e6-4116-9cc0-6540d51272d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Examples">
-      <UniqueIdentifier>{125a92d1-c703-4d72-85d2-649b95ed5d24}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{9a60d292-c2ca-4bdf-8c2f-2f3644913994}</UniqueIdentifier>
     </Filter>
@@ -65,34 +59,34 @@
     <Filter Include="Source Files\Engine\Camera">
       <UniqueIdentifier>{dc31bab7-9903-4389-93fb-e13a9292d362}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Examples\UI">
-      <UniqueIdentifier>{5316db33-3adc-419e-82af-7d8a26886e29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Examples\UI">
-      <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine\Helper">
       <UniqueIdentifier>{35a2e9ee-358a-44a5-aa12-a5668089d9e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Engine\Helper">
       <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{cb30a3b1-42e6-4116-9cc0-6540d51272d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\UI">
+      <UniqueIdentifier>{5316db33-3adc-419e-82af-7d8a26886e29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{125a92d1-c703-4d72-85d2-649b95ed5d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\UI">
+      <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Scene.cpp">
-      <Filter>Source Files\Examples</Filter>
+      <Filter>Source Files\Application</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderObject.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
-      <Filter>Source Files\Engine\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\CameraBase.cpp">
       <Filter>Source Files\Engine\Camera</Filter>
@@ -101,19 +95,19 @@
       <Filter>Source Files\Engine\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\GlWidget.cpp">
-      <Filter>Source Files\Examples\UI</Filter>
+      <Filter>Source Files\Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\MainWindow.cpp">
-      <Filter>Source Files\Examples\UI</Filter>
+      <Filter>Source Files\Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\TreeViewAttr.cpp">
-      <Filter>Source Files\Examples\UI</Filter>
+      <Filter>Source Files\Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\TreeViewScene.cpp">
-      <Filter>Source Files\Examples\UI</Filter>
+      <Filter>Source Files\Application\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\App.cpp">
-      <Filter>Source Files\Examples</Filter>
+      <Filter>Source Files\Application</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderEngine.cpp">
       <Filter>Source Files\Engine\Render</Filter>
@@ -142,19 +136,19 @@
     <ClCompile Include="src\RenderHelper.cpp">
       <Filter>Source Files\Engine\Helper</Filter>
     </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderObject.h">
       <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene.h">
-      <Filter>Header Files\Examples</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderer.h">
-      <Filter>Header Files\Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera.h">
-      <Filter>Header Files\Engine\Camera</Filter>
+      <Filter>Header Files\Application</Filter>
     </ClInclude>
     <ClInclude Include="src\CameraBase.h">
       <Filter>Header Files\Engine\Camera</Filter>
@@ -189,6 +183,12 @@
     <ClInclude Include="src\RenderHelper.h">
       <Filter>Header Files\Engine\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="src\Camera.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\MainWindow.ui">
@@ -197,19 +197,19 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\GlWidget.h">
-      <Filter>Header Files\Examples\UI</Filter>
+      <Filter>Header Files\Application\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\MainWindow.h">
-      <Filter>Header Files\Examples\UI</Filter>
+      <Filter>Header Files\Application\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\TreeViewScene.h">
-      <Filter>Header Files\Examples\UI</Filter>
+      <Filter>Header Files\Application\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\TreeViewAttr.h">
-      <Filter>Header Files\Examples\UI</Filter>
+      <Filter>Header Files\Application\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\App.h">
-      <Filter>Header Files\Examples</Filter>
+      <Filter>Header Files\Application</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

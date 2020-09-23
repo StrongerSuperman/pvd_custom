@@ -60,4 +60,5 @@ private:
 	void showItemAttr(void* ptr, const QString& typeName);
 	void showSelectedShape(void* ptr, const QString& typeName);
 	void deleteAttrTreeModel();
+	void deleteSceneTreeModel();
 };
