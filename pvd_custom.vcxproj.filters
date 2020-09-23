@@ -71,11 +71,11 @@
     <Filter Include="Source Files\Examples\UI">
       <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Tools">
-      <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Tools">
+    <Filter Include="Source Files\Engine\Helper">
       <UniqueIdentifier>{35a2e9ee-358a-44a5-aa12-a5668089d9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Helper">
+      <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -134,13 +134,13 @@
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\MathHelper.cpp">
-      <Filter>Source Files\Engine\Tools</Filter>
+      <Filter>Source Files\Engine\Helper</Filter>
     </ClCompile>
     <ClCompile Include="src\FileHelper.cpp">
-      <Filter>Source Files\Engine\Tools</Filter>
+      <Filter>Source Files\Engine\Helper</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderHelper.cpp">
-      <Filter>Source Files\Engine\Tools</Filter>
+      <Filter>Source Files\Engine\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,13 +181,13 @@
       <Filter>Header Files\Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\MathHelper.h">
-      <Filter>Header Files\Engine\Tools</Filter>
+      <Filter>Header Files\Engine\Helper</Filter>
     </ClInclude>
     <ClInclude Include="src\FileHelper.h">
-      <Filter>Header Files\Engine\Tools</Filter>
+      <Filter>Header Files\Engine\Helper</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderHelper.h">
-      <Filter>Header Files\Engine\Tools</Filter>
+      <Filter>Header Files\Engine\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

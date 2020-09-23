@@ -24,33 +24,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::OnInitialize()
 {
-	QObject::connect(
-		GetSceneTreeView(), SIGNAL(clicked(const QModelIndex)),
-		this, SLOT(OnSceneTreeViewClick(const QModelIndex))
-	);
-
-	QObject::connect(
-		GetSceneTreeView(), SIGNAL(doubleClicked(const QModelIndex)),
-		this, SLOT(OnSceneTreeViewClick(const QModelIndex))
-	);
-
-	QObject::connect(
-		GetGlWidget(), SIGNAL(ShapePicked(physx::PxShape*)),
-		this, SLOT(OnShapePicked(physx::PxShape*))
-	);
-
-	QObject::connect(
-		GetActionOpen(), SIGNAL(triggered()),
-		this, SLOT(OnOpenFileFolder())
-	);
-
-	QObject::connect(
-		GetActionZoomToScene(), SIGNAL(triggered()),
-		this, SLOT(OnZoomToScene())
-	);
-
-	GetSceneTreeView()->setExpandsOnDoubleClick(true);
-	GetAttrTreeView()->setExpandsOnDoubleClick(true);
+	connectObject();
 
 	show();
 }
@@ -79,6 +53,9 @@ void MainWindow::OnOpenFileFolder()
 	GetGlWidget()->SetScene(m_Scene);
 	m_SceneTreeModel = new SceneTreeModel(m_Scene);
 	GetSceneTreeView()->setModel(m_SceneTreeModel);
+
+	GetSceneTreeView()->setExpandsOnDoubleClick(true);
+	GetAttrTreeView()->setExpandsOnDoubleClick(true);
 }
 
 void MainWindow::OnZoomToScene()
@@ -108,6 +85,74 @@ void MainWindow::OnSceneTreeViewClick(const QModelIndex& index)
 	showSelectedShape(ptr, typeName);
 }
 
+void MainWindow::OnSliderKeyMoveSlide(int value)
+{
+	GetGlWidget()->GetCamera()->SetKeyMoveSpeed(static_cast<float>(value));
+}
+
+void MainWindow::OnSliderMouseLeftSlide(int value)
+{
+	GetGlWidget()->GetCamera()->SetMouseLeftSpeed(static_cast<float>(value));
+}
+
+void MainWindow::OnSliderMouseRightSlide(int value)
+{
+	GetGlWidget()->GetCamera()->SetMouseRightSpeed(static_cast<float>(value));
+}
+
+void MainWindow::OnSliderMouseScrollSlide(int value)
+{
+	GetGlWidget()->GetCamera()->SetMouseScrollSpeed(static_cast<float>(value));
+}
+
+
+void MainWindow::connectObject()
+{
+	QObject::connect(
+		GetSceneTreeView(), SIGNAL(clicked(const QModelIndex)),
+		this, SLOT(OnSceneTreeViewClick(const QModelIndex))
+	);
+
+	QObject::connect(
+		GetSceneTreeView(), SIGNAL(doubleClicked(const QModelIndex)),
+		this, SLOT(OnSceneTreeViewClick(const QModelIndex))
+	);
+
+	QObject::connect(
+		GetGlWidget(), SIGNAL(ShapePicked(physx::PxShape*)),
+		this, SLOT(OnShapePicked(physx::PxShape*))
+	);
+
+	QObject::connect(
+		GetActionOpen(), SIGNAL(triggered()),
+		this, SLOT(OnOpenFileFolder())
+	);
+
+	QObject::connect(
+		GetActionZoomToScene(), SIGNAL(triggered()),
+		this, SLOT(OnZoomToScene())
+	);
+
+	QObject::connect(
+		GetSliderKeyMoveSpeed(), SIGNAL(valueChanged(int)),
+		this, SLOT(OnSliderKeyMoveSlide(int))
+	);
+
+	QObject::connect(
+		GetSliderMouseLeftSpeed(), SIGNAL(valueChanged(int)),
+		this, SLOT(OnSliderMouseLeftSlide(int))
+	);
+
+	QObject::connect(
+		GetSliderMouseRightSpeed(), SIGNAL(valueChanged(int)),
+		this, SLOT(OnSliderMouseRightSlide(int))
+	);
+
+	QObject::connect(
+		GetSliderMouseScrollSpeed(), SIGNAL(valueChanged(int)),
+		this, SLOT(OnSliderMouseScrollSlide(int))
+	);
+}
 
 void MainWindow::showItemAttr(void* ptr, const QString& typeName)
 {

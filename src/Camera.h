@@ -21,6 +21,11 @@ public:
 	void	HandleMouseScroll(int delta);
 	void	HandleKey(unsigned char key);
 
+	inline void SetKeyMoveSpeed(float speed) { m_KeyMoveSpeed = speed; };
+	inline void SetMouseLeftSpeed(float speed) { m_MouseLeftSpeed = speed; };
+	inline void SetMouseRightSpeed(float speed) { m_MouseRightSpeed = speed; };
+	inline void SetMouseScrollSpeed(float speed) { m_MouseScrollSpeed = speed; };
+
 	inline  Ray GetMouseClickRay()  const { return m_Ray; };
 			
 private:	
@@ -28,10 +33,10 @@ private:
 	int		m_MouseY;
 	bool    m_MouseLeftBtnFirstPress;
 	bool    m_MouseRightBtnFirstPress;
-	float   m_MouseMoveSpeed;
-	float   m_MouseRotateSpeed;
-	float   m_MouseScrollSpeed;
 	float   m_KeyMoveSpeed;
+	float   m_MouseLeftSpeed;
+	float   m_MouseRightSpeed;
+	float   m_MouseScrollSpeed;
 
 	Ray     m_Ray;
 	void    updateRay(int x, int y);

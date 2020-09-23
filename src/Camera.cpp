@@ -6,10 +6,10 @@ Camera::Camera():
 	m_MouseY(0),
 	m_MouseLeftBtnFirstPress(false),
 	m_MouseRightBtnFirstPress(false),
-	m_KeyMoveSpeed(20.0f),
-	m_MouseMoveSpeed(0.02f),
-	m_MouseRotateSpeed(0.1f),
-	m_MouseScrollSpeed(4.0f),
+	m_KeyMoveSpeed(200.0f),
+	m_MouseLeftSpeed(200.0f),
+	m_MouseRightSpeed(100.0f),
+	m_MouseScrollSpeed(40.0f),
 	m_Ray(Ray())
 {
 }
@@ -48,7 +48,8 @@ void Camera::HandleMouseLeftBtnMove(int x, int y)
 	m_MouseX = x;
 	m_MouseY = y;
 
-	OrbitRotate(dx*m_MouseRotateSpeed, -dy* m_MouseRotateSpeed);
+	auto speed = m_MouseRightSpeed * 0.001f;
+	OrbitRotate(dx*speed, -dy* speed);
 }
 
 void Camera::HandleMouseRightBtnMove(int x, int y)
@@ -66,7 +67,8 @@ void Camera::HandleMouseRightBtnMove(int x, int y)
 	m_MouseX = x;
 	m_MouseY = y;
 
-	EulerRotate(dx*m_MouseMoveSpeed, dy*m_MouseMoveSpeed);
+	auto speed = m_MouseLeftSpeed * 0.0001f;
+	EulerRotate(dx*speed, dy*speed);
 }
 
 void Camera::HandleMouseLeftBtnRelease(int x, int y)
@@ -90,17 +92,19 @@ void Camera::HandleMouseLeftBtnDoubleClick(int x, int y)
 
 void Camera::HandleMouseScroll(int delta)
 {
-	ZoomByMove(delta*m_MouseScrollSpeed);
+	auto speed = m_MouseScrollSpeed * 0.1f;
+	ZoomByMove(delta*speed);
 }
 
 void Camera::HandleKey(unsigned char key)
 {
+	auto speed = m_KeyMoveSpeed * 0.1f;
 	switch (toupper(key))
 	{
-	case 'W':	MoveForward(m_KeyMoveSpeed);		break;
-	case 'S':	MoveForward(-m_KeyMoveSpeed);		break;
-	case 'A':	MoveRight(-m_KeyMoveSpeed);		    break;
-	case 'D':	MoveRight(m_KeyMoveSpeed);		    break;
+	case 'W':	MoveForward(speed);		break;
+	case 'S':	MoveForward(-speed);	break;
+	case 'A':	MoveRight(-speed);		break;
+	case 'D':	MoveRight(speed);		break;
 	}
 }
 
