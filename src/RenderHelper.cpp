@@ -1,27 +1,6 @@
 #include "RenderHelper.h"
 
 
-void CreateRenderObjectFromShapes(std::vector<RenderObject> &objects, const shapesMap& pxShapesMap, MeshCounter* counter)
-{
-	for (auto iter = pxShapesMap.begin(); iter != pxShapesMap.end(); iter++)
-	{
-		auto shape = iter->first;
-		auto id = iter->second.first;
-		auto parentActor = iter->second.second;
-
-		auto shapePos = physx::PxShapeExt::getGlobalPose(*shape, *parentActor);
-		auto posMat(shapePos);
-		auto geomHd = shape->getGeometry();
-
-		auto simulationFilterData = shape->getSimulationFilterData();
-		auto queryFilterData = shape->getQueryFilterData();
-		glm::vec3 color = CastPhysxFilterDataToColor(simulationFilterData);
-
-		auto object = CreateRenderObjectFromPxGeometry(id, geomHd, posMat, color, counter);
-		objects.push_back(object);
-	}
-}
-
 RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color, MeshCounter* counter)
 {
 	switch (geomHd.getType())

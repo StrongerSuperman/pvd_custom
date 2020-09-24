@@ -16,7 +16,8 @@
 #include "Renderer.h"
 #include "RenderObject.h"
 #include "RenderBuffer.h"
-#include "physicsWorld.h"
+#include "PhysicsWorld.h"
+#include "SceneObject.h"
 #include "FileHelper.h"
 #include "MathHelper.h"
 #include "RenderHelper.h"
@@ -24,8 +25,8 @@
 
 class Scene
 {
-	using shapesMap = std::map<physx::PxShape*, std::pair<int, physx::PxRigidActor*>>;
-	using shapesList = std::vector<physx::PxShape*>;
+	using ShapesMap = std::map<physx::PxShape*, SceneObject>;
+	using ShapesList = std::vector<physx::PxShape*>;
 	using ActorList = std::vector<physx::PxRigidActor*>;
 
 public:
@@ -41,28 +42,27 @@ public:
 	physx::PxShape* OnCameraRayCast();
 
 	void SetPickedShapeIds(std::vector<int>& ids);
-	void SetPickedShapes(shapesList& shapes);
+	void SetPickedShapes(ShapesList& shapes);
 
-	inline Camera*         GetCamera()       const { return m_Camera;       };
-	inline Renderer*       GetRenderer()     const { return m_Renderer;     };
-	inline PhysicsWorld*   GetPhysicsWorld() const { return m_PhysicsWorld; };
-	inline ActorList       GetActors()       const { return m_Actors;       };
-	inline shapesMap       GetShapesMap()    const { return m_PxShapesMap;  };
+	inline Camera*         GetCamera()      const { return m_Camera;   };
+	inline Renderer*       GetRenderer()    const { return m_Renderer; };
+	inline PhysicsWorld*   GetPhysics()     const { return m_Physics;  };
+
+	inline ActorList       GetActors()      const { return m_Actors;   };
 
 private:
 	Camera*                      m_Camera;
 	Renderer*                    m_Renderer;
-	PhysicsWorld*                m_PhysicsWorld;
+	PhysicsWorld*                m_Physics;
 
 	MeshCounter*                 m_MeshCounter;
-	std::vector<RenderObject>    m_RenderObjects;
+	std::vector<SceneObject>     m_SceneObjects;
 	std::vector<RenderObject>    m_RenderObjectsLine;
 	std::vector<int>             m_PickedShapeIds;
 
 	ActorList                    m_Actors;
-	shapesMap                    m_PxShapesMap;
+	ShapesMap                    m_ShapeMap;
 
-	void createRenderObjects();
 	void genRenderObjectRay(const Ray& ray);
 	void pintMeshCounter();
 };

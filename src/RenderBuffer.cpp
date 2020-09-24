@@ -1,6 +1,10 @@
 #include "RenderBuffer.h"
 
 
+RenderBuffer::RenderBuffer()
+{
+}
+
 RenderBuffer::RenderBuffer(GLuint verticesBuffer, GLuint indicesBuffer, GLuint verticesNum, GLuint indicesNum):
 	verticesBuffer(verticesBuffer),
 	indicesBuffer(indicesBuffer),
@@ -9,8 +13,25 @@ RenderBuffer::RenderBuffer(GLuint verticesBuffer, GLuint indicesBuffer, GLuint v
 {
 }
 
-RenderBuffer::~RenderBuffer()
+RenderBuffer::RenderBuffer(const RenderBuffer& renderBuffer)
 {
+	verticesBuffer = renderBuffer.verticesBuffer;
+	indicesBuffer = renderBuffer.indicesBuffer;
+	verticesNum = renderBuffer.verticesNum;
+	indicesNum = renderBuffer.indicesNum;
+}
+
+RenderBuffer& RenderBuffer::operator=(const RenderBuffer& renderBuffer)
+{
+	if (this != &renderBuffer)
+	{
+		verticesBuffer = renderBuffer.verticesBuffer;
+		indicesBuffer = renderBuffer.indicesBuffer;
+		verticesNum = renderBuffer.verticesNum;
+		indicesNum = renderBuffer.indicesNum;
+	}
+
+	return *this;
 }
 
 
@@ -38,11 +59,5 @@ RenderBuffer DoCreateRenderBuffer(GLuint verticesBuffer, uint vertexNum, const v
 		indicesBuffer = -1;
 	}
 
-	return RenderBuffer
-	{
-		verticesBuffer,
-		indicesBuffer,
-		vertexNum,
-		indexNum,
-	};
+	return RenderBuffer(verticesBuffer, indicesBuffer, vertexNum, indexNum);
 }

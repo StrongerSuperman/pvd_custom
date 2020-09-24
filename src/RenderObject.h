@@ -13,22 +13,25 @@ enum RenderMode
 class RenderData
 {
 public:
-	explicit RenderData();
-	explicit RenderData(const glm::vec3& color, const glm::mat4x4& modelMatrix);
+	RenderData();
+	RenderData(const RenderData &renderData);
+	RenderData(const glm::vec3& color, const glm::mat4x4& modelMatrix);
+	RenderData& operator=(const RenderData& renderData);
 
-	mutable glm::vec3        color;
-	mutable glm::mat4x4      modelMatrix;
+	mutable glm::vec3    color;
+	mutable glm::mat4x4  modelMatrix;
 };
 
 class RenderObject
 {
 public:
-	explicit RenderObject();
-	explicit RenderObject(uint id, const RenderData& renderData, const RenderBuffer& renderBuffer, RenderMode renderMode = RenderMode::Triangle);
-	~RenderObject();
+	RenderObject();
+	RenderObject(const RenderObject &renderObject);
+	RenderObject(uint id, const RenderData& renderData, const RenderBuffer& renderBuffer, RenderMode renderMode = RenderMode::Triangle);
+	RenderObject& operator=(const RenderObject& renderObject);
 
-	mutable uint             id;
-	mutable RenderData       renderData;
-	RenderBuffer             renderBuffer;
-	RenderMode               renderMode;
+	mutable uint        id;
+	mutable RenderData  renderData;
+	RenderBuffer        renderBuffer;
+	RenderMode          renderMode;
 };

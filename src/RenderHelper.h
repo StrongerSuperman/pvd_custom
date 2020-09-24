@@ -18,14 +18,13 @@
 
 #include "RenderObject.h"
 #include "RenderBuffer.h"
+#include "SceneObject.h"
 #include "MathHelper.h"
 
 
 # define M_PI 3.14159265358979323846
-using shapesMap = std::map<physx::PxShape*, std::pair<int, physx::PxRigidActor*>>;
 
 
-void CreateRenderObjectFromShapes(std::vector<RenderObject> &objects, const shapesMap& pxShapesMap, MeshCounter* counter);
 RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color, MeshCounter* counter);
 RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slices, uint stacks);
 glm::vec3 CastPhysxFilterDataToColor(physx::PxFilterData data);

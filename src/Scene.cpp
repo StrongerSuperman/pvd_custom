@@ -4,12 +4,12 @@
 Scene::Scene():
 	m_Camera(new Camera),
 	m_Renderer(new Renderer),
-	m_PhysicsWorld(new PhysicsWorld),
+	m_Physics(new PhysicsWorld),
 	m_MeshCounter(new MeshCounter),
 	m_PickedShapeIds({})
 	
 {
-	m_PhysicsWorld->Initialize();
+	m_Physics->Initialize();
 	m_Renderer->Init();
 }
 
@@ -17,7 +17,7 @@ Scene::~Scene()
 {
 	delete m_Camera;
 	delete m_Renderer;
-	delete m_PhysicsWorld;
+	delete m_Physics;
 	delete m_MeshCounter;
 }
 
@@ -25,21 +25,26 @@ Scene::~Scene()
 void Scene::Load(const std::vector<std::string>& filenames)
 {
 	// load colleciton
-	if (!LoadCollectionFile(filenames, m_PhysicsWorld))
+	if (!LoadCollectionFile(filenames, m_Physics))
 	{
 		return;
 	}
 
 	// load actors
-	auto actorsNum = m_PhysicsWorld->GetPxScene()->getNbActors(
+	auto actorsNum = m_Physics->GetPxScene()->getNbActors(
 		physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC);
 
 	m_Actors.resize(actorsNum);
-	m_PhysicsWorld->GetPxScene()->getActors(
+	m_Physics->GetPxScene()->getActors(
 		physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC,
 		reinterpret_cast<physx::PxActor**>(&m_Actors[0]), actorsNum);
 
-	// load shapesMap
+	// clear buffer
+	m_Renderer->ClearBuffer();
+	m_SceneObjects.clear();
+
+	// load scene objects
+	m_MeshCounter->Reset();
 	int counter = 0;
 	for (int i = 0; i < m_Actors.size(); i++)
 	{
@@ -50,14 +55,25 @@ void Scene::Load(const std::vector<std::string>& filenames)
 
 		for (physx::PxU32 j = 0; j < nbShapes; j++)
 		{
-			std::pair<int, physx::PxRigidActor*> shapesData;
-			shapesData.first = counter++;
-			shapesData.second = m_Actors[i];
-			m_PxShapesMap[shapes[j]] = shapesData;
+			int id = counter++;
+			auto shapePos = physx::PxShapeExt::getGlobalPose(*shapes[j], *m_Actors[i]);
+			auto geomHd = shapes[j]->getGeometry();
+			glm::vec3 color = CastPhysxFilterDataToColor(shapes[j]->getSimulationFilterData());
+
+			SceneObject sceneObject;
+			sceneObject.id = id;
+			sceneObject.physicsData.shape = shapes[j];
+			sceneObject.physicsData.parentActor = m_Actors[i];
+			sceneObject.physicsData.simulationFilterData = &(shapes[j]->getSimulationFilterData());
+			sceneObject.physicsData.queryFilterData = &(shapes[j]->getQueryFilterData());
+			sceneObject.renderData = CreateRenderObjectFromPxGeometry(id, geomHd, shapePos, color, m_MeshCounter);
+
+			m_SceneObjects.push_back(sceneObject);
+			m_ShapeMap[shapes[j]] = sceneObject;
 		}
 	}
+	pintMeshCounter();
 
-	createRenderObjects();
 	ResetCamera();
 }
 
@@ -74,8 +90,14 @@ physx::PxBounds3 Scene::GetAABB() const
 
 void Scene::Render()
 {
-	m_Renderer->Render(m_RenderObjects, *m_Camera);
-	m_Renderer->Render(m_RenderObjectsLine, *m_Camera);
+	for each (auto &object in m_SceneObjects)
+	{
+		m_Renderer->Render(object.renderData, *m_Camera);
+	}
+	for each (auto &object in m_RenderObjectsLine)
+	{
+		m_Renderer->Render(object, *m_Camera);
+	}
 }
 
 
@@ -93,10 +115,10 @@ void Scene::ResetCamera()
 physx::PxShape* Scene::OnCameraRayCast()
 {
 	physx::PxRaycastBuffer hitinfo;
-	auto isHit = RayCast(m_Camera->GetMouseClickRay(), GetPhysicsWorld()->GetPxScene(), hitinfo);
+	auto isHit = RayCast(m_Camera->GetMouseClickRay(), GetPhysics()->GetPxScene(), hitinfo);
 	if (isHit)
 	{
-		m_PickedShapeIds = { static_cast<int>(GetShapesMap()[hitinfo.block.shape].first) };
+		m_PickedShapeIds = { static_cast<int>(m_ShapeMap[hitinfo.block.shape].id) };
 	}
 	else
 	{
@@ -117,26 +139,16 @@ void Scene::SetPickedShapeIds(std::vector<int>& ids)
 	m_Renderer->SetPickedRenderObjectIds(ids);
 }
 
-void Scene::SetPickedShapes(shapesList& shapes)
+void Scene::SetPickedShapes(ShapesList& shapes)
 {
 	std::vector<int> ids;
 	for each (auto &shape in shapes)
 	{
-		ids.push_back(GetShapesMap()[shape].first);
+		ids.push_back(m_ShapeMap[shape].id);
 	}
 	SetPickedShapeIds(ids);
 }
 
-
-void Scene::createRenderObjects()
-{
-	m_RenderObjects.clear();
-	m_Renderer->ClearBuffer();
-
-	m_MeshCounter->Reset();
-	CreateRenderObjectFromShapes(m_RenderObjects, GetShapesMap(), m_MeshCounter);
-	pintMeshCounter();
-}
 
 void Scene::genRenderObjectRay(const Ray& ray)
 {

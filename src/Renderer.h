@@ -15,7 +15,7 @@ public:
 	~Renderer();
 
 	void Init();
-	void Render(const std::vector<RenderObject> &objects, const Camera &camera);
+	void Render(const RenderObject &object, const Camera &camera);
 
 	void ClearBuffer();
 

@@ -77,11 +77,20 @@
     <Filter Include="Source Files\Application\UI">
       <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Application\Core">
+      <UniqueIdentifier>{4cf29c65-8f10-4194-83a5-5201cafb7c4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Core">
+      <UniqueIdentifier>{132dc1e8-1bed-46e9-9cb8-a21616af8af5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Scene">
+      <UniqueIdentifier>{3014e17a-251f-4926-8a6a-23b8a00da961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Scene">
+      <UniqueIdentifier>{2296de0a-ea40-44fa-a3ce-abf7bba6661d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Scene.cpp">
-      <Filter>Source Files\Application</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderObject.cpp">
       <Filter>Source Files\Engine\Render</Filter>
     </ClCompile>
@@ -137,18 +146,21 @@
       <Filter>Source Files\Engine\Helper</Filter>
     </ClCompile>
     <ClCompile Include="src\Camera.cpp">
-      <Filter>Source Files\Application</Filter>
+      <Filter>Source Files\Application\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Renderer.cpp">
-      <Filter>Source Files\Application</Filter>
+      <Filter>Source Files\Application\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>Source Files\Application\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneObject.cpp">
+      <Filter>Source Files\Engine\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderObject.h">
       <Filter>Header Files\Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene.h">
-      <Filter>Header Files\Application</Filter>
     </ClInclude>
     <ClInclude Include="src\CameraBase.h">
       <Filter>Header Files\Engine\Camera</Filter>
@@ -183,11 +195,17 @@
     <ClInclude Include="src\RenderHelper.h">
       <Filter>Header Files\Engine\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scene.h">
+      <Filter>Header Files\Application\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Camera.h">
-      <Filter>Header Files\Application</Filter>
+      <Filter>Header Files\Application\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer.h">
-      <Filter>Header Files\Application</Filter>
+      <Filter>Header Files\Application\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneObject.h">
+      <Filter>Header Files\Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

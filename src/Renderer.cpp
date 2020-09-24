@@ -20,12 +20,9 @@ void Renderer::Init()
 	m_RenderProgramPhong = new RenderProgramPhong;
 }
 
-void Renderer::Render(const std::vector<RenderObject> &objects, const Camera &camera)
+void Renderer::Render(const RenderObject &object, const Camera &camera)
 {
-	for each(auto &object in objects)
-	{
-		render(&object, &camera);
-	}
+	render(&object, &camera);
 }
 
 void Renderer::ClearBuffer()

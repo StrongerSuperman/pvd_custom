@@ -1,8 +1,34 @@
 #include "RenderObject.h"
 
 
+RenderData::RenderData(const RenderData &renderData)
+{
+	color = renderData.color;
+	modelMatrix = renderData.modelMatrix;
+}
+
+RenderData& RenderData::operator=(const RenderData& renderData)
+{
+	if (this != &renderData)
+	{
+		color = renderData.color;
+		modelMatrix = renderData.modelMatrix;
+	}
+
+	return *this;
+}
+
+
 RenderData::RenderData()
 {
+}
+
+RenderObject::RenderObject(const RenderObject &renderObject)
+{
+	id = renderObject.id;
+	renderData = renderObject.renderData;
+	renderBuffer = renderObject.renderBuffer;
+	renderMode = renderObject.renderMode;
 }
 
 RenderData::RenderData(const glm::vec3& color, const glm::mat4x4& modelMatrix) :
@@ -25,6 +51,15 @@ RenderObject::RenderObject(uint id, const RenderData& renderData, const RenderBu
 {
 }
 
-RenderObject::~RenderObject()
+RenderObject& RenderObject::operator=(const RenderObject& renderObject)
 {
+	if (this != &renderObject)
+	{
+		id = renderObject.id;
+		renderData = renderObject.renderData;
+		renderBuffer = renderObject.renderBuffer;
+		renderMode = renderObject.renderMode;
+	}
+
+	return *this;
 }

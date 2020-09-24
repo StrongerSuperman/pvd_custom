@@ -6,8 +6,10 @@
 struct RenderBuffer
 {
 public:
-	explicit RenderBuffer(GLuint verticesBuffer, GLuint indicesBuffer, GLuint verticesNum, GLuint indicesNum);
-	~RenderBuffer();
+	RenderBuffer();
+	RenderBuffer(const RenderBuffer& renderBuffer);
+	RenderBuffer(GLuint verticesBuffer, GLuint indicesBuffer, GLuint verticesNum, GLuint indicesNum);
+	RenderBuffer& operator=(const RenderBuffer& renderBuffer);
 
 	GLuint      verticesBuffer;
 	GLuint      indicesBuffer;

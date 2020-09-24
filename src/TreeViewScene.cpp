@@ -156,7 +156,7 @@ void SceneTreeModel::setupModelData(Scene* scene, SceneTreeItem *parent)
 	// scene node
 	auto sceneTypeName = QString("PxScene");
 	auto sceneItem = createChildNode(parent, sceneTypeName,
-		static_cast<void*>(scene->GetPhysicsWorld()->GetPxScene()));
+		static_cast<void*>(scene->GetPhysics()->GetPxScene()));
 
 	// statics node
 	auto staticsTypeName = QString("PxRigidStatics");
