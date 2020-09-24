@@ -4,7 +4,7 @@
 Scene::Scene():
 	m_Camera(new Camera),
 	m_Renderer(new Renderer),
-	m_Physics(new PhysicsWorld),
+	m_Physics(new Physics),
 	m_MeshCounter(new MeshCounter),
 	m_PickedShapeIds({})
 	
@@ -39,11 +39,9 @@ void Scene::Load(const std::vector<std::string>& filenames)
 		physx::PxActorTypeFlag::eRIGID_DYNAMIC | physx::PxActorTypeFlag::eRIGID_STATIC,
 		reinterpret_cast<physx::PxActor**>(&m_Actors[0]), actorsNum);
 
-	// clear buffer
-	m_Renderer->ClearBuffer();
+	// create scene objects
+	m_Renderer->Clear();
 	m_SceneObjects.clear();
-
-	// load scene objects
 	m_MeshCounter->Reset();
 	int counter = 0;
 	for (int i = 0; i < m_Actors.size(); i++)
@@ -55,17 +53,18 @@ void Scene::Load(const std::vector<std::string>& filenames)
 
 		for (physx::PxU32 j = 0; j < nbShapes; j++)
 		{
-			int id = counter++;
+			auto id = counter++;
 			auto shapePos = physx::PxShapeExt::getGlobalPose(*shapes[j], *m_Actors[i]);
 			auto geomHd = shapes[j]->getGeometry();
-			glm::vec3 color = CastPhysxFilterDataToColor(shapes[j]->getSimulationFilterData());
+			//auto color = CastPhysxFilterDataToColor(shapes[j]->getSimulationFilterData());
+			auto color = glm::vec3(0.8, 0, 0);
 
 			SceneObject sceneObject;
 			sceneObject.id = id;
 			sceneObject.physicsData.shape = shapes[j];
 			sceneObject.physicsData.parentActor = m_Actors[i];
-			sceneObject.physicsData.simulationFilterData = &(shapes[j]->getSimulationFilterData());
-			sceneObject.physicsData.queryFilterData = &(shapes[j]->getQueryFilterData());
+			sceneObject.physicsData.simulationFilterData = shapes[j]->getSimulationFilterData();
+			sceneObject.physicsData.queryFilterData = shapes[j]->getQueryFilterData();
 			sceneObject.renderData = CreateRenderObjectFromPxGeometry(id, geomHd, shapePos, color, m_MeshCounter);
 
 			m_SceneObjects.push_back(sceneObject);
@@ -74,7 +73,8 @@ void Scene::Load(const std::vector<std::string>& filenames)
 	}
 	pintMeshCounter();
 
-	ResetCamera();
+	// zoom to scene box
+	m_Camera->ZoomToBox(GetAABB());
 }
 
 physx::PxBounds3 Scene::GetAABB() const
@@ -86,7 +86,6 @@ physx::PxBounds3 Scene::GetAABB() const
 	}
 	return CalculateAABB(worldBounds);
 }
-
 
 void Scene::Render()
 {
@@ -101,15 +100,57 @@ void Scene::Render()
 }
 
 
-void Scene::ResetCamera()
+void Scene::SetShadeWay(ShadeWay shadeWay)
 {
-	physx::PxBounds3 aabb = GetAABB();
-	glm::vec3 center = PxVec3ToGlmVector3(aabb.getCenter());
-	glm::vec3 minimum = PxVec3ToGlmVector3(aabb.minimum);
-	glm::vec3 maximum = PxVec3ToGlmVector3(aabb.maximum);
-	glm::vec3 eye = glm::vec3(center.x, center.y, maximum.z + 3 * (maximum.z - minimum.z));
+	FilterDataMap filterDataList;
+	for each(auto &object in m_SceneObjects)
+	{
+		switch (shadeWay)
+		{
+		case SimulateGroup:
+		{
+			filterDataList[object.id] = object.physicsData.simulationFilterData;
+		}
+		break;
+		case SimulateColor:
+		{
+			filterDataList[object.id] = object.physicsData.simulationFilterData;
+		}
+		break;
+		case QueryGroup:
+		{
+			filterDataList[object.id] = object.physicsData.queryFilterData;
+		}
+		break;
+		case QueryColor:
+		{
+			filterDataList[object.id] = object.physicsData.queryFilterData;
+		}
+		break;
+		}
+	}
+	auto colorMap = GetPhysics()->CalcFilterDataColorMap(filterDataList, shadeWay);
+	for each(auto &object in m_SceneObjects)
+	{
+		object.renderData.renderData.color = colorMap[object.id];
+	}
+}
 
-	m_Camera->SetEyeAndTarget(eye, center);
+
+void Scene::SetPickedShapeIds(std::vector<int>& ids)
+{
+	m_PickedShapeIds = ids;
+	m_Renderer->SetPickedRenderObjectIds(ids);
+}
+
+void Scene::SetPickedShapes(ShapesList& shapes)
+{
+	std::vector<int> ids;
+	for each (auto &shape in shapes)
+	{
+		ids.push_back(m_ShapeMap[shape].id);
+	}
+	SetPickedShapeIds(ids);
 }
 
 physx::PxShape* Scene::OnCameraRayCast()
@@ -130,23 +171,6 @@ physx::PxShape* Scene::OnCameraRayCast()
 	//genRenderObjectRay(m_Camera->GetMouseClickRay());
 
 	return hitinfo.block.shape;
-}
-
-
-void Scene::SetPickedShapeIds(std::vector<int>& ids)
-{
-	m_PickedShapeIds = ids;
-	m_Renderer->SetPickedRenderObjectIds(ids);
-}
-
-void Scene::SetPickedShapes(ShapesList& shapes)
-{
-	std::vector<int> ids;
-	for each (auto &shape in shapes)
-	{
-		ids.push_back(m_ShapeMap[shape].id);
-	}
-	SetPickedShapeIds(ids);
 }
 
 

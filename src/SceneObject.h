@@ -9,8 +9,8 @@ class PhysicsData
 public:
 	physx::PxShape*       shape;
 	physx::PxRigidActor*  parentActor;
-	physx::PxFilterData*  simulationFilterData;
-	physx::PxFilterData*  queryFilterData;
+	physx::PxFilterData   simulationFilterData;
+	physx::PxFilterData   queryFilterData;
 };
 
 

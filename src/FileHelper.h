@@ -3,9 +3,6 @@
 #include <vector>
 #include <iostream>
 
-#include <PxPhysics.h>
-#include "PxPhysicsAPI.h"
-
 #include "PhysicsWorld.h"
 
 

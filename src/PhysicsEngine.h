@@ -8,10 +8,27 @@
 #include <foundation/PxErrors.h>
 #include <foundation/PxErrorCallback.h>
 #include <foundation/PxAllocatorCallback.h>
+#include <foundation/PxBounds3.h>
+#include <foundation/PxMat44.h> 
+
+#include <PxRigidStatic.h>
+#include <PxRigidDynamic.h>
 #include <PxPhysicsVersion.h>
+#include "PxPhysicsAPI.h"
 #include <PxPhysics.h>
 #include <PxSceneDesc.h>
 #include <PxScene.h>
+#include <PxMaterial.h>
+
+#include <geometry/PxTriangleMesh.h>
+#include <geometry/PxTriangleMeshGeometry.h>
+#include <geometry/PxConvexMesh.h>
+#include <geometry/PxConvexMeshGeometry.h>
+
+#include <common/PxTolerancesScale.h>
+
+#include <extensions/PxDefaultCpuDispatcher.h>
+#include <extensions/PxDefaultSimulationFilterShader.h>
 #include <extensions/PxExtensionsAPI.h>
 
 

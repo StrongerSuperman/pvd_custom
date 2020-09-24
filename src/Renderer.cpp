@@ -20,14 +20,14 @@ void Renderer::Init()
 	m_RenderProgramPhong = new RenderProgramPhong;
 }
 
+void Renderer::Clear()
+{
+	GetRenderEngine()->ClearVertexBuffer();
+}
+
 void Renderer::Render(const RenderObject &object, const Camera &camera)
 {
 	render(&object, &camera);
-}
-
-void Renderer::ClearBuffer()
-{
-	GetRenderEngine()->ClearVertexBuffer();
 }
 
 

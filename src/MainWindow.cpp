@@ -8,11 +8,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	m_SceneTreeModel(nullptr),
 	m_Scene(nullptr)
 {
-	m_Ui->setupUi(this);
-
-	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, QSize(1000, 610), qApp->desktop()->availableGeometry()));
-
-	QTimer::singleShot(2000, this, SLOT(OnInitialize()));
+	initialize();
 }
 
 MainWindow::~MainWindow()
@@ -51,18 +47,24 @@ void MainWindow::OnOpenFileFolder()
 	m_Scene = new Scene();
 	const auto fileList = { fileName.toStdString() };
 	m_Scene->Load(fileList);
-
 	GetGlWidget()->SetScene(m_Scene);
-	m_SceneTreeModel = new SceneTreeModel(m_Scene);
-	GetSceneTreeView()->setModel(m_SceneTreeModel);
+	OnComboBoxIndexChanged(GetComboBoxShade()->currentText());
 
+	m_SceneTreeModel = new SceneTreeModel(GetGlWidget()->GetActiveScene());
+	GetSceneTreeView()->setModel(m_SceneTreeModel);
 	GetSceneTreeView()->setExpandsOnDoubleClick(true);
 	GetAttrTreeView()->setExpandsOnDoubleClick(true);
 }
 
 void MainWindow::OnZoomToScene()
 {
-	GetGlWidget()->GetActiveScene()->ResetCamera();
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	auto sceneBox = scene->GetAABB();
+	scene->GetCamera()->ZoomToBox(sceneBox);
 }
 
 void MainWindow::OnShapePicked(physx::PxShape* shape)
@@ -89,28 +91,83 @@ void MainWindow::OnSceneTreeViewClick(const QModelIndex& index)
 
 void MainWindow::OnSliderKeyMoveSlide(int value)
 {
-	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
-	camera->SetKeyMoveSpeed(static_cast<float>(value));
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	scene->GetCamera()->SetKeyMoveSpeed(static_cast<float>(value));
 }
 
 void MainWindow::OnSliderMouseLeftSlide(int value)
 {
-	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
-	camera->SetMouseLeftSpeed(static_cast<float>(value));
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	scene->GetCamera()->SetMouseLeftSpeed(static_cast<float>(value));
 }
 
 void MainWindow::OnSliderMouseRightSlide(int value)
 {
-	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
-	camera->SetMouseRightSpeed(static_cast<float>(value));
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	scene->GetCamera()->SetMouseRightSpeed(static_cast<float>(value));
 }
 
 void MainWindow::OnSliderMouseScrollSlide(int value)
 {
-	auto camera = GetGlWidget()->GetActiveScene()->GetCamera();
-	camera->SetMouseScrollSpeed(static_cast<float>(value));
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	scene->GetCamera()->SetMouseScrollSpeed(static_cast<float>(value));
 }
 
+void MainWindow::OnComboBoxIndexChanged(const QString &text)
+{
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	if (text == "simulate_group")
+	{
+		scene->SetShadeWay(SimulateGroup);
+	}
+	else if(text == "simulate_color")
+	{
+		scene->SetShadeWay(SimulateColor);
+	}
+	else if (text == "query_group")
+	{
+		scene->SetShadeWay(QueryGroup);
+	}
+	else if (text == "query_color")
+	{
+		scene->SetShadeWay(QueryColor);
+	}
+}
+
+
+void MainWindow::initialize()
+{
+	m_Ui->setupUi(this);
+	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, QSize(1000, 610), qApp->desktop()->availableGeometry()));
+
+	// shade comboBox
+	GetComboBoxShade()->addItem(QWidget::tr("simulate_group"));
+	GetComboBoxShade()->addItem(QWidget::tr("simulate_color"));
+	GetComboBoxShade()->addItem(QWidget::tr("query_group"));
+	GetComboBoxShade()->addItem(QWidget::tr("query_color"));
+
+	QTimer::singleShot(2000, this, SLOT(OnInitialize()));
+}
 
 void MainWindow::connectObject()
 {
@@ -158,6 +215,11 @@ void MainWindow::connectObject()
 		GetSliderMouseScrollSpeed(), SIGNAL(valueChanged(int)),
 		this, SLOT(OnSliderMouseScrollSlide(int))
 	);
+
+	connect(
+		GetComboBoxShade(), SIGNAL(currentIndexChanged(const QString &)),
+		this, SLOT(OnComboBoxIndexChanged(const QString &))
+	);
 }
 
 void MainWindow::showItemAttr(void* ptr, const QString& typeName)
@@ -200,7 +262,12 @@ void MainWindow::showSelectedShape(void* ptr, const QString& typeName)
 		shapes.push_back(shape);
 	}
 
-	GetGlWidget()->GetActiveScene()->SetPickedShapes(shapes);
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	scene->SetPickedShapes(shapes);
 }
 
 void MainWindow::deleteAttrTreeModel()

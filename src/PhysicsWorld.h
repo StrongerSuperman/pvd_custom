@@ -1,10 +1,5 @@
 #pragma once
 
-#include <PxMaterial.h>
-#include <common/PxTolerancesScale.h>
-#include <extensions/PxDefaultCpuDispatcher.h>
-#include <extensions/PxDefaultSimulationFilterShader.h>
-
 #include "PhysicsEngine.h"
 
 

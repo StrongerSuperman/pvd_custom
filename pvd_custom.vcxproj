@@ -190,11 +190,13 @@
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\CameraBase.cpp" />
+    <ClCompile Include="src\CameraControl.cpp" />
     <ClCompile Include="src\CameraFTPS.cpp" />
     <ClCompile Include="src\FileHelper.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\MathHelper.cpp" />
+    <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\RenderBuffer.cpp" />
     <ClCompile Include="src\RenderObject.cpp" />
     <ClCompile Include="src\RenderEngine.cpp" />
@@ -212,6 +214,8 @@
     <ClCompile Include="src\TreeViewScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CameraControl.h" />
+    <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\SceneObject.h" />
     <QtMoc Include="src\App.h" />
     <ClInclude Include="src\CameraBase.h" />

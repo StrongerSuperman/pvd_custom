@@ -15,9 +15,8 @@ public:
 	~Renderer();
 
 	void Init();
+	void Clear();
 	void Render(const RenderObject &object, const Camera &camera);
-
-	void ClearBuffer();
 
 	inline void             SetPickedRenderObjectIds(const std::vector<int>& ids) { m_PickedObjIds = ids; };
 	inline std::vector<int> GetPickedRenderObjectsIds() { return m_PickedObjIds; };

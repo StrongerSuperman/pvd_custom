@@ -8,14 +8,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <PxPhysics.h>
-#include "PxPhysicsAPI.h"
-#include <foundation/PxMat44.h> 
-#include <geometry/PxTriangleMesh.h>
-#include <geometry/PxTriangleMeshGeometry.h>
-#include <geometry/PxConvexMesh.h>
-#include <geometry/PxConvexMeshGeometry.h>
-
+#include "PhysicsEngine.h"
 #include "RenderObject.h"
 #include "RenderBuffer.h"
 #include "SceneObject.h"

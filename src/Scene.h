@@ -6,21 +6,19 @@
 
 #include <QDebug>
 
-#include <foundation/PxBounds3.h>
-#include <PxRigidStatic.h>
-#include <PxRigidDynamic.h>
-
 #include <glm/vec3.hpp>
 
-#include "Camera.h"
-#include "Renderer.h"
 #include "RenderObject.h"
 #include "RenderBuffer.h"
-#include "PhysicsWorld.h"
 #include "SceneObject.h"
+
 #include "FileHelper.h"
 #include "MathHelper.h"
 #include "RenderHelper.h"
+
+#include "Camera.h"
+#include "Renderer.h"
+#include "Physics.h"
 
 
 class Scene
@@ -35,25 +33,23 @@ public:
 
 	void Load(const std::vector<std::string>& filenames);
 	physx::PxBounds3 GetAABB() const;
-
 	void Render();
 
-	void ResetCamera();
-	physx::PxShape* OnCameraRayCast();
-
+	void SetShadeWay(ShadeWay shadeWay);
 	void SetPickedShapeIds(std::vector<int>& ids);
 	void SetPickedShapes(ShapesList& shapes);
 
 	inline Camera*         GetCamera()      const { return m_Camera;   };
 	inline Renderer*       GetRenderer()    const { return m_Renderer; };
-	inline PhysicsWorld*   GetPhysics()     const { return m_Physics;  };
-
+	inline Physics*        GetPhysics()     const { return m_Physics;  };
 	inline ActorList       GetActors()      const { return m_Actors;   };
+
+	physx::PxShape* OnCameraRayCast();
 
 private:
 	Camera*                      m_Camera;
 	Renderer*                    m_Renderer;
-	PhysicsWorld*                m_Physics;
+	Physics*                     m_Physics;
 
 	MeshCounter*                 m_MeshCounter;
 	std::vector<SceneObject>     m_SceneObjects;
@@ -63,6 +59,7 @@ private:
 	ActorList                    m_Actors;
 	ShapesMap                    m_ShapeMap;
 
+	void setShadeObject(bool isSimulateShade);
 	void genRenderObjectRay(const Ray& ray);
 	void pintMeshCounter();
 };

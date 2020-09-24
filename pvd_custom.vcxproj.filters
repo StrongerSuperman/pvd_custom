@@ -83,12 +83,6 @@
     <Filter Include="Source Files\Application\Core">
       <UniqueIdentifier>{132dc1e8-1bed-46e9-9cb8-a21616af8af5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Scene">
-      <UniqueIdentifier>{3014e17a-251f-4926-8a6a-23b8a00da961}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Scene">
-      <UniqueIdentifier>{2296de0a-ea40-44fa-a3ce-abf7bba6661d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderObject.cpp">
@@ -154,8 +148,14 @@
     <ClCompile Include="src\Scene.cpp">
       <Filter>Source Files\Application\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
+      <Filter>Source Files\Application\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraControl.cpp">
+      <Filter>Source Files\Engine\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="src\SceneObject.cpp">
-      <Filter>Source Files\Engine\Scene</Filter>
+      <Filter>Source Files\Application\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,8 +204,14 @@
     <ClInclude Include="src\Renderer.h">
       <Filter>Header Files\Application\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Physics.h">
+      <Filter>Header Files\Application\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraControl.h">
+      <Filter>Header Files\Engine\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="src\SceneObject.h">
-      <Filter>Header Files\Engine\Scene</Filter>
+      <Filter>Header Files\Application\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

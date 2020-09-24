@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>610</height>
+    <width>956</width>
+    <height>589</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -112,14 +112,14 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
-                 <widget class="QLabel" name="KeyMoveSpeed">
+                 <widget class="QLabel" name="keyMoveSpeed">
                   <property name="text">
                    <string>key_move_speed：</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="SliderKeyMoveSpeed">
+                 <widget class="QSlider" name="sliderKeyMoveSpeed">
                   <property name="maximum">
                    <number>1000</number>
                   </property>
@@ -135,14 +135,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="MouseLeftSpeed">
+                 <widget class="QLabel" name="mouseLeftSpeed">
                   <property name="text">
                    <string>mouse_left_speed：</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="SliderMouseRightSpeed">
+                 <widget class="QSlider" name="sliderMouseRightSpeed">
                   <property name="maximum">
                    <number>1000</number>
                   </property>
@@ -158,14 +158,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="MouseRightSpeed">
+                 <widget class="QLabel" name="mouseRightSpeed">
                   <property name="text">
                    <string>mouse_right_speed：</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="SliderMouseLeftSpeed">
+                 <widget class="QSlider" name="sliderMouseLeftSpeed">
                   <property name="maximum">
                    <number>1000</number>
                   </property>
@@ -181,14 +181,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="MouseScrollSpeed">
+                 <widget class="QLabel" name="mouseScrollSpeed">
                   <property name="text">
                    <string>mouse_scroll_speed：</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="SliderMouseScrollSpeed">
+                 <widget class="QSlider" name="sliderMouseScrollSpeed">
                   <property name="maximum">
                    <number>100</number>
                   </property>
@@ -216,6 +216,42 @@
              <property name="title">
               <string>Shade</string>
              </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <item>
+                 <widget class="QLabel" name="shadeWayLabel">
+                  <property name="text">
+                   <string>shade_way：</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="shadeComboBox">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>184</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
@@ -232,7 +268,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
+     <width>956</width>
      <height>23</height>
     </rect>
    </property>
@@ -240,19 +276,19 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionopen"/>
+    <addaction name="actionOpen"/>
    </widget>
    <widget class="QMenu" name="menuCamera">
     <property name="title">
      <string>Camera</string>
     </property>
-    <addaction name="actionZoom_to_scene"/>
+    <addaction name="actionZoomToScene"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuCamera"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionopen">
+  <action name="actionOpen">
    <property name="text">
     <string>Open</string>
    </property>
@@ -278,7 +314,7 @@
     <string>Reset scene</string>
    </property>
   </action>
-  <action name="actionZoom_to_scene">
+  <action name="actionZoomToScene">
    <property name="text">
     <string>Zoom to scene</string>
    </property>

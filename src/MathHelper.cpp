@@ -103,7 +103,7 @@ bool RayCast(const Ray &ray, physx::PxScene* pxScene, physx::PxRaycastBuffer& hi
 {
 	auto origin = GlmVector3ToPxVec3(ray.GetOrigin());
 	auto direction = GlmVector3ToPxVec3(ray.GetDirection());
-	auto maxDistance = 10000.0f;
+	auto maxDistance = 1000000.0f;
 
 	return pxScene->raycast(origin, direction, maxDistance, hitinfo);
 }

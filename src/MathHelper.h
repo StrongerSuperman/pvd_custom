@@ -9,10 +9,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <PxPhysics.h>
-#include "PxPhysicsAPI.h"
-#include <foundation/PxBounds3.h>
-#include <foundation/PxMat44.h> 
+#include "PhysicsEngine.h"
 
 
 class Ray
@@ -49,7 +46,6 @@ public:
 	int triangleMeshNum;
 	int heightFieldNum;
 };
-
 
 
 glm::mat4x4 PxMat44ToGlmMatrix4x4(const physx::PxMat44 &mat);
