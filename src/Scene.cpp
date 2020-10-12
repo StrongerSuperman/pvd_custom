@@ -100,40 +100,21 @@ void Scene::Render()
 }
 
 
-void Scene::SetShadeWay(ShadeWay shadeWay)
+void Scene::SetShadeType(ShadeType shadeType)
 {
-	FilterDataMap filterDataList;
-	for each(auto &object in m_SceneObjects)
-	{
-		switch (shadeWay)
-		{
-		case SimulateGroup:
-		{
-			filterDataList[object.id] = object.physicsData.simulationFilterData;
-		}
-		break;
-		case SimulateColor:
-		{
-			filterDataList[object.id] = object.physicsData.simulationFilterData;
-		}
-		break;
-		case QueryGroup:
-		{
-			filterDataList[object.id] = object.physicsData.queryFilterData;
-		}
-		break;
-		case QueryColor:
-		{
-			filterDataList[object.id] = object.physicsData.queryFilterData;
-		}
-		break;
-		}
-	}
-	auto colorMap = GetPhysics()->CalcFilterDataColorMap(filterDataList, shadeWay);
-	for each(auto &object in m_SceneObjects)
-	{
-		object.renderData.renderData.color = colorMap[object.id];
-	}
+	m_ShadeType = shadeType;
+	shadeObjectByShadeType();
+}
+
+void Scene::SetFilterType(FilterType filterType)
+{
+	m_FilterType = filterType;
+}
+
+void Scene::ShadeObjectByLogicOp(std::vector<int>& words, LogicOpType logicOpType)
+{
+	assert(words.size() == 4);
+	shadeObjectByLogicOpType(words, logicOpType);
 }
 
 
@@ -171,6 +152,55 @@ physx::PxShape* Scene::OnCameraRayCast()
 	//genRenderObjectRay(m_Camera->GetMouseClickRay());
 
 	return hitinfo.block.shape;
+}
+
+
+void Scene::shadeObjectByShadeType()
+{
+	FilterDataMap filterDataList;
+	for each(auto &object in m_SceneObjects)
+	{
+		if (m_ShadeType == SimulationGroup or m_ShadeType == SimulationColor)
+		{
+			filterDataList[object.id] = object.physicsData.simulationFilterData;
+		}
+		else if (m_ShadeType == QueryGroup or m_ShadeType == QueryColor)
+		{
+			filterDataList[object.id] = object.physicsData.queryFilterData;
+		}
+	}
+	auto colorMap = GetPhysics()->CalcShadeTypeColorMap(filterDataList, m_ShadeType);
+	for each(auto &object in m_SceneObjects)
+	{
+		if (colorMap.find(object.id) != colorMap.end())
+		{
+			object.renderData.renderData.color = colorMap[object.id];
+		}
+	}
+}
+
+void Scene::shadeObjectByLogicOpType(std::vector<int>& words, LogicOpType logicOpType)
+{
+	FilterDataMap filterDataList;
+	for each(auto &object in m_SceneObjects)
+	{
+		if (m_FilterType == Simulation)
+		{
+			filterDataList[object.id] = object.physicsData.simulationFilterData;
+		}
+		else if (m_FilterType == Query)
+		{
+			filterDataList[object.id] = object.physicsData.queryFilterData;
+		}
+	}
+	auto colorMap = GetPhysics()->CalcLoicOpTypeColorMap(filterDataList, words, logicOpType);
+	for each(auto &object in m_SceneObjects)
+	{
+		if (colorMap.find(object.id) != colorMap.end())
+		{
+			object.renderData.renderData.color = colorMap[object.id];
+		}
+	}
 }
 
 

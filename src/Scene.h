@@ -35,7 +35,10 @@ public:
 	physx::PxBounds3 GetAABB() const;
 	void Render();
 
-	void SetShadeWay(ShadeWay shadeWay);
+	void SetShadeType(ShadeType shadeType);
+	void SetFilterType(FilterType filterType);
+	void ShadeObjectByLogicOp(std::vector<int>& words, LogicOpType logicOpType);
+
 	void SetPickedShapeIds(std::vector<int>& ids);
 	void SetPickedShapes(ShapesList& shapes);
 
@@ -59,7 +62,12 @@ private:
 	ActorList                    m_Actors;
 	ShapesMap                    m_ShapeMap;
 
-	void setShadeObject(bool isSimulateShade);
+	ShadeType                    m_ShadeType;
+	FilterType                   m_FilterType;
+
+	void shadeObjectByShadeType();
+	void shadeObjectByLogicOpType(std::vector<int>& words, LogicOpType logicOpType);
+
 	void genRenderObjectRay(const Ray& ray);
 	void pintMeshCounter();
 };

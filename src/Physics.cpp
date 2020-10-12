@@ -9,7 +9,7 @@ Physics::~Physics()
 }
 
 
-ColorMap Physics::CalcFilterDataColorMap(FilterDataMap& filterDataMap, ShadeWay shadeWay)
+ColorMap Physics::CalcShadeTypeColorMap(FilterDataMap& filterDataMap, ShadeType shadeType)
 {
 	std::set<int> word0Set;
 	std::set<int> word1Set;
@@ -25,14 +25,14 @@ ColorMap Physics::CalcFilterDataColorMap(FilterDataMap& filterDataMap, ShadeWay 
 	}
 
 	WordColorMap wordColorMap;
-	switch (shadeWay)
+	switch (shadeType)
 	{
-	case SimulateGroup:
+	case SimulationGroup:
 	{
 		wordColorMap = CalcWordColorMap(word0Set, word1Set);
 	}
 	break;
-	case SimulateColor:
+	case SimulationColor:
 	{
 		wordColorMap = CalcWordColorMap(word2Set, word3Set);
 	}
@@ -60,15 +60,15 @@ ColorMap Physics::CalcFilterDataColorMap(FilterDataMap& filterDataMap, ShadeWay 
 		auto word3 = filterData.word3;
 
 		glm::vec3 color;
-		switch (shadeWay)
+		switch (shadeType)
 		{
-		case SimulateGroup:
+		case SimulationGroup:
 		{
 			std::pair<int, int> wordPair(word0, word1);
 			color = wordColorMap[wordPair];
 		}
 		break;
-		case SimulateColor:
+		case SimulationColor:
 		{
 			std::pair<int, int> wordPair(word2, word3);
 			color = wordColorMap[wordPair];
@@ -91,23 +91,6 @@ ColorMap Physics::CalcFilterDataColorMap(FilterDataMap& filterDataMap, ShadeWay 
 		ret[id] = color;
 	}
 
-	/*ColorMap ret;
-	for (auto iter = filterDataMap.begin(); iter != filterDataMap.end(); iter++)
-	{
-		auto id = iter->first;
-		auto filterData = iter->second;
-		auto word0 = filterData.word0;
-		auto word1 = filterData.word1;
-		auto word2 = filterData.word2;
-		auto word3 = filterData.word3;
-
-		glm::vec3 color(0.6f, 0, 0);
-		color += glm::vec3(word0 % 255 / 255.0f, 0, 0);
-		color += glm::vec3(0, word1 % 255 / 255.0f, 0);
-		color += glm::vec3(0, 0, word2 % 255 / 255.0f);
-
-		ret[id] = color;
-	}*/
 	return ret;
 }
 
@@ -157,6 +140,79 @@ WordColorMap Physics::CalcWordColorMap(std::set<int>& word0Set, std::set<int>& w
 		}
 	}
 	return wordColorMap;
+}
+
+
+ColorMap Physics::CalcLoicOpTypeColorMap(FilterDataMap& filterDataMap, std::vector<int>& words, LogicOpType logicOpType)
+{
+	glm::vec3 orPassColorWord = glm::vec3(0.7, 0.7, 0);
+	glm::vec3 andPassColorWord = glm::vec3(0, 0.7, 0.7);
+
+	ColorMap ret;
+	for (auto iter = filterDataMap.begin(); iter != filterDataMap.end(); iter++)
+	{
+		auto id = iter->first;
+		auto filterData = iter->second;
+		auto srcWord0 = filterData.word0;
+		auto srcWord1 = filterData.word1;
+		auto srcWord2 = filterData.word2;
+		auto srcWord3 = filterData.word3;
+		auto distWord0 = words[0];
+		auto distWord1 = words[1];
+		auto distWord2 = words[2];
+		auto distWord3 = words[3];
+
+		if (logicOpType == Or)
+		{
+			auto orPass = false;
+			if (distWord0 != -1)
+			{
+				orPass = srcWord0 | distWord0;
+			}
+			if (orPass and distWord1 != -1)
+			{
+				orPass = srcWord1 | distWord1;
+			}
+			if (orPass and distWord2 != -1)
+			{
+				orPass = srcWord2 | distWord2;
+			}
+			if (orPass and distWord3 != -1)
+			{
+				orPass = srcWord3 | distWord3;
+			}
+			if (orPass)
+			{
+				ret[id] = orPassColorWord;
+			}
+			
+		}
+		else if (logicOpType == And)
+		{
+			auto andPass = false;
+			if (distWord0 != -1)
+			{
+				andPass = srcWord0 & distWord0;
+			}
+			if (andPass and distWord2 != -1)
+			{
+				andPass = srcWord1 & distWord1;
+			}
+			if (andPass and distWord2 != -1)
+			{
+				andPass = srcWord2 & distWord2;
+			}
+			if (andPass and distWord3 != -1)
+			{
+				andPass = srcWord3 & distWord3;
+			}
+			if (andPass)
+			{
+				ret[id] = andPassColorWord;
+			}
+		}
+	}
+	return ret;
 }
 
 

@@ -150,7 +150,6 @@ QVariant AttrTreeModel::headerData(int section, Qt::Orientation orientation, int
 }
 
 
-
 void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem *parent)
 {
 	if (dataType == QString("PxScene"))
@@ -226,7 +225,7 @@ void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem
 			auto name0 = QString("SimulationFilterData");
 			QString value0;
 			auto data = shape->getSimulationFilterData();
-			value0.sprintf("[%d, %d, %d, %d]", data.word0, data.word1, data.word2, data.word3);
+			value0.sprintf("[0x%08X, 0x%08X, 0x%08X, 0x%08X]", data.word0, data.word1, data.word2, data.word3);
 			createChildNode(parent, name0, value0);
 		}
 
@@ -235,7 +234,7 @@ void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem
 			auto name1 = QString("QueryFilterData");
 			QString value1;
 			auto data = shape->getQueryFilterData();
-			value1.sprintf("[%d, %d, %d, %d]", data.word0, data.word1, data.word2, data.word3);
+			value1.sprintf("[0x%08X, 0x%08X, 0x%08X, 0x%08X]", data.word0, data.word1, data.word2, data.word3);
 			createChildNode(parent, name1, value1);
 		}
 	}

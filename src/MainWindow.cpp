@@ -20,12 +20,14 @@ MainWindow::~MainWindow()
 }
 
 
+
 void MainWindow::OnInitialize()
 {
 	connectObject();
 
 	show();
 }
+
 
 void MainWindow::OnOpenFileFolder()
 {
@@ -48,7 +50,10 @@ void MainWindow::OnOpenFileFolder()
 	const auto fileList = { fileName.toStdString() };
 	m_Scene->Load(fileList);
 	GetGlWidget()->SetScene(m_Scene);
-	OnComboBoxIndexChanged(GetComboBoxShade()->currentText());
+
+	// init scene shade config
+	OnShadeComboBoxIndexChanged(GetComboBoxShade()->currentText());
+	OnFilterComboBoxIndexChanged(GetComboBoxFilter()->currentText());
 
 	m_SceneTreeModel = new SceneTreeModel(GetGlWidget()->GetActiveScene());
 	GetSceneTreeView()->setModel(m_SceneTreeModel);
@@ -66,6 +71,7 @@ void MainWindow::OnZoomToScene()
 	auto sceneBox = scene->GetAABB();
 	scene->GetCamera()->ZoomToBox(sceneBox);
 }
+
 
 void MainWindow::OnShapePicked(physx::PxShape* shape)
 {
@@ -88,6 +94,7 @@ void MainWindow::OnSceneTreeViewClick(const QModelIndex& index)
 	showItemAttr(ptr, typeName);
 	showSelectedShape(ptr, typeName);
 }
+
 
 void MainWindow::OnSliderKeyMoveSlide(int value)
 {
@@ -129,30 +136,99 @@ void MainWindow::OnSliderMouseScrollSlide(int value)
 	scene->GetCamera()->SetMouseScrollSpeed(static_cast<float>(value));
 }
 
-void MainWindow::OnComboBoxIndexChanged(const QString &text)
+
+void MainWindow::OnShadeComboBoxIndexChanged(const QString &text)
 {
 	auto scene = GetGlWidget()->GetActiveScene();
 	if (!scene)
 	{
 		return;
 	}
-	if (text == "simulate_group")
+	if (text == "simulation_group")
 	{
-		scene->SetShadeWay(SimulateGroup);
+		scene->SetShadeType(SimulationGroup);
 	}
-	else if(text == "simulate_color")
+	else if(text == "simulation_color")
 	{
-		scene->SetShadeWay(SimulateColor);
+		scene->SetShadeType(SimulationColor);
 	}
 	else if (text == "query_group")
 	{
-		scene->SetShadeWay(QueryGroup);
+		scene->SetShadeType(QueryGroup);
 	}
 	else if (text == "query_color")
 	{
-		scene->SetShadeWay(QueryColor);
+		scene->SetShadeType(QueryColor);
 	}
 }
+
+void MainWindow::OnFilterComboBoxIndexChanged(const QString &text)
+{
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	if (text == "simulation_filter")
+	{
+		scene->SetFilterType(Simulation);
+	}
+	else if (text == "query_filter")
+	{
+		scene->SetFilterType(Query);
+	}
+}
+
+
+
+void MainWindow::OnLogicOrWord0PushButtonClick()
+{
+	QVector<QString> words = { GetLineEditWord0()->text(), "", "",  "" };
+	logicOpWords(words, Or);
+}
+
+void MainWindow::OnLogicAndWord0PushButtonClick()
+{
+	QVector<QString> words = { GetLineEditWord0()->text(), "", "", "" };
+	logicOpWords(words, And);
+}
+
+void MainWindow::OnLogicOrWord1PushButtonClick()
+{
+	QVector<QString> words = { "", GetLineEditWord1()->text(), "", "" };
+	logicOpWords(words, Or);
+}
+
+void MainWindow::OnLogicAndWord1PushButtonClick()
+{
+	QVector<QString> words = { "", GetLineEditWord1()->text(), "", "" };
+	logicOpWords(words, And);
+}
+
+void MainWindow::OnLogicOrWord2PushButtonClick()
+{
+	QVector<QString> words = { "", "", GetLineEditWord2()->text(), "" };
+	logicOpWords(words, Or);
+}
+
+void MainWindow::OnLogicAndWord2PushButtonClick()
+{
+	QVector<QString> words = { "", "", GetLineEditWord2()->text(), "" };
+	logicOpWords(words, And);
+}
+
+void MainWindow::OnLogicOrWord3PushButtonClick()
+{
+	QVector<QString> words = { "", "", "", GetLineEditWord3()->text() };
+	logicOpWords(words, Or);
+}
+
+void MainWindow::OnLogicAndWord3PushButtonClick()
+{
+	QVector<QString> words = { "", "", "", GetLineEditWord3()->text() };
+	logicOpWords(words, And);
+}
+
 
 
 void MainWindow::initialize()
@@ -161,16 +237,21 @@ void MainWindow::initialize()
 	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, QSize(1000, 610), qApp->desktop()->availableGeometry()));
 
 	// shade comboBox
-	GetComboBoxShade()->addItem(QWidget::tr("simulate_group"));
-	GetComboBoxShade()->addItem(QWidget::tr("simulate_color"));
+	GetComboBoxShade()->addItem(QWidget::tr("simulation_group"));
+	GetComboBoxShade()->addItem(QWidget::tr("simulation_color"));
 	GetComboBoxShade()->addItem(QWidget::tr("query_group"));
 	GetComboBoxShade()->addItem(QWidget::tr("query_color"));
+
+	// filter comboBox
+	GetComboBoxFilter()->addItem(QWidget::tr("simulation_filter"));
+	GetComboBoxFilter()->addItem(QWidget::tr("query_filter"));
 
 	QTimer::singleShot(2000, this, SLOT(OnInitialize()));
 }
 
 void MainWindow::connectObject()
 {
+	// scene tree
 	QObject::connect(
 		GetSceneTreeView(), SIGNAL(clicked(const QModelIndex)),
 		this, SLOT(OnSceneTreeViewClick(const QModelIndex))
@@ -181,11 +262,13 @@ void MainWindow::connectObject()
 		this, SLOT(OnSceneTreeViewClick(const QModelIndex))
 	);
 
+	// pick up
 	QObject::connect(
 		GetGlWidget(), SIGNAL(ShapePicked(physx::PxShape*)),
 		this, SLOT(OnShapePicked(physx::PxShape*))
 	);
 
+	// menu action
 	QObject::connect(
 		GetActionOpen(), SIGNAL(triggered()),
 		this, SLOT(OnOpenFileFolder())
@@ -196,6 +279,7 @@ void MainWindow::connectObject()
 		this, SLOT(OnZoomToScene())
 	);
 
+	// camera control
 	QObject::connect(
 		GetSliderKeyMoveSpeed(), SIGNAL(valueChanged(int)),
 		this, SLOT(OnSliderKeyMoveSlide(int))
@@ -216,9 +300,56 @@ void MainWindow::connectObject()
 		this, SLOT(OnSliderMouseScrollSlide(int))
 	);
 
+	// filter shade
 	connect(
 		GetComboBoxShade(), SIGNAL(currentIndexChanged(const QString &)),
-		this, SLOT(OnComboBoxIndexChanged(const QString &))
+		this, SLOT(OnShadeComboBoxIndexChanged(const QString &))
+	);
+
+	connect(
+		GetComboBoxFilter(), SIGNAL(currentIndexChanged(const QString &)),
+		this, SLOT(OnFilterComboBoxIndexChanged(const QString &))
+	);
+
+	// word logic op shade
+	connect(
+		GetPushButtonLogicOrWord0(), SIGNAL(clicked()),
+		this, SLOT(OnLogicOrWord0PushButtonClick())
+	);
+
+	connect(
+		GetPushButtonLogicAndWord0(), SIGNAL(clicked()),
+		this, SLOT(OnLogicAndWord0PushButtonClick())
+	);
+
+	connect(
+		GetPushButtonLogicOrWord1(), SIGNAL(clicked()),
+		this, SLOT(OnLogicOrWord1PushButtonClick())
+	);
+
+	connect(
+		GetPushButtonLogicAndWord1(), SIGNAL(clicked()),
+		this, SLOT(OnLogicAndWord1PushButtonClick())
+	);
+
+	connect(
+		GetPushButtonLogicOrWord2(), SIGNAL(clicked()),
+		this, SLOT(OnLogicOrWord2PushButtonClick())
+	);
+
+	connect(
+		GetPushButtonLogicAndWord2(), SIGNAL(clicked()),
+		this, SLOT(OnLogicAndWord2PushButtonClick())
+	);
+
+	connect(
+		GetPushButtonLogicOrWord3(), SIGNAL(clicked()),
+		this, SLOT(OnLogicOrWord3PushButtonClick())
+	);
+
+	connect(
+		GetPushButtonLogicAndWord3(), SIGNAL(clicked()),
+		this, SLOT(OnLogicAndWord3PushButtonClick())
 	);
 }
 
@@ -286,4 +417,44 @@ void MainWindow::deleteSceneTreeModel()
 		delete m_SceneTreeModel;
 		m_AttrTreeModel = nullptr;
 	}
+}
+
+void MainWindow::logicOpWords(QVector<QString>& wordsStr, LogicOpType logicOpType)
+{
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+	std::vector<int> words;
+	bool* checkStatus = false;
+	for each (auto &wordsStr in wordsStr)
+	{
+		if (!wordsStr.isEmpty())
+		{
+			auto word = -1;
+			if (wordsStr.contains("0x") or wordsStr.contains("0X"))
+			{
+				word = wordsStr.toInt(checkStatus, 16);
+			}
+			else
+			{
+				word = wordsStr.toInt(checkStatus, 10);
+			}
+			if (checkStatus)
+			{
+				words.push_back(word);
+			}
+			else
+			{
+				QMessageBox::warning(this, "wrong", "check input");
+				return;
+			}
+		}
+		else
+		{
+			words.push_back(-1);
+		}
+	}
+	scene->ShadeObjectByLogicOp(words, logicOpType);
 }
