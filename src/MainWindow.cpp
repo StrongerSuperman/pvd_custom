@@ -181,52 +181,52 @@ void MainWindow::OnFilterComboBoxIndexChanged(const QString &text)
 
 
 
-void MainWindow::OnLogicOrWord0PushButtonClick()
+void MainWindow::OnBitOrWord0PushButtonClick()
 {
 	QVector<QString> words = { GetLineEditWord0()->text(), "", "",  "" };
-	logicOpWords(words, Or);
+	bitOpWords(words, Or);
 }
 
-void MainWindow::OnLogicAndWord0PushButtonClick()
+void MainWindow::OnBitAndWord0PushButtonClick()
 {
 	QVector<QString> words = { GetLineEditWord0()->text(), "", "", "" };
-	logicOpWords(words, And);
+	bitOpWords(words, And);
 }
 
-void MainWindow::OnLogicOrWord1PushButtonClick()
+void MainWindow::OnBitOrWord1PushButtonClick()
 {
 	QVector<QString> words = { "", GetLineEditWord1()->text(), "", "" };
-	logicOpWords(words, Or);
+	bitOpWords(words, Or);
 }
 
-void MainWindow::OnLogicAndWord1PushButtonClick()
+void MainWindow::OnBitAndWord1PushButtonClick()
 {
 	QVector<QString> words = { "", GetLineEditWord1()->text(), "", "" };
-	logicOpWords(words, And);
+	bitOpWords(words, And);
 }
 
-void MainWindow::OnLogicOrWord2PushButtonClick()
+void MainWindow::OnBitOrWord2PushButtonClick()
 {
 	QVector<QString> words = { "", "", GetLineEditWord2()->text(), "" };
-	logicOpWords(words, Or);
+	bitOpWords(words, Or);
 }
 
-void MainWindow::OnLogicAndWord2PushButtonClick()
+void MainWindow::OnBitAndWord2PushButtonClick()
 {
 	QVector<QString> words = { "", "", GetLineEditWord2()->text(), "" };
-	logicOpWords(words, And);
+	bitOpWords(words, And);
 }
 
-void MainWindow::OnLogicOrWord3PushButtonClick()
+void MainWindow::OnBitOrWord3PushButtonClick()
 {
 	QVector<QString> words = { "", "", "", GetLineEditWord3()->text() };
-	logicOpWords(words, Or);
+	bitOpWords(words, Or);
 }
 
-void MainWindow::OnLogicAndWord3PushButtonClick()
+void MainWindow::OnBitAndWord3PushButtonClick()
 {
 	QVector<QString> words = { "", "", "", GetLineEditWord3()->text() };
-	logicOpWords(words, And);
+	bitOpWords(words, And);
 }
 
 
@@ -311,45 +311,45 @@ void MainWindow::connectObject()
 		this, SLOT(OnFilterComboBoxIndexChanged(const QString &))
 	);
 
-	// word logic op shade
+	// word bit op shade
 	connect(
-		GetPushButtonLogicOrWord0(), SIGNAL(clicked()),
-		this, SLOT(OnLogicOrWord0PushButtonClick())
+		GetPushButtonBitOrWord0(), SIGNAL(clicked()),
+		this, SLOT(OnBitOrWord0PushButtonClick())
 	);
 
 	connect(
-		GetPushButtonLogicAndWord0(), SIGNAL(clicked()),
-		this, SLOT(OnLogicAndWord0PushButtonClick())
+		GetPushButtonBitAndWord0(), SIGNAL(clicked()),
+		this, SLOT(OnBitAndWord0PushButtonClick())
 	);
 
 	connect(
-		GetPushButtonLogicOrWord1(), SIGNAL(clicked()),
-		this, SLOT(OnLogicOrWord1PushButtonClick())
+		GetPushButtonBitOrWord1(), SIGNAL(clicked()),
+		this, SLOT(OnBitOrWord1PushButtonClick())
 	);
 
 	connect(
-		GetPushButtonLogicAndWord1(), SIGNAL(clicked()),
-		this, SLOT(OnLogicAndWord1PushButtonClick())
+		GetPushButtonBitAndWord1(), SIGNAL(clicked()),
+		this, SLOT(OnBitAndWord1PushButtonClick())
 	);
 
 	connect(
-		GetPushButtonLogicOrWord2(), SIGNAL(clicked()),
-		this, SLOT(OnLogicOrWord2PushButtonClick())
+		GetPushButtonBitOrWord2(), SIGNAL(clicked()),
+		this, SLOT(OnBitOrWord2PushButtonClick())
 	);
 
 	connect(
-		GetPushButtonLogicAndWord2(), SIGNAL(clicked()),
-		this, SLOT(OnLogicAndWord2PushButtonClick())
+		GetPushButtonBitAndWord2(), SIGNAL(clicked()),
+		this, SLOT(OnBitAndWord2PushButtonClick())
 	);
 
 	connect(
-		GetPushButtonLogicOrWord3(), SIGNAL(clicked()),
-		this, SLOT(OnLogicOrWord3PushButtonClick())
+		GetPushButtonBitOrWord3(), SIGNAL(clicked()),
+		this, SLOT(OnBitOrWord3PushButtonClick())
 	);
 
 	connect(
-		GetPushButtonLogicAndWord3(), SIGNAL(clicked()),
-		this, SLOT(OnLogicAndWord3PushButtonClick())
+		GetPushButtonBitAndWord3(), SIGNAL(clicked()),
+		this, SLOT(OnBitAndWord3PushButtonClick())
 	);
 }
 
@@ -419,7 +419,7 @@ void MainWindow::deleteSceneTreeModel()
 	}
 }
 
-void MainWindow::logicOpWords(QVector<QString>& wordsStr, LogicOpType logicOpType)
+void MainWindow::bitOpWords(QVector<QString>& wordsStr, BitOpType logicOpType)
 {
 	auto scene = GetGlWidget()->GetActiveScene();
 	if (!scene)
@@ -427,7 +427,7 @@ void MainWindow::logicOpWords(QVector<QString>& wordsStr, LogicOpType logicOpTyp
 		return;
 	}
 	std::vector<int> words;
-	bool* checkStatus = false;
+	bool checkStatus;
 	for each (auto &wordsStr in wordsStr)
 	{
 		if (!wordsStr.isEmpty())
@@ -435,11 +435,12 @@ void MainWindow::logicOpWords(QVector<QString>& wordsStr, LogicOpType logicOpTyp
 			auto word = -1;
 			if (wordsStr.contains("0x") or wordsStr.contains("0X"))
 			{
-				word = wordsStr.toInt(checkStatus, 16);
+				auto hexStr = wordsStr.right(wordsStr.length() - 2);
+				word = hexStr.toInt(&checkStatus, 16);
 			}
 			else
 			{
-				word = wordsStr.toInt(checkStatus, 10);
+				word = wordsStr.toInt(&checkStatus, 10);
 			}
 			if (checkStatus)
 			{
@@ -447,7 +448,7 @@ void MainWindow::logicOpWords(QVector<QString>& wordsStr, LogicOpType logicOpTyp
 			}
 			else
 			{
-				QMessageBox::warning(this, "wrong", "check input");
+				QMessageBox::warning(this, "Warning!", "wrong input");
 				return;
 			}
 		}
@@ -456,5 +457,5 @@ void MainWindow::logicOpWords(QVector<QString>& wordsStr, LogicOpType logicOpTyp
 			words.push_back(-1);
 		}
 	}
-	scene->ShadeObjectByLogicOp(words, logicOpType);
+	scene->ShadeObjectByBitOp(words, logicOpType);
 }

@@ -45,14 +45,14 @@ public:
 	inline QLineEdit*   GetLineEditWord2()          const { return m_Ui->word2LineEdit; }
 	inline QLineEdit*   GetLineEditWord3()          const { return m_Ui->word3LineEdit; }
 
-	inline QPushButton* GetPushButtonLogicOrWord0()      const { return m_Ui->logicOrWord0PushButton; }
-	inline QPushButton* GetPushButtonLogicAndWord0()     const { return m_Ui->logicAndWord0PushButton; }
-	inline QPushButton* GetPushButtonLogicOrWord1()      const { return m_Ui->logicOrWord1PushButton; }
-	inline QPushButton* GetPushButtonLogicAndWord1()     const { return m_Ui->logicAndWord1PushButton; }
-	inline QPushButton* GetPushButtonLogicOrWord2()      const { return m_Ui->logicOrWord2PushButton; }
-	inline QPushButton* GetPushButtonLogicAndWord2()     const { return m_Ui->logicAndWord2PushButton; }
-	inline QPushButton* GetPushButtonLogicOrWord3()      const { return m_Ui->logicOrWord3PushButton; }
-	inline QPushButton* GetPushButtonLogicAndWord3()     const { return m_Ui->logicAndWord3PushButton; }
+	inline QPushButton* GetPushButtonBitOrWord0()      const { return m_Ui->bitOrWord0PushButton; }
+	inline QPushButton* GetPushButtonBitAndWord0()     const { return m_Ui->bitAndWord0PushButton; }
+	inline QPushButton* GetPushButtonBitOrWord1()      const { return m_Ui->bitOrWord1PushButton; }
+	inline QPushButton* GetPushButtonBitAndWord1()     const { return m_Ui->bitAndWord1PushButton; }
+	inline QPushButton* GetPushButtonBitOrWord2()      const { return m_Ui->bitOrWord2PushButton; }
+	inline QPushButton* GetPushButtonBitAndWord2()     const { return m_Ui->bitAndWord2PushButton; }
+	inline QPushButton* GetPushButtonBitOrWord3()      const { return m_Ui->bitOrWord3PushButton; }
+	inline QPushButton* GetPushButtonBitAndWord3()     const { return m_Ui->bitAndWord3PushButton; }
 
 	inline GlWidget*    GetGlWidget()               const { return m_Ui->glWidget;      }
 	inline QTreeView*   GetSceneTreeView()          const { return m_Ui->sceneTreeView; }
@@ -75,14 +75,14 @@ private slots:
 	void OnShadeComboBoxIndexChanged(const QString &text);
 	void OnFilterComboBoxIndexChanged(const QString &text);
 
-	void OnLogicOrWord0PushButtonClick();
-	void OnLogicAndWord0PushButtonClick();
-	void OnLogicOrWord1PushButtonClick();
-	void OnLogicAndWord1PushButtonClick();
-	void OnLogicOrWord2PushButtonClick();
-	void OnLogicAndWord2PushButtonClick();
-	void OnLogicOrWord3PushButtonClick();
-	void OnLogicAndWord3PushButtonClick();
+	void OnBitOrWord0PushButtonClick();
+	void OnBitAndWord0PushButtonClick();
+	void OnBitOrWord1PushButtonClick();
+	void OnBitAndWord1PushButtonClick();
+	void OnBitOrWord2PushButtonClick();
+	void OnBitAndWord2PushButtonClick();
+	void OnBitOrWord3PushButtonClick();
+	void OnBitAndWord3PushButtonClick();
 
 private:
 	Ui::MainWindow*  m_Ui;
@@ -96,5 +96,5 @@ private:
 	void showSelectedShape(void* ptr, const QString& typeName);
 	void deleteAttrTreeModel();
 	void deleteSceneTreeModel();
-	void MainWindow::logicOpWords(QVector<QString>& words, LogicOpType logicOpType);
+	void MainWindow::bitOpWords(QVector<QString>& words, BitOpType logicOpType);
 };

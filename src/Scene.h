@@ -37,7 +37,7 @@ public:
 
 	void SetShadeType(ShadeType shadeType);
 	void SetFilterType(FilterType filterType);
-	void ShadeObjectByLogicOp(std::vector<int>& words, LogicOpType logicOpType);
+	void ShadeObjectByBitOp(std::vector<int>& words, BitOpType logicOpType);
 
 	void SetPickedShapeIds(std::vector<int>& ids);
 	void SetPickedShapes(ShapesList& shapes);
@@ -66,7 +66,7 @@ private:
 	FilterType                   m_FilterType;
 
 	void shadeObjectByShadeType();
-	void shadeObjectByLogicOpType(std::vector<int>& words, LogicOpType logicOpType);
+	void shadeObjectByBitOpType(std::vector<int>& words, BitOpType logicOpType);
 
 	void genRenderObjectRay(const Ray& ray);
 	void pintMeshCounter();

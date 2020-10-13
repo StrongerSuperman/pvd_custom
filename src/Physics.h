@@ -27,7 +27,7 @@ enum FilterType
 	Query,
 };
 
-enum LogicOpType
+enum BitOpType
 {
 	Or,
 	And,
@@ -42,7 +42,7 @@ public:
 	ColorMap CalcShadeTypeColorMap(FilterDataMap& filterDataMap, ShadeType shadeType);
 	WordColorMap CalcWordColorMap(std::set<int>& word0Set, std::set<int>& word1Set);
 
-	ColorMap CalcLoicOpTypeColorMap(FilterDataMap& filterDataMap, std::vector<int>& words, LogicOpType logicOpType);
+	ColorMap CalcBitOpTypeColorMap(FilterDataMap& filterDataMap, std::vector<int>& words, BitOpType logicOpType);
 
 	physx::PxFilterFlags SimulateShader(const physx::PxFilterData& filter0, const physx::PxFilterData& filter1);
 };

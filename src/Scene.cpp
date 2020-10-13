@@ -111,10 +111,10 @@ void Scene::SetFilterType(FilterType filterType)
 	m_FilterType = filterType;
 }
 
-void Scene::ShadeObjectByLogicOp(std::vector<int>& words, LogicOpType logicOpType)
+void Scene::ShadeObjectByBitOp(std::vector<int>& words, BitOpType logicOpType)
 {
 	assert(words.size() == 4);
-	shadeObjectByLogicOpType(words, logicOpType);
+	shadeObjectByBitOpType(words, logicOpType);
 }
 
 
@@ -179,7 +179,7 @@ void Scene::shadeObjectByShadeType()
 	}
 }
 
-void Scene::shadeObjectByLogicOpType(std::vector<int>& words, LogicOpType logicOpType)
+void Scene::shadeObjectByBitOpType(std::vector<int>& words, BitOpType logicOpType)
 {
 	FilterDataMap filterDataList;
 	for each(auto &object in m_SceneObjects)
@@ -193,7 +193,7 @@ void Scene::shadeObjectByLogicOpType(std::vector<int>& words, LogicOpType logicO
 			filterDataList[object.id] = object.physicsData.queryFilterData;
 		}
 	}
-	auto colorMap = GetPhysics()->CalcLoicOpTypeColorMap(filterDataList, words, logicOpType);
+	auto colorMap = GetPhysics()->CalcBitOpTypeColorMap(filterDataList, words, logicOpType);
 	for each(auto &object in m_SceneObjects)
 	{
 		if (colorMap.find(object.id) != colorMap.end())

@@ -143,7 +143,7 @@ WordColorMap Physics::CalcWordColorMap(std::set<int>& word0Set, std::set<int>& w
 }
 
 
-ColorMap Physics::CalcLoicOpTypeColorMap(FilterDataMap& filterDataMap, std::vector<int>& words, LogicOpType logicOpType)
+ColorMap Physics::CalcBitOpTypeColorMap(FilterDataMap& filterDataMap, std::vector<int>& words, BitOpType logicOpType)
 {
 	glm::vec3 orPassColorWord = glm::vec3(0.7, 0.7, 0);
 	glm::vec3 andPassColorWord = glm::vec3(0, 0.7, 0.7);
