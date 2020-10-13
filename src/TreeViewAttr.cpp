@@ -1,157 +1,48 @@
 #include "TreeViewAttr.h"
 
 
-AttrTreeItem::AttrTreeItem(const QVector<QVariant> &data, AttrTreeItem *parent)
-	: m_itemData(data), m_parentItem(parent)
+TreeItemAttr::TreeItemAttr(const QVector<QVariant> &data, TreeItemAttr *parent)
+	: TreeItem(data, parent)
 {
 }
 
-AttrTreeItem::~AttrTreeItem()
+TreeItemAttr::~TreeItemAttr()
 {
-	qDeleteAll(m_childItems);
-}
-
-void AttrTreeItem::appendChild(AttrTreeItem *item)
-{
-	m_childItems.append(item);
-}
-
-AttrTreeItem *AttrTreeItem::child(int row)
-{
-	if (row < 0 || row >= m_childItems.size())
-		return nullptr;
-	return m_childItems.at(row);
-}
-
-int AttrTreeItem::childCount() const
-{
-	return m_childItems.count();
-}
-
-int AttrTreeItem::row() const
-{
-	if (m_parentItem)
-		return m_parentItem->m_childItems.indexOf(const_cast<AttrTreeItem*>(this));
-
-	return 0;
-}
-
-int AttrTreeItem::columnCount() const
-{
-	return m_itemData.count();
-}
-
-QVariant AttrTreeItem::data(int column) const
-{
-	if (column < 0 || column >= m_itemData.size())
-		return QVariant();
-	return m_itemData.at(column);
-}
-
-AttrTreeItem *AttrTreeItem::parentItem()
-{
-	return m_parentItem;
 }
 
 
 
-AttrTreeModel::AttrTreeModel(void* dataPtr, QString dataType, QObject *parent)
-	: QAbstractItemModel(parent)
+TreeModelAttr::TreeModelAttr(QObject *parent)
+	: TreeModel(parent)
 {
-	m_RootItem = new AttrTreeItem({ tr("Name"), tr("Value") }, nullptr);
-	setupModelData(dataPtr, dataType, m_RootItem);
 }
 
-AttrTreeModel::~AttrTreeModel()
+TreeModelAttr::~TreeModelAttr()
 {
 	delete m_RootItem;
 }
 
-QModelIndex AttrTreeModel::index(int row, int column, const QModelIndex &parent) const
+void TreeModelAttr::Setup(void* dataPtr, QString dataType)
 {
-	if (!hasIndex(row, column, parent))
-		return QModelIndex();
-
-	AttrTreeItem *parentItem;
-
-	if (!parent.isValid())
-		parentItem = m_RootItem;
-	else
-		parentItem = static_cast<AttrTreeItem*>(parent.internalPointer());
-
-	AttrTreeItem *childItem = parentItem->child(row);
-	if (childItem)
-		return createIndex(row, column, childItem);
-	return QModelIndex();
+	m_RootItem = new TreeItemAttr({ tr("Name"), tr("Value") }, nullptr);
+	setupModelData(dataPtr, dataType);
 }
 
-QModelIndex AttrTreeModel::parent(const QModelIndex &index) const
+TreeItemAttr* TreeModelAttr::GetRootItem() const
 {
-	if (!index.isValid())
-		return QModelIndex();
-
-	AttrTreeItem *childItem = static_cast<AttrTreeItem*>(index.internalPointer());
-	AttrTreeItem *parentItem = childItem->parentItem();
-
-	if (parentItem == m_RootItem)
-		return QModelIndex();
-
-	return createIndex(parentItem->row(), 0, parentItem);
+	return m_RootItem;
 }
 
-int AttrTreeModel::rowCount(const QModelIndex &parent) const
+TreeItemAttr* TreeModelAttr::GetItem(const QModelIndex &index)
 {
-	AttrTreeItem *parentItem;
-	if (parent.column() > 0)
-		return 0;
-
-	if (!parent.isValid())
-		parentItem = m_RootItem;
-	else
-		parentItem = static_cast<AttrTreeItem*>(parent.internalPointer());
-
-	return parentItem->childCount();
-}
-
-int AttrTreeModel::columnCount(const QModelIndex &parent) const
-{
-	if (parent.isValid())
-		return static_cast<AttrTreeItem*>(parent.internalPointer())->columnCount();
-	return m_RootItem->columnCount();
-}
-
-QVariant AttrTreeModel::data(const QModelIndex &index, int role) const
-{
-	if (!index.isValid())
-		return QVariant();
-
-	if (role != Qt::DisplayRole)
-		return QVariant();
-
-	AttrTreeItem *item = static_cast<AttrTreeItem*>(index.internalPointer());
-
-	return item->data(index.column());
-}
-
-Qt::ItemFlags AttrTreeModel::flags(const QModelIndex &index) const
-{
-	if (!index.isValid())
-		return Qt::NoItemFlags;
-
-	return QAbstractItemModel::flags(index);
-}
-
-QVariant AttrTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-	if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-		return m_RootItem->data(section);
-
-	return QVariant();
+	return static_cast<TreeItemAttr*>(index.internalPointer());
 }
 
 
-void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem *parent)
+void TreeModelAttr::setupModelData(void* dataPtr, QString dataType)
 {
+	auto parent = m_RootItem;
+
 	if (dataType == QString("PxScene"))
 	{
 		auto scene = reinterpret_cast<physx::PxScene*>(dataPtr);
@@ -240,7 +131,7 @@ void AttrTreeModel::setupModelData(void* dataPtr, QString dataType, AttrTreeItem
 	}
 }
 
-AttrTreeItem* AttrTreeModel::createChildNode(AttrTreeItem *parent, QString& name, QString& value)
+TreeItemAttr* TreeModelAttr::createChildNode(TreeItemAttr *parent, QString& name, QString& value)
 {
 	QString nameTitle(name);
 	auto nameBa = nameTitle.toLatin1();
@@ -250,12 +141,7 @@ AttrTreeItem* AttrTreeModel::createChildNode(AttrTreeItem *parent, QString& name
 	auto valueBa = valueTitle.toLatin1();
 	auto valueChar = valueBa.data();
 
-	auto item = new AttrTreeItem({ tr(nameChar), tr(valueChar) }, parent);
+	auto item = new TreeItemAttr({ tr(nameChar), tr(valueChar) }, parent);
 	parent->appendChild(item);
 	return item;
-}
-
-AttrTreeItem* AttrTreeModel::getAttrTreeItem(const QModelIndex &index)
-{
-	return static_cast<AttrTreeItem*>(index.internalPointer());
 }

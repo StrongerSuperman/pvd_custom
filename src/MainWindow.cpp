@@ -55,7 +55,8 @@ void MainWindow::OnOpenFileFolder()
 	OnShadeComboBoxIndexChanged(GetComboBoxShade()->currentText());
 	OnFilterComboBoxIndexChanged(GetComboBoxFilter()->currentText());
 
-	m_SceneTreeModel = new SceneTreeModel(GetGlWidget()->GetActiveScene());
+	m_SceneTreeModel = new TreeModelScene();
+	m_SceneTreeModel->Setup(GetGlWidget()->GetActiveScene());
 	GetSceneTreeView()->setModel(m_SceneTreeModel);
 	GetSceneTreeView()->setExpandsOnDoubleClick(true);
 	GetAttrTreeView()->setExpandsOnDoubleClick(true);
@@ -80,17 +81,17 @@ void MainWindow::OnShapePicked(physx::PxShape* shape)
 		return;
 	}
 
-	auto modelIndex = m_SceneTreeModel->findShapeIndex(shape);
+	auto modelIndex = m_SceneTreeModel->FindShapeIndex(shape);
 	GetSceneTreeView()->setCurrentIndex(modelIndex);
 	OnSceneTreeViewClick(modelIndex);
 }
 
 void MainWindow::OnSceneTreeViewClick(const QModelIndex& index)
 {
-	auto sceneTreeModel = reinterpret_cast<SceneTreeModel*>(GetSceneTreeView()->model());
-	auto treeItem = sceneTreeModel->getItem(index);
-	auto ptr = treeItem->getPxPtr();
-	auto typeName = treeItem->getPxTypeName();
+	auto model = dynamic_cast<TreeModelScene*>(GetSceneTreeView()->model());
+	auto item = model->GetItem(index);
+	auto ptr = item->getPxPtr();
+	auto typeName = item->getPxTypeName();
 	showItemAttr(ptr, typeName);
 	showSelectedShape(ptr, typeName);
 }
@@ -362,7 +363,8 @@ void MainWindow::showItemAttr(void* ptr, const QString& typeName)
 	}
 
 	deleteAttrTreeModel();
-	m_AttrTreeModel = new AttrTreeModel(ptr, typeName);
+	m_AttrTreeModel = new TreeModelAttr();
+	m_AttrTreeModel->Setup(ptr, typeName);
 	GetAttrTreeView()->setModel(m_AttrTreeModel);
 	GetAttrTreeView()->expandAll();
 }

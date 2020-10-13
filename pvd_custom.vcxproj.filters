@@ -65,23 +65,23 @@
     <Filter Include="Header Files\Engine\Helper">
       <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Application">
+    <Filter Include="Header Files\Script">
       <UniqueIdentifier>{cb30a3b1-42e6-4116-9cc0-6540d51272d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Application\UI">
-      <UniqueIdentifier>{5316db33-3adc-419e-82af-7d8a26886e29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Application">
+    <Filter Include="Source Files\Script">
       <UniqueIdentifier>{125a92d1-c703-4d72-85d2-649b95ed5d24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Application\UI">
+    <Filter Include="Source Files\Engine\UI">
       <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Application\Core">
-      <UniqueIdentifier>{4cf29c65-8f10-4194-83a5-5201cafb7c4f}</UniqueIdentifier>
+    <Filter Include="Header Files\Engine\UI">
+      <UniqueIdentifier>{5316db33-3adc-419e-82af-7d8a26886e29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Application\Core">
-      <UniqueIdentifier>{132dc1e8-1bed-46e9-9cb8-a21616af8af5}</UniqueIdentifier>
+    <Filter Include="Header Files\Script\UI">
+      <UniqueIdentifier>{a3a63090-7d66-443a-8aa7-0515d237d2be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script\UI">
+      <UniqueIdentifier>{0b0fb183-76ad-46d0-8fb0-001ed1311251}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -97,20 +97,8 @@
     <ClCompile Include="src\CameraFTPS.cpp">
       <Filter>Source Files\Engine\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\GlWidget.cpp">
-      <Filter>Source Files\Application\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MainWindow.cpp">
-      <Filter>Source Files\Application\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TreeViewAttr.cpp">
-      <Filter>Source Files\Application\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TreeViewScene.cpp">
-      <Filter>Source Files\Application\UI</Filter>
-    </ClCompile>
     <ClCompile Include="src\App.cpp">
-      <Filter>Source Files\Application</Filter>
+      <Filter>Source Files\Script</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderEngine.cpp">
       <Filter>Source Files\Engine\Render</Filter>
@@ -139,23 +127,41 @@
     <ClCompile Include="src\RenderHelper.cpp">
       <Filter>Source Files\Engine\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
-      <Filter>Source Files\Application\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>Source Files\Application\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene.cpp">
-      <Filter>Source Files\Application\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics.cpp">
-      <Filter>Source Files\Application\Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\CameraControl.cpp">
       <Filter>Source Files\Engine\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="src\PhysicsObject.cpp">
+      <Filter>Source Files\Engine\Physics</Filter>
+    </ClCompile>
     <ClCompile Include="src\SceneObject.cpp">
-      <Filter>Source Files\Application\Core</Filter>
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeView.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GlWidget.cpp">
+      <Filter>Source Files\Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainWindow.cpp">
+      <Filter>Source Files\Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeViewAttr.cpp">
+      <Filter>Source Files\Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeViewScene.cpp">
+      <Filter>Source Files\Script\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,23 +201,26 @@
     <ClInclude Include="src\RenderHelper.h">
       <Filter>Header Files\Engine\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scene.h">
-      <Filter>Header Files\Application\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera.h">
-      <Filter>Header Files\Application\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderer.h">
-      <Filter>Header Files\Application\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Physics.h">
-      <Filter>Header Files\Application\Core</Filter>
-    </ClInclude>
     <ClInclude Include="src\CameraControl.h">
       <Filter>Header Files\Engine\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="src\PhysicsObject.h">
+      <Filter>Header Files\Engine\Physics</Filter>
+    </ClInclude>
     <ClInclude Include="src\SceneObject.h">
-      <Filter>Header Files\Application\Core</Filter>
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h">
+      <Filter>Header Files\Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,20 +229,23 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="src\GlWidget.h">
-      <Filter>Header Files\Application\UI</Filter>
+    <QtMoc Include="src\App.h">
+      <Filter>Header Files\Script</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TreeView.h">
+      <Filter>Header Files\Engine\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\MainWindow.h">
-      <Filter>Header Files\Application\UI</Filter>
+      <Filter>Header Files\Script\UI</Filter>
     </QtMoc>
-    <QtMoc Include="src\TreeViewScene.h">
-      <Filter>Header Files\Application\UI</Filter>
+    <QtMoc Include="src\GlWidget.h">
+      <Filter>Header Files\Script\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\TreeViewAttr.h">
-      <Filter>Header Files\Application\UI</Filter>
+      <Filter>Header Files\Script\UI</Filter>
     </QtMoc>
-    <QtMoc Include="src\App.h">
-      <Filter>Header Files\Application</Filter>
+    <QtMoc Include="src\TreeViewScene.h">
+      <Filter>Header Files\Script\UI</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>

@@ -8,8 +8,6 @@
 
 #include <glm/vec3.hpp>
 
-#include "RenderObject.h"
-#include "RenderBuffer.h"
 #include "SceneObject.h"
 
 #include "FileHelper.h"

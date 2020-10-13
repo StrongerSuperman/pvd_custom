@@ -197,6 +197,7 @@
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\MathHelper.cpp" />
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\PhysicsObject.cpp" />
     <ClCompile Include="src\RenderBuffer.cpp" />
     <ClCompile Include="src\RenderObject.cpp" />
     <ClCompile Include="src\RenderEngine.cpp" />
@@ -210,13 +211,16 @@
     <ClCompile Include="src\PhysicsWorld.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\SceneObject.cpp" />
+    <ClCompile Include="src\TreeView.cpp" />
     <ClCompile Include="src\TreeViewAttr.cpp" />
     <ClCompile Include="src\TreeViewScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CameraControl.h" />
     <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\PhysicsObject.h" />
     <ClInclude Include="src\SceneObject.h" />
+    <QtMoc Include="src\TreeView.h" />
     <QtMoc Include="src\App.h" />
     <ClInclude Include="src\CameraBase.h" />
     <ClInclude Include="src\CameraFTPS.h" />

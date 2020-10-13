@@ -1,158 +1,55 @@
 #include "TreeViewScene.h"
 
 
-SceneTreeItem::SceneTreeItem(const QVector<QVariant> &data, SceneTreeItem *parent)
-	: m_itemData(data), m_parentItem(parent), m_pxPtr(nullptr)
+TreeItemScene::TreeItemScene(const QVector<QVariant> &data, TreeItemScene *parent)
+	: TreeItem(data, parent), m_pxPtr(nullptr)
 {
 }
 
-SceneTreeItem::~SceneTreeItem()
+TreeItemScene::~TreeItemScene()
 {
-	qDeleteAll(m_childItems);
-}
-
-void SceneTreeItem::appendChild(SceneTreeItem *item)
-{
-	m_childItems.append(item);
-}
-
-SceneTreeItem *SceneTreeItem::child(int row)
-{
-	if (row < 0 || row >= m_childItems.size())
-		return nullptr;
-	return m_childItems.at(row);
-}
-
-int SceneTreeItem::childCount() const
-{
-	return m_childItems.count();
-}
-
-int SceneTreeItem::row() const
-{
-	if (m_parentItem)
-		return m_parentItem->m_childItems.indexOf(const_cast<SceneTreeItem*>(this));
-
-	return 0;
-}
-
-int SceneTreeItem::columnCount() const
-{
-	return m_itemData.count();
-}
-
-QVariant SceneTreeItem::data(int column) const
-{
-	if (column < 0 || column >= m_itemData.size())
-		return QVariant();
-	return m_itemData.at(column);
-}
-
-SceneTreeItem *SceneTreeItem::parentItem()
-{
-	return m_parentItem;
 }
 
 
 
-SceneTreeModel::SceneTreeModel(Scene* scene, QObject *parent)
-	: QAbstractItemModel(parent),
-	shape2ModelIndex(new QMap<physx::PxShape*, QModelIndex>)
+TreeModelScene::TreeModelScene(QObject *parent)
+	: TreeModel(parent)
 {
-	m_RootItem = new SceneTreeItem({ tr("Scene") }, nullptr);
-	setupModelData(scene, m_RootItem);
+	shape2ModelIndex = new QMap<physx::PxShape*, QModelIndex>;
 }
 
-SceneTreeModel::~SceneTreeModel()
+TreeModelScene::~TreeModelScene()
 {
 	delete m_RootItem;
+	delete shape2ModelIndex;
 }
 
-QModelIndex SceneTreeModel::index(int row, int column, const QModelIndex &parent) const
+void TreeModelScene::Setup(Scene* scene)
 {
-	if (!hasIndex(row, column, parent))
-		return QModelIndex();
-
-	SceneTreeItem *parentItem;
-
-	if (!parent.isValid())
-		parentItem = m_RootItem;
-	else
-		parentItem = static_cast<SceneTreeItem*>(parent.internalPointer());
-
-	SceneTreeItem *childItem = parentItem->child(row);
-	if (childItem)
-		return createIndex(row, column, childItem);
-	return QModelIndex();
+	m_RootItem = new TreeItemScene({ tr("Scene") }, nullptr);
+	setupModelData(scene);
 }
 
-QModelIndex SceneTreeModel::parent(const QModelIndex &index) const
+TreeItemScene* TreeModelScene::GetRootItem() const
 {
-	if (!index.isValid())
-		return QModelIndex();
-
-	SceneTreeItem *childItem = static_cast<SceneTreeItem*>(index.internalPointer());
-	SceneTreeItem *parentItem = childItem->parentItem();
-
-	if (parentItem == m_RootItem)
-		return QModelIndex();
-
-	return createIndex(parentItem->row(), 0, parentItem);
+	return m_RootItem;
 }
 
-int SceneTreeModel::rowCount(const QModelIndex &parent) const
+TreeItemScene* TreeModelScene::GetItem(const QModelIndex &index)
 {
-	SceneTreeItem *parentItem;
-	if (parent.column() > 0)
-		return 0;
-
-	if (!parent.isValid())
-		parentItem = m_RootItem;
-	else
-		parentItem = static_cast<SceneTreeItem*>(parent.internalPointer());
-
-	return parentItem->childCount();
+	return static_cast<TreeItemScene*>(index.internalPointer());
 }
 
-int SceneTreeModel::columnCount(const QModelIndex &parent) const
+QModelIndex TreeModelScene::FindShapeIndex(physx::PxShape* shape)
 {
-	if (parent.isValid())
-		return static_cast<SceneTreeItem*>(parent.internalPointer())->columnCount();
-	return m_RootItem->columnCount();
-}
-
-QVariant SceneTreeModel::data(const QModelIndex &index, int role) const
-{
-	if (!index.isValid())
-		return QVariant();
-
-	if (role != Qt::DisplayRole)
-		return QVariant();
-
-	SceneTreeItem *item = static_cast<SceneTreeItem*>(index.internalPointer());
-
-	return item->data(index.column());
-}
-
-Qt::ItemFlags SceneTreeModel::flags(const QModelIndex &index) const
-{
-	if (!index.isValid())
-		return Qt::NoItemFlags;
-
-	return QAbstractItemModel::flags(index);
-}
-
-QVariant SceneTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-	if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-		return m_RootItem->data(section);
-
-	return QVariant();
+	return shape2ModelIndex->value(shape, QModelIndex());
 }
 
 
-void SceneTreeModel::setupModelData(Scene* scene, SceneTreeItem *parent)
+void TreeModelScene::setupModelData(Scene* scene)
 {
+	auto parent = m_RootItem;
+
 	// scene node
 	auto sceneTypeName = QString("PxScene");
 	auto sceneItem = createChildNode(parent, sceneTypeName,
@@ -169,7 +66,7 @@ void SceneTreeModel::setupModelData(Scene* scene, SceneTreeItem *parent)
 	for each(auto &actor in scene->GetActors())
 	{
 		// actor node
-		SceneTreeItem *actorItem;
+		TreeItemScene *actorItem;
 		if (actor->is<physx::PxRigidStatic>())
 		{
 			auto actorTypeName = QString("PxRigidStatic");
@@ -194,7 +91,7 @@ void SceneTreeModel::setupModelData(Scene* scene, SceneTreeItem *parent)
 	}
 }
 
-SceneTreeItem* SceneTreeModel::createChildNode(SceneTreeItem *parent, QString& typeName, void* ptr, bool showNum)
+TreeItemScene* TreeModelScene::createChildNode(TreeItemScene *parent, QString& typeName, void* ptr, bool showNum)
 {
 	QString title(typeName);
 	if (showNum)
@@ -204,24 +101,14 @@ SceneTreeItem* SceneTreeModel::createChildNode(SceneTreeItem *parent, QString& t
 	}
 	auto ba = title.toLatin1();
 	auto titleChar = ba.data();
-	auto item = new SceneTreeItem({ tr(titleChar) }, parent);
+	auto item = new TreeItemScene({ tr(titleChar) }, parent);
 	item->setPxTypeName(typeName);
 	item->setPxPtr(ptr);
 	parent->appendChild(item);
 	return item;
 }
 
-SceneTreeItem* SceneTreeModel::getItem(const QModelIndex &index)
-{
-	return static_cast<SceneTreeItem*>(index.internalPointer());
-}
-
-QModelIndex SceneTreeModel::getModelIndex(SceneTreeItem* item)
+QModelIndex TreeModelScene::getModelIndex(TreeItemScene* item)
 {
 	return createIndex(item->row(), 0, item);
-}
-
-QModelIndex SceneTreeModel::findShapeIndex(physx::PxShape* shape)
-{
-	return shape2ModelIndex->value(shape, QModelIndex());
 }

@@ -87,8 +87,8 @@ private slots:
 private:
 	Ui::MainWindow*  m_Ui;
 	Scene*           m_Scene;
-	AttrTreeModel*   m_AttrTreeModel;
-	SceneTreeModel*  m_SceneTreeModel;
+	TreeModelAttr*   m_AttrTreeModel;
+	TreeModelScene*  m_SceneTreeModel;
 
 	void initialize();
 	void connectObject();
