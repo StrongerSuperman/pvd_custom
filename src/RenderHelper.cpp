@@ -8,34 +8,54 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 	case physx::PxGeometryType::eBOX:
 	{
 		counter->boxNum++;
-		// TODO
-		return RenderObject();
+
+		// box data
+		const physx::PxBoxGeometry& boxGeom = geomHd.box();
+		float extentX = boxGeom.halfExtents.x;
+		float extentY = boxGeom.halfExtents.y;
+		float extentZ = boxGeom.halfExtents.z;
+
+		// pose mat
+		physx::PxMat44 mat(posMat);
+		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+
+		// render object
+		auto renderData = RenderData(color, modelMatrix);
+		auto renderBuffer = CreateBoxRenderBuffer(extentX, extentY, extentZ);
+		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
 	case physx::PxGeometryType::eSPHERE:
 	{
 		counter->sphereNum++;
-		// TODO
-		return RenderObject();
-	}
-	break;
-	case physx::PxGeometryType::ePLANE:
-	{
-		counter->planeNum++;
-		// TODO
-		return RenderObject();
+		uint slices = 10;
+		uint stacks = 10;
+
+		// sphere data
+		const physx::PxSphereGeometry& sphereGeom = geomHd.sphere();
+		float radius = sphereGeom.radius;
+
+		// pose mat
+		physx::PxMat44 mat(posMat);
+		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+
+		// render object
+		auto renderData = RenderData(color, modelMatrix);
+		auto renderBuffer = CreateSphereRenderBuffer(radius, slices, stacks);
+		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
 	case physx::PxGeometryType::eCAPSULE:
 	{
 		counter->capsuleNum++;
 
+		// capsule data
 		const physx::PxCapsuleGeometry& capsuleGeom = geomHd.capsule();
 		float halfHeight = capsuleGeom.halfHeight;
 		float radius = capsuleGeom.radius;
-		uint slices = 20;
-		uint stacks = 20;
-	
+		uint slices = 10;
+		uint stacks = 10;
+
 		// pose mat
 		physx::PxMat44 mat(posMat);
 		physx::PxMat44 rot(physx::PxQuat((float)M_PI / 2, physx::PxVec3(0, 0, 1)));
@@ -45,7 +65,7 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
 
 		// render object
-		auto renderData = RenderData(glm::vec3(0, 0.8f, 0), modelMatrix);
+		auto renderData = RenderData(color, modelMatrix);
 		auto renderBuffer = CreateCapsuleRenderBuffer(halfHeight, radius, slices, stacks);
 		return RenderObject(id, renderData, renderBuffer);
 	}
@@ -138,13 +158,136 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 	case physx::PxGeometryType::eHEIGHTFIELD:
 	{
 		counter->heightFieldNum++;
-		// TODO
+		assert(0), "not implement physx geometry type!";
+	}
+	break;
+	case physx::PxGeometryType::ePLANE:
+	{
+		counter->planeNum++;
+		assert(0), "not implement physx geometry type!";
 	}
 	break;
 	}
 
-	assert(0), "undefined physx geometry type!";
+	assert(geomHd.getType() == physx::PxGeometryType::eINVALID), "invalid physx geometry type!";
 	return RenderObject();
+}
+
+RenderBuffer CreateBoxRenderBuffer(float extentX, float extentY, float extentZ)
+{
+	auto x = extentX;
+	auto y = extentY;
+	auto z = extentZ;
+	uint verticesNum = 24;
+	uint trianglesNum = 12;
+
+	// create vertices(with normal)
+	std::vector<glm::vec3> vertexes(verticesNum*2);
+	{
+		uint offset = 0;
+
+		vertexes[offset++] = glm::vec3(-x, y, -z);                 
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+		vertexes[offset++] = glm::vec3(x, y, -z);
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+		vertexes[offset++] = glm::vec3(-x, y, z);
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+		vertexes[offset++] = glm::vec3(x, y, z);
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+
+		vertexes[offset++] = glm::vec3(x, -y, z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(-x, -y, z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(x, -y, z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(-x, -y, z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+
+		vertexes[offset++] = glm::vec3(-x, y, z);
+		vertexes[offset++] = glm::vec3(0, 0, 1);
+		vertexes[offset++] = glm::vec3(x, y, z);
+		vertexes[offset++] = glm::vec3(0, 0, 1);
+		vertexes[offset++] = glm::vec3(-x, -y, z);
+		vertexes[offset++] = glm::vec3(0, 0, 1);
+		vertexes[offset++] = glm::vec3(x, -y, z);
+		vertexes[offset++] = glm::vec3(0, 0, 1);
+
+		vertexes[offset++] = glm::vec3(x, y, z);
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+		vertexes[offset++] = glm::vec3(x, y, -z);
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+		vertexes[offset++] = glm::vec3(x, -y, z);
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+		vertexes[offset++] = glm::vec3(x, -y, -z);
+		vertexes[offset++] = glm::vec3(0, 1, 0);
+
+		vertexes[offset++] = glm::vec3(x, y, -z);
+		vertexes[offset++] = glm::vec3(1, 0, 0);
+		vertexes[offset++] = glm::vec3(-x, y, -z);
+		vertexes[offset++] = glm::vec3(1, 0, 0);
+		vertexes[offset++] = glm::vec3(x, -y, -z);
+		vertexes[offset++] = glm::vec3(1, 0, 0);
+		vertexes[offset++] = glm::vec3(-x, -y, -z);
+		vertexes[offset++] = glm::vec3(1, 0, 0);
+
+		vertexes[offset++] = glm::vec3(-x, y, -z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(-x, y, z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(-x, -y, -z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(-x, -y, z);
+		vertexes[offset++] = glm::vec3(-1, 0, 0);
+	}
+
+	// create indices
+	std::vector<ushort> indexes(trianglesNum * 3);
+	{
+		uint offset = 0;
+
+		indexes[offset++] = 0; indexes[offset++] = 2; indexes[offset++] = 1;
+		indexes[offset++] = 1; indexes[offset++] = 2; indexes[offset++] = 3;
+
+		indexes[offset++] = 4; indexes[offset++] = 6; indexes[offset++] = 5;
+		indexes[offset++] = 5; indexes[offset++] = 6; indexes[offset++] = 7;
+
+		indexes[offset++] = 8; indexes[offset++] = 10; indexes[offset++] = 9;
+		indexes[offset++] = 9; indexes[offset++] = 10; indexes[offset++] = 11;
+
+		indexes[offset++] = 12; indexes[offset++] = 14; indexes[offset++] = 13;
+		indexes[offset++] = 13; indexes[offset++] = 14; indexes[offset++] = 15;
+
+		indexes[offset++] = 16; indexes[offset++] = 18; indexes[offset++] = 17;
+		indexes[offset++] = 17; indexes[offset++] = 18; indexes[offset++] = 19;
+
+		indexes[offset++] = 20; indexes[offset++] = 22; indexes[offset++] = 21;
+		indexes[offset++] = 21; indexes[offset++] = 22; indexes[offset++] = 23;
+	}
+
+	const void* vertices = reinterpret_cast<const void*>(&vertexes[0]);
+	const void* indices = reinterpret_cast<const void*>(&indexes[0]);
+
+	return CreateRenderBuffer(vertices, verticesNum, indices, trianglesNum * 3);
+}
+
+RenderBuffer CreateSphereRenderBuffer(float radius, uint slices, uint stacks)
+{
+	//uint halfStacks = stacks / 2;
+	//uint verticesNum = slices * (halfStacks - 1) * 2 + 2;
+	//uint trianglesNum = slices * (halfStacks - 1) * 4;
+
+	//// create vertices
+	//std::vector<glm::vec3> vertexes(verticesNum * 2);
+
+	//// create indices
+	//std::vector<ushort> indexes(trianglesNum * 3);
+
+	//const void* vertices = reinterpret_cast<const void*>(&vertexes[0]);
+	//const void* indices = reinterpret_cast<const void*>(&indexes[0]);
+
+	//return CreateRenderBuffer(vertices, verticesNum, indices, trianglesNum * 3);
+	return RenderBuffer();
 }
 
 RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slices, uint stacks)
@@ -157,7 +300,7 @@ RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slic
 	uint verticesNum = slices * (halfStacks - 1) * 2 + 2;
 	uint trianglesNum = slices * (halfStacks - 1) * 4;
 
-	// create vertices
+	// create vertices(with normal)
 	std::vector<glm::vec3> vertexes(verticesNum * 2);
 	{
 		uint offset = 0;

@@ -19,5 +19,7 @@
 
 
 RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color, MeshCounter* counter);
+RenderBuffer CreateBoxRenderBuffer(float extentX, float extentY, float extentZ);
+RenderBuffer CreateSphereRenderBuffer(float radius, uint slices, uint stacks);
 RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slices, uint stacks);
 glm::vec3 CastPhysxFilterDataToColor(physx::PxFilterData data);
