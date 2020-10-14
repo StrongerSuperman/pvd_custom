@@ -56,8 +56,6 @@ void Scene::Load(const std::vector<std::string>& filenames)
 			auto id = counter++;
 			auto shapePos = physx::PxShapeExt::getGlobalPose(*shapes[j], *m_Actors[i]);
 			auto geomHd = shapes[j]->getGeometry();
-			//auto color = CastPhysxFilterDataToColor(shapes[j]->getSimulationFilterData());
-			auto color = glm::vec3(0.8, 0, 0);
 
 			SceneObject sceneObject;
 			sceneObject.id = id;
@@ -65,7 +63,7 @@ void Scene::Load(const std::vector<std::string>& filenames)
 			sceneObject.physicsData.parentActor = m_Actors[i];
 			sceneObject.physicsData.simulationFilterData = shapes[j]->getSimulationFilterData();
 			sceneObject.physicsData.queryFilterData = shapes[j]->getQueryFilterData();
-			sceneObject.renderData = CreateRenderObjectFromPxGeometry(id, geomHd, shapePos, color, m_MeshCounter);
+			sceneObject.renderData = CreateRenderObjectFromPxGeometry(id, geomHd, shapePos, m_MeshCounter);
 
 			m_SceneObjects.push_back(sceneObject);
 			m_ShapeMap[shapes[j]] = sceneObject;

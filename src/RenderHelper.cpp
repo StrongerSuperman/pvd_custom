@@ -1,7 +1,7 @@
 #include "RenderHelper.h"
 
 
-RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, glm::vec3 color, MeshCounter* counter)
+RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, MeshCounter* counter)
 {
 	switch (geomHd.getType())
 	{
@@ -18,6 +18,7 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		// pose mat
 		physx::PxMat44 mat(posMat);
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+		auto color = glm::vec3(0.8, 0.8, 0);
 
 		// render object
 		auto renderData = RenderData(color, modelMatrix);
@@ -28,8 +29,6 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 	case physx::PxGeometryType::eSPHERE:
 	{
 		counter->sphereNum++;
-		uint slices = 10;
-		uint stacks = 10;
 
 		// sphere data
 		const physx::PxSphereGeometry& sphereGeom = geomHd.sphere();
@@ -38,10 +37,11 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		// pose mat
 		physx::PxMat44 mat(posMat);
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+		auto color = glm::vec3(0, 0.8, 0.8);
 
 		// render object
 		auto renderData = RenderData(color, modelMatrix);
-		auto renderBuffer = CreateSphereRenderBuffer(radius, slices, stacks);
+		auto renderBuffer = CreateCapsuleRenderBuffer(radius, 0);  // when pass halfHeight=0, create sphere
 		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
@@ -53,8 +53,6 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		const physx::PxCapsuleGeometry& capsuleGeom = geomHd.capsule();
 		float halfHeight = capsuleGeom.halfHeight;
 		float radius = capsuleGeom.radius;
-		uint slices = 10;
-		uint stacks = 10;
 
 		// pose mat
 		physx::PxMat44 mat(posMat);
@@ -63,10 +61,11 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		mat = mat * rot;
 		mat.scale(scale);
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+		auto color = glm::vec3(0, 0.8, 0);
 
 		// render object
 		auto renderData = RenderData(color, modelMatrix);
-		auto renderBuffer = CreateCapsuleRenderBuffer(halfHeight, radius, slices, stacks);
+		auto renderBuffer = CreateCapsuleRenderBuffer(radius, halfHeight);
 		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
@@ -114,6 +113,7 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		physx::PxVec4 scale = physx::PxVec4(convexGeom.scale.scale, 1);
 		mat.scale(scale);
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+		auto color = glm::vec3(0, 0, 0.8);
 
 		// render object
 		auto renderData = RenderData(color, modelMatrix);
@@ -148,6 +148,7 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		physx::PxVec4 scale = physx::PxVec4(triGeom.scale.scale, 1);
 		mat.scale(scale);
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+		auto color = glm::vec3(0.8, 0, 0);
 
 		// render object
 		auto renderData = RenderData(color, modelMatrix);
@@ -271,26 +272,7 @@ RenderBuffer CreateBoxRenderBuffer(float extentX, float extentY, float extentZ)
 	return CreateRenderBuffer(vertices, verticesNum, indices, trianglesNum * 3);
 }
 
-RenderBuffer CreateSphereRenderBuffer(float radius, uint slices, uint stacks)
-{
-	//uint halfStacks = stacks / 2;
-	//uint verticesNum = slices * (halfStacks - 1) * 2 + 2;
-	//uint trianglesNum = slices * (halfStacks - 1) * 4;
-
-	//// create vertices
-	//std::vector<glm::vec3> vertexes(verticesNum * 2);
-
-	//// create indices
-	//std::vector<ushort> indexes(trianglesNum * 3);
-
-	//const void* vertices = reinterpret_cast<const void*>(&vertexes[0]);
-	//const void* indices = reinterpret_cast<const void*>(&indexes[0]);
-
-	//return CreateRenderBuffer(vertices, verticesNum, indices, trianglesNum * 3);
-	return RenderBuffer();
-}
-
-RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slices, uint stacks)
+RenderBuffer CreateCapsuleRenderBuffer(float radius, float halfHeight, uint slices, uint stacks)
 {
 	if (stacks % 2 > 0)
 	{
@@ -304,12 +286,14 @@ RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slic
 	std::vector<glm::vec3> vertexes(verticesNum * 2);
 	{
 		uint offset = 0;
+
 		// top point
 		glm::vec3 topPoint(0, halfHeight + radius, 0);
 		glm::vec3 topNormal = glm::normalize(glm::vec3(0, radius, 0));
 		vertexes[offset++] = topPoint;
 		vertexes[offset++] = topNormal;
 
+		// pre_calc math data
 		float* pSinList = new float[slices];
 		float* pCosList = new float[slices];
 		float angleXZ;
@@ -414,21 +398,4 @@ RenderBuffer CreateCapsuleRenderBuffer(float halfHeight, float radius, uint slic
 	const void* indices = reinterpret_cast<const void*>(&indexes[0]);
 
 	return CreateRenderBuffer(vertices, verticesNum, indices, trianglesNum * 3);
-}
-
-glm::vec3 CastPhysxFilterDataToColor(physx::PxFilterData data)
-{
-	auto word0 = data.word0;
-	auto word1 = data.word1;
-	auto word2 = data.word2;
-	auto word3 = data.word3;
-	(void)(word3);
-
-	// TODO: cast filter data to color
-	glm::vec3 color(0.6f, 0, 0);
-	color += glm::vec3(word0 % 255 / 255.0f, 0, 0);
-	color += glm::vec3(0, word1 % 255 / 255.0f, 0);
-	color += glm::vec3(0, 0, word2 % 255 / 255.0f);
-
-	return color;
 }
