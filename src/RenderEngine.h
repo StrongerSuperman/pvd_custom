@@ -10,6 +10,15 @@
 #include <QOpenGLFunctions>
 
 
+enum IndicesType
+{
+	U32,
+	U16,
+	U8,
+	None
+};
+
+
 class RenderEngine : public QOpenGLFunctions
 {
 public:
@@ -35,8 +44,8 @@ public:
 
 	void ClearVertexBuffer();
 	GLuint CreatePNVerticesBuffer(uint vertexNum, const void* vertices);
-	GLuint CreatePNVerticesBuffer2(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices);
-	GLuint CreateIndicesBuffer(uint indexNum, const void* indices, bool has16BitIndices);
+	GLuint CreatePNVerticesBuffer2(uint vertexNum, const void* vertices, uint indexNum, const void* indices, IndicesType indicesType);
+	GLuint CreateIndicesBuffer(uint indexNum, const void* indices, IndicesType indicesType);
 
 private:
 	RenderEngine();
@@ -50,4 +59,4 @@ private:
 	std::vector<GLuint>        m_VertexBuffers;
 };
 
-static void GenNormalFromVertex(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices, std::vector<glm::vec3>& buffer);
+static void GenNormalFromVertex(uint vertexNum, const void* vertices, uint indexNum, const void* indices, IndicesType indicesType, std::vector<glm::vec3>& buffer);

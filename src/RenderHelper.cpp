@@ -5,16 +5,25 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 {
 	switch (geomHd.getType())
 	{
+	case physx::PxGeometryType::eBOX:
+	{
+		counter->boxNum++;
+		// TODO
+		return RenderObject();
+	}
+	break;
 	case physx::PxGeometryType::eSPHERE:
 	{
 		counter->sphereNum++;
 		// TODO
+		return RenderObject();
 	}
 	break;
 	case physx::PxGeometryType::ePLANE:
 	{
 		counter->planeNum++;
 		// TODO
+		return RenderObject();
 	}
 	break;
 	case physx::PxGeometryType::eCAPSULE:
@@ -26,7 +35,8 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		float radius = capsuleGeom.radius;
 		uint slices = 20;
 		uint stacks = 20;
-		
+	
+		// pose mat
 		physx::PxMat44 mat(posMat);
 		physx::PxMat44 rot(physx::PxQuat((float)M_PI / 2, physx::PxVec3(0, 0, 1)));
 		physx::PxVec4 scale = physx::PxVec4(1, 1, 1, 1);
@@ -34,62 +44,94 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 		mat.scale(scale);
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
 
-		glm::vec3 capsuleColor(0, 0.8f, 0);
-
-		auto renderData = RenderData(capsuleColor, modelMatrix);
+		// render object
+		auto renderData = RenderData(glm::vec3(0, 0.8f, 0), modelMatrix);
 		auto renderBuffer = CreateCapsuleRenderBuffer(halfHeight, radius, slices, stacks);
 		return RenderObject(id, renderData, renderBuffer);
-	}
-	break;
-	case physx::PxGeometryType::eBOX:
-	{
-		counter->boxNum++;
-		// TODO
 	}
 	break;
 	case physx::PxGeometryType::eCONVEXMESH:
 	{
 		counter->convexMeshNum++;
-		// TODO
-		/*const physx::PxConvexMeshGeometry& convexGeom = geomHd.convexMesh();
+
+		// mesh
+		const physx::PxConvexMeshGeometry& convexGeom = geomHd.convexMesh();
 		const physx::PxConvexMesh& mesh = *convexGeom.convexMesh;
 
-		const physx::PxVec3 scale = convexGeom.scale.scale;
+		// vertices
+		const void* vertices = reinterpret_cast<const void*>(mesh.getVertices());
+		uint vertexNum = static_cast<uint>(mesh.getNbVertices());
 
+		// indices
 		const physx::PxU32 nbPolys = mesh.getNbPolygons();
 		const physx::PxU8* polygons = mesh.getIndexBuffer();
-		const physx::PxVec3* verts = mesh.getVertices();
-		physx::PxU32 nbVerts = mesh.getNbVertices();
-
+		std::vector<ushort> indexes;
 		physx::PxU32 numTotalTriangles = 0;
 		for (physx::PxU32 i = 0; i < nbPolys; i++)
 		{
 			physx::PxHullPolygon data;
 			mesh.getPolygonData(i, data);
-		}*/
+			const physx::PxU32 nbTris = physx::PxU32(data.mNbVerts - 2);
+			auto vref0 = static_cast<ushort>(polygons[data.mIndexBase]);
+			assert(vref0 < vertexNum);
+			for (physx::PxU32 j = 0; j < nbTris; j++)
+			{
+				auto vref1 = static_cast<ushort>(polygons[data.mIndexBase + j + 1]);
+				auto vref2 = static_cast<ushort>(polygons[data.mIndexBase + j + 2]);
+				assert(vref1 < vertexNum);
+				assert(vref2 < vertexNum);
+				indexes.push_back(vref0);
+				indexes.push_back(vref1);
+				indexes.push_back(vref2);
+				numTotalTriangles++;
+			}
+		}
+		const void* indices = reinterpret_cast<const void*>(&indexes[0]);
+		uint indexNum = static_cast<uint>(numTotalTriangles * 3);
+
+		// pose mat
+		physx::PxMat44 mat(posMat);
+		physx::PxVec4 scale = physx::PxVec4(convexGeom.scale.scale, 1);
+		mat.scale(scale);
+		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
+
+		// render object
+		auto renderData = RenderData(color, modelMatrix);
+		auto renderBuffer = CreateRenderBuffer2(vertices, vertexNum, indices, indexNum, U16);
+		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
 	case physx::PxGeometryType::eTRIANGLEMESH:
 	{
 		counter->triangleMeshNum++;
 
+		// mesh
 		const physx::PxTriangleMeshGeometry& triGeom = geomHd.triangleMesh();
 		const physx::PxTriangleMesh& mesh = *triGeom.triangleMesh;
 
+		// vertices
 		const void* vertices = reinterpret_cast<const void*>(mesh.getVertices());
 		uint vertexNum = static_cast<uint>(mesh.getNbVertices());
 
+		// indices
 		const void* indices = mesh.getTriangles();
 		uint indexNum = static_cast<uint>(mesh.getNbTriangles() * 3);
 		bool has16BitIndices = mesh.getTriangleMeshFlags() & physx::PxTriangleMeshFlag::e16_BIT_INDICES;
+		auto indicesType = U32;
+		if (has16BitIndices)
+		{
+			indicesType = U16;
+		}
 
+		// pose mat
 		physx::PxMat44 mat(posMat);
 		physx::PxVec4 scale = physx::PxVec4(triGeom.scale.scale, 1);
 		mat.scale(scale);
 		glm::mat4x4 modelMatrix = PxMat44ToGlmMatrix4x4(mat);
 
+		// render object
 		auto renderData = RenderData(color, modelMatrix);
-		auto renderBuffer = CreateRenderBuffer2(vertices, vertexNum, indices, indexNum, has16BitIndices);
+		auto renderBuffer = CreateRenderBuffer2(vertices, vertexNum, indices, indexNum, indicesType);
 		return RenderObject(id, renderData, renderBuffer);
 	}
 	break;
@@ -101,6 +143,7 @@ RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHol
 	break;
 	}
 
+	assert(0), "undefined physx geometry type!";
 	return RenderObject();
 }
 

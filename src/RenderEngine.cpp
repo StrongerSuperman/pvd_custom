@@ -184,25 +184,32 @@ GLuint RenderEngine::CreatePNVerticesBuffer(uint vertexNum, const void* vertices
 	return CreateVertexBuffer(GL_ARRAY_BUFFER, sizeof(float) * 6 * vertexNum, vertices);
 }
 
-GLuint RenderEngine::CreatePNVerticesBuffer2(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices)
+GLuint RenderEngine::CreatePNVerticesBuffer2(uint vertexNum, const void* vertices, uint indexNum, const void* indices, IndicesType indicesType)
 {
 	std::vector<glm::vec3> buffer(vertexNum * 2);
-	GenNormalFromVertex(vertexNum, vertices, indexNum, indices, has16BitIndices, buffer);
+	GenNormalFromVertex(vertexNum, vertices, indexNum, indices, indicesType, buffer);
 
 	const void* data = reinterpret_cast<const void*>(&buffer[0]);
 	return CreateVertexBuffer(GL_ARRAY_BUFFER, sizeof(float) * 6 * vertexNum, data);
 }
 
-GLuint RenderEngine::CreateIndicesBuffer(uint indexNum, const void* indices, bool has16BitIndices)
+GLuint RenderEngine::CreateIndicesBuffer(uint indexNum, const void* indices, IndicesType indicesType)
 {
-	if (has16BitIndices)
+	if (indicesType == U8)
+	{
+		return CreateVertexBuffer(GL_ELEMENT_ARRAY_BUFFER, sizeof(char) * indexNum, indices);
+	}
+	else if (indicesType == U16)
 	{
 		return CreateVertexBuffer(GL_ELEMENT_ARRAY_BUFFER, sizeof(short) * indexNum, indices);
 	}
-	else
+	else if(indicesType == U32)
 	{
 		return CreateVertexBuffer(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * indexNum, indices);
 	}
+
+	assert(indicesType == None);
+	return -1;
 }
 
 
@@ -217,95 +224,74 @@ RenderEngine::~RenderEngine()
 }
 
 
-void GenNormalFromVertex(uint vertexNum, const void* vertices, uint indexNum, const void* indices, bool has16BitIndices, std::vector<glm::vec3>& buffer)
+void GenNormalFromVertex(uint vertexNum, const void* vertices, uint indexNum, const void* indices, IndicesType indicesType, std::vector<glm::vec3>& buffer)
 {
 	(void)(vertexNum);
 	const glm::vec3* verticesCast = reinterpret_cast<const glm::vec3*>(vertices);
-	const short* shortIndices = reinterpret_cast<const short*>(indices);
-	const int* intIndices = reinterpret_cast<const int*>(indices);
+	const char* u8Indices = reinterpret_cast<const char*>(indices);
+	const short* u16Indices = reinterpret_cast<const short*>(indices);
+	const int* u32Indices = reinterpret_cast<const int*>(indices);
 
 	for (uint i = 0; i < indexNum / 3; ++i)
 	{
 		glm::vec3 tVertex[3];
-		if (has16BitIndices)
+		int idx1, idx2, idx3;
+		if (indicesType == U8)
 		{
-			tVertex[0] = verticesCast[*shortIndices++];
-			tVertex[1] = verticesCast[*shortIndices++];
-			tVertex[2] = verticesCast[*shortIndices++];
+			tVertex[0] = verticesCast[*u8Indices++];
+			tVertex[1] = verticesCast[*u8Indices++];
+			tVertex[2] = verticesCast[*u8Indices++];
+			idx1 = *(u8Indices - 1);
+			idx2 = *(u8Indices - 2);
+			idx3 = *(u8Indices - 3);
 		}
-		else
+		else if(indicesType == U16)
 		{
-			tVertex[0] = verticesCast[*intIndices++];
-			tVertex[1] = verticesCast[*intIndices++];
-			tVertex[2] = verticesCast[*intIndices++];
+			tVertex[0] = verticesCast[*u16Indices++];
+			tVertex[1] = verticesCast[*u16Indices++];
+			tVertex[2] = verticesCast[*u16Indices++];
+			idx1 = *(u16Indices - 1);
+			idx2 = *(u16Indices - 2);
+			idx3 = *(u16Indices - 3);
 		}
+		else if(indicesType == U32)
+		{
+			tVertex[0] = verticesCast[*u32Indices++];
+			tVertex[1] = verticesCast[*u32Indices++];
+			tVertex[2] = verticesCast[*u32Indices++];
+			idx1 = *(u32Indices - 1);
+			idx2 = *(u32Indices - 2);
+			idx3 = *(u32Indices - 3);
+		}
+
 		glm::vec3 fNormal = glm::normalize(glm::cross(tVertex[1] - tVertex[0], tVertex[2] - tVertex[0]));
 
-		if (has16BitIndices)
-		{
-			int idx1 = *(shortIndices - 1);
-			int idx2 = *(shortIndices - 2);
-			int idx3 = *(shortIndices - 3);
 #ifndef AVERAGE_NORM
+		buffer[idx1 * 2] = tVertex[2];
+		buffer[idx1 * 2 + 1] = fNormal;
+		buffer[idx2 * 2] = tVertex[1];
+		buffer[idx2 * 2 + 1] = fNormal;
+		buffer[idx3 * 2] = tVertex[0];
+		buffer[idx3 * 2 + 1] = fNormal;
+#else
+		if (i == 0)
+		{
 			buffer[idx1 * 2] = tVertex[2];
 			buffer[idx1 * 2 + 1] = fNormal;
 			buffer[idx2 * 2] = tVertex[1];
 			buffer[idx2 * 2 + 1] = fNormal;
 			buffer[idx3 * 2] = tVertex[0];
 			buffer[idx3 * 2 + 1] = fNormal;
-#else
-			if (i == 0)
-			{
-				buffer[idx1 * 2] = tVertex[2];
-				buffer[idx1 * 2 + 1] = fNormal;
-				buffer[idx2 * 2] = tVertex[1];
-				buffer[idx2 * 2 + 1] = fNormal;
-				buffer[idx3 * 2] = tVertex[0];
-				buffer[idx3 * 2 + 1] = fNormal;
-			}
-			else
-			{
-				buffer[idx1 * 2] = tVertex[2];
-				buffer[idx1 * 2 + 1] = (buffer[idx1 * 2 + 1] + fNormal).getNormalized();
-				buffer[idx2 * 2] = tVertex[1];
-				buffer[idx2 * 2 + 1] = (buffer[idx2 * 2 + 1] + fNormal).getNormalized();
-				buffer[idx3 * 2] = tVertex[0];
-				buffer[idx3 * 2 + 1] = (buffer[idx3 * 2 + 1] + fNormal).getNormalized();
-			}
-#endif // AVERAGE_NORM
 		}
 		else
 		{
-			int idx1 = *(intIndices - 1);
-			int idx2 = *(intIndices - 2);
-			int idx3 = *(intIndices - 3);
-#ifndef AVERAGE_NORM
 			buffer[idx1 * 2] = tVertex[2];
-			buffer[idx1 * 2 + 1] = fNormal;
+			buffer[idx1 * 2 + 1] = glm::normalize(buffer[idx1 * 2 + 1] + fNormal);
 			buffer[idx2 * 2] = tVertex[1];
-			buffer[idx2 * 2 + 1] = fNormal;
+			buffer[idx2 * 2 + 1] = glm::normalize(buffer[idx2 * 2 + 1] + fNormal);
 			buffer[idx3 * 2] = tVertex[0];
-			buffer[idx3 * 2 + 1] = fNormal;
-#else
-			if (i == 0)
-			{
-				buffer[idx1 * 2] = tVertex[2];
-				buffer[idx1 * 2 + 1] = fNormal;
-				buffer[idx2 * 2] = tVertex[1];
-				buffer[idx2 * 2 + 1] = fNormal;
-				buffer[idx3 * 2] = tVertex[0];
-				buffer[idx3 * 2 + 1] = fNormal;
-			}
-			else
-			{
-				buffer[idx1 * 2] = tVertex[2];
-				buffer[idx1 * 2 + 1] = (buffer[idx1 * 2 + 1] + fNormal).getNormalized();
-				buffer[idx2 * 2] = tVertex[1];
-				buffer[idx2 * 2 + 1] = (buffer[idx2 * 2 + 1] + fNormal).getNormalized();
-				buffer[idx3 * 2] = tVertex[0];
-				buffer[idx3 * 2 + 1] = (buffer[idx3 * 2 + 1] + fNormal).getNormalized();
-			}
-#endif // AVERAGE_NORM
+			buffer[idx3 * 2 + 1] = glm::normalize(buffer[idx3 * 2 + 1] + fNormal);
 		}
+#endif // AVERAGE_NORM
 	}
 }

@@ -83,6 +83,12 @@
     <Filter Include="Source Files\Script\UI">
       <UniqueIdentifier>{0b0fb183-76ad-46d0-8fb0-001ed1311251}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Memory">
+      <UniqueIdentifier>{d97808ba-1b68-4de1-9b11-3fdb3e5f8041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Memory">
+      <UniqueIdentifier>{16a3f250-49c7-421d-8100-5e6aa77f1cfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderObject.cpp">
