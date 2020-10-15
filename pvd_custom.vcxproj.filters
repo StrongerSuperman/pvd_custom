@@ -38,32 +38,8 @@
     <Filter Include="Header Files\Engine">
       <UniqueIdentifier>{9a60d292-c2ca-4bdf-8c2f-2f3644913994}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Render">
-      <UniqueIdentifier>{28fe2eae-02bc-4d70-83c3-fb515b0b20af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Physics">
-      <UniqueIdentifier>{c56e8d34-2d11-479a-8fa5-ff7e9b846e85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Camera">
-      <UniqueIdentifier>{45f4bfde-23c2-4c2f-8edb-f64ec4d47a51}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Engine">
       <UniqueIdentifier>{182d0294-a332-4843-a560-085bef15e082}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Render">
-      <UniqueIdentifier>{5dbbf250-d4e4-4393-80ec-6a891d95b6a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Physics">
-      <UniqueIdentifier>{9a351139-0aae-4a16-8fbe-a95f0b669101}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Camera">
-      <UniqueIdentifier>{dc31bab7-9903-4389-93fb-e13a9292d362}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Helper">
-      <UniqueIdentifier>{35a2e9ee-358a-44a5-aa12-a5668089d9e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\Helper">
-      <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Script">
       <UniqueIdentifier>{cb30a3b1-42e6-4116-9cc0-6540d51272d4}</UniqueIdentifier>
@@ -71,94 +47,97 @@
     <Filter Include="Source Files\Script">
       <UniqueIdentifier>{125a92d1-c703-4d72-85d2-649b95ed5d24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\UI">
-      <UniqueIdentifier>{6f41a98e-ec9a-4ce6-bc7a-e88bffa099dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Engine\UI">
-      <UniqueIdentifier>{5316db33-3adc-419e-82af-7d8a26886e29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Script\UI">
       <UniqueIdentifier>{a3a63090-7d66-443a-8aa7-0515d237d2be}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Script\UI">
       <UniqueIdentifier>{0b0fb183-76ad-46d0-8fb0-001ed1311251}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Memory">
+    <Filter Include="Header Files\Engine\Core">
+      <UniqueIdentifier>{609b6ffe-daf4-4034-8deb-b43969c0a71a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Camera">
+      <UniqueIdentifier>{45f4bfde-23c2-4c2f-8edb-f64ec4d47a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Physics">
+      <UniqueIdentifier>{c56e8d34-2d11-479a-8fa5-ff7e9b846e85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Render">
+      <UniqueIdentifier>{28fe2eae-02bc-4d70-83c3-fb515b0b20af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core">
+      <UniqueIdentifier>{741b61b3-400c-47f7-bf7e-9eb7a6283ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Physics">
+      <UniqueIdentifier>{9a351139-0aae-4a16-8fbe-a95f0b669101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Render">
+      <UniqueIdentifier>{5dbbf250-d4e4-4393-80ec-6a891d95b6a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Camera">
+      <UniqueIdentifier>{dc31bab7-9903-4389-93fb-e13a9292d362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Helper">
+      <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Helper">
+      <UniqueIdentifier>{35a2e9ee-358a-44a5-aa12-a5668089d9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Scene">
+      <UniqueIdentifier>{c6e16167-8e03-40ee-b213-76d7aac60209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Scene">
+      <UniqueIdentifier>{3f5f7b9f-6473-41e1-ba65-ac3d93033ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Interface">
       <UniqueIdentifier>{d97808ba-1b68-4de1-9b11-3fdb3e5f8041}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Memory">
+    <Filter Include="Source Files\Engine\Interface">
       <UniqueIdentifier>{16a3f250-49c7-421d-8100-5e6aa77f1cfe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RenderObject.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
+      <Filter>Source Files\Engine\Core\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CameraBase.cpp">
-      <Filter>Source Files\Engine\Camera</Filter>
+      <Filter>Source Files\Engine\Core\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\CameraFTPS.cpp">
-      <Filter>Source Files\Engine\Camera</Filter>
+      <Filter>Source Files\Engine\Core\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\App.cpp">
       <Filter>Source Files\Script</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderEngine.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
+      <Filter>Source Files\Engine\Core\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\PhysicsEngine.cpp">
-      <Filter>Source Files\Engine\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PhysicsWorld.cpp">
-      <Filter>Source Files\Engine\Physics</Filter>
+      <Filter>Source Files\Engine\Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderProgramPhong.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
+      <Filter>Source Files\Engine\Core\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderProgramBase.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
+      <Filter>Source Files\Engine\Core\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderBuffer.cpp">
-      <Filter>Source Files\Engine\Render</Filter>
+      <Filter>Source Files\Engine\Core\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\MathHelper.cpp">
-      <Filter>Source Files\Engine\Helper</Filter>
+      <Filter>Source Files\Engine\Core\Helper</Filter>
     </ClCompile>
     <ClCompile Include="src\FileHelper.cpp">
-      <Filter>Source Files\Engine\Helper</Filter>
+      <Filter>Source Files\Engine\Core\Helper</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderHelper.cpp">
-      <Filter>Source Files\Engine\Helper</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CameraControl.cpp">
-      <Filter>Source Files\Engine\Camera</Filter>
+      <Filter>Source Files\Engine\Core\Helper</Filter>
     </ClCompile>
     <ClCompile Include="src\PhysicsObject.cpp">
-      <Filter>Source Files\Engine\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SceneObject.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TreeView.cpp">
-      <Filter>Source Files\Engine\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GlWidget.cpp">
-      <Filter>Source Files\Script\UI</Filter>
+      <Filter>Source Files\Engine\Core\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\MainWindow.cpp">
       <Filter>Source Files\Script\UI</Filter>
@@ -169,63 +148,102 @@
     <ClCompile Include="src\TreeViewScene.cpp">
       <Filter>Source Files\Script\UI</Filter>
     </ClCompile>
+    <ClCompile Include="src\IScene.cpp">
+      <Filter>Source Files\Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IRenderer.cpp">
+      <Filter>Source Files\Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ICamera.cpp">
+      <Filter>Source Files\Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IPhysics.cpp">
+      <Filter>Source Files\Engine\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneObject.cpp">
+      <Filter>Source Files\Engine\Core\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source Files\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeView.cpp">
+      <Filter>Source Files\Script\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GlWidget.cpp">
+      <Filter>Source Files\Script\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\RenderObject.h">
-      <Filter>Header Files\Engine\Render</Filter>
+      <Filter>Header Files\Engine\Core\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\CameraBase.h">
-      <Filter>Header Files\Engine\Camera</Filter>
+      <Filter>Header Files\Engine\Core\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\CameraFTPS.h">
-      <Filter>Header Files\Engine\Camera</Filter>
+      <Filter>Header Files\Engine\Core\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderEngine.h">
-      <Filter>Header Files\Engine\Render</Filter>
+      <Filter>Header Files\Engine\Core\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\PhysicsEngine.h">
-      <Filter>Header Files\Engine\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PhysicsWorld.h">
-      <Filter>Header Files\Engine\Physics</Filter>
+      <Filter>Header Files\Engine\Core\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderProgramPhong.h">
-      <Filter>Header Files\Engine\Render</Filter>
+      <Filter>Header Files\Engine\Core\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderProgramBase.h">
-      <Filter>Header Files\Engine\Render</Filter>
+      <Filter>Header Files\Engine\Core\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderBuffer.h">
-      <Filter>Header Files\Engine\Render</Filter>
+      <Filter>Header Files\Engine\Core\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\MathHelper.h">
-      <Filter>Header Files\Engine\Helper</Filter>
+      <Filter>Header Files\Engine\Core\Helper</Filter>
     </ClInclude>
     <ClInclude Include="src\FileHelper.h">
-      <Filter>Header Files\Engine\Helper</Filter>
+      <Filter>Header Files\Engine\Core\Helper</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderHelper.h">
-      <Filter>Header Files\Engine\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CameraControl.h">
-      <Filter>Header Files\Engine\Camera</Filter>
+      <Filter>Header Files\Engine\Core\Helper</Filter>
     </ClInclude>
     <ClInclude Include="src\PhysicsObject.h">
-      <Filter>Header Files\Engine\Physics</Filter>
+      <Filter>Header Files\Engine\Core\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IScene.h">
+      <Filter>Header Files\Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IRenderer.h">
+      <Filter>Header Files\Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IPhysics.h">
+      <Filter>Header Files\Engine\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ICamera.h">
+      <Filter>Header Files\Engine\Interface</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneObject.h">
-      <Filter>Header Files\Script</Filter>
+      <Filter>Header Files\Engine\Core\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics.h">
-      <Filter>Header Files\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderer.h">
       <Filter>Header Files\Script</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene.h">
       <Filter>Header Files\Script</Filter>
     </ClInclude>
     <ClInclude Include="src\Camera.h">
+      <Filter>Header Files\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
       <Filter>Header Files\Script</Filter>
     </ClInclude>
   </ItemGroup>
@@ -238,19 +256,19 @@
     <QtMoc Include="src\App.h">
       <Filter>Header Files\Script</Filter>
     </QtMoc>
-    <QtMoc Include="src\TreeView.h">
-      <Filter>Header Files\Engine\UI</Filter>
-    </QtMoc>
     <QtMoc Include="src\MainWindow.h">
-      <Filter>Header Files\Script\UI</Filter>
-    </QtMoc>
-    <QtMoc Include="src\GlWidget.h">
       <Filter>Header Files\Script\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\TreeViewAttr.h">
       <Filter>Header Files\Script\UI</Filter>
     </QtMoc>
     <QtMoc Include="src\TreeViewScene.h">
+      <Filter>Header Files\Script\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TreeView.h">
+      <Filter>Header Files\Script\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\GlWidget.h">
       <Filter>Header Files\Script\UI</Filter>
     </QtMoc>
   </ItemGroup>

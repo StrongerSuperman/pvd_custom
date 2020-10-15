@@ -2,13 +2,14 @@
 
 
 Scene::Scene():
-	m_Camera(new Camera),
-	m_Renderer(new Renderer),
-	m_Physics(new Physics),
 	m_MeshCounter(new MeshCounter),
 	m_PickedShapeIds({})
 	
 {
+	m_Camera = new Camera;
+	m_Renderer = new Renderer;
+	m_Physics = new Physics;
+
 	m_Physics->Initialize();
 	m_Renderer->Init();
 }
@@ -25,7 +26,7 @@ Scene::~Scene()
 void Scene::Load(const std::vector<std::string>& filenames)
 {
 	// load colleciton
-	if (!LoadCollectionFile(filenames, m_Physics))
+	if (!LoadCollectionFile(filenames, m_Physics->GetPhysicsEngine(), m_Physics->GetPxScene()))
 	{
 		return;
 	}
@@ -167,7 +168,7 @@ void Scene::shadeObjectByShadeType()
 			filterDataList[object.id] = object.physicsData.queryFilterData;
 		}
 	}
-	auto colorMap = GetPhysics()->CalcShadeTypeColorMap(filterDataList, m_ShadeType);
+	auto colorMap = m_Physics->CalcShadeTypeColorMap(filterDataList, m_ShadeType);
 	for each(auto &object in m_SceneObjects)
 	{
 		if (colorMap.find(object.id) != colorMap.end())
@@ -191,7 +192,7 @@ void Scene::shadeObjectByBitOpType(std::vector<int>& words, BitOpType logicOpTyp
 			filterDataList[object.id] = object.physicsData.queryFilterData;
 		}
 	}
-	auto colorMap = GetPhysics()->CalcBitOpTypeColorMap(filterDataList, words, logicOpType);
+	auto colorMap = m_Physics->CalcBitOpTypeColorMap(filterDataList, words, logicOpType);
 	for each(auto &object in m_SceneObjects)
 	{
 		if (colorMap.find(object.id) != colorMap.end())

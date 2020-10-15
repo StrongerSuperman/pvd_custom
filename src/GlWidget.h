@@ -15,10 +15,10 @@ class GlWidget : public QOpenGLWidget
 
 public:
 	explicit GlWidget(QWidget *parent = NULL);
-	~GlWidget();
+	virtual ~GlWidget();
 
 	void    SetScene(Scene *scene);
-	inline  Scene*   GetActiveScene() const    { return m_ActiveScene; };
+	inline  Scene*  GetActiveScene() const { return m_ActiveScene; };
 
 signals:
 	void Initialized();
@@ -29,20 +29,19 @@ protected:
 	void resizeGL(int w, int h) override;
 	void paintGL() override;
 
-	void mousePressEvent(QMouseEvent *ev) override;
-	void mouseMoveEvent(QMouseEvent *ev) override;
-	void mouseReleaseEvent(QMouseEvent *ev) override;
+	virtual void mousePressEvent(QMouseEvent *ev) override;
+	virtual void mouseMoveEvent(QMouseEvent *ev) override;
+	virtual void mouseReleaseEvent(QMouseEvent *ev) override;
 	void mouseDoubleClickEvent(QMouseEvent *ev) override;
 	void wheelEvent(QWheelEvent *ev) override;
 	void keyPressEvent(QKeyEvent *ev) override;
 	void keyReleaseEvent(QKeyEvent *ev) override;
 
-private:
-	int      m_Width;
-	int      m_Height;
-	
-	Scene*   m_ActiveScene;
+	void setupCameraView();
 
-	bool     m_MouseLeftBtnPressed;
-	bool     m_MouseRightBtnPressed;
+	Scene*  m_ActiveScene;
+	int     m_Width;
+	int     m_Height;
+	bool    m_MouseLeftBtnPressed;
+	bool    m_MouseRightBtnPressed;
 };

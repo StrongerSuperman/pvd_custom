@@ -8,18 +8,18 @@
 
 #include <glm/vec3.hpp>
 
-#include "SceneObject.h"
-
 #include "FileHelper.h"
 #include "MathHelper.h"
 #include "RenderHelper.h"
+
+#include "IScene.h"
 
 #include "Camera.h"
 #include "Renderer.h"
 #include "Physics.h"
 
 
-class Scene
+class Scene: public IScene
 {
 	using ShapesMap = std::map<physx::PxShape*, SceneObject>;
 	using ShapesList = std::vector<physx::PxShape*>;
@@ -27,11 +27,15 @@ class Scene
 
 public:
 	Scene();
-	~Scene();
+	virtual ~Scene();
 
 	void Load(const std::vector<std::string>& filenames);
 	physx::PxBounds3 GetAABB() const;
-	void Render();
+	virtual void Render() override;
+
+	inline Camera*   GetCamera()   const { return m_Camera; };
+	inline Renderer* GetRenderer() const { return m_Renderer; };
+	inline Physics*  GetPhysics()  const { return m_Physics; };
 
 	void SetShadeType(ShadeType shadeType);
 	void SetFilterType(FilterType filterType);
@@ -40,10 +44,7 @@ public:
 	void SetPickedShapeIds(std::vector<int>& ids);
 	void SetPickedShapes(ShapesList& shapes);
 
-	inline Camera*         GetCamera()      const { return m_Camera;   };
-	inline Renderer*       GetRenderer()    const { return m_Renderer; };
-	inline Physics*        GetPhysics()     const { return m_Physics;  };
-	inline ActorList       GetActors()      const { return m_Actors;   };
+	inline ActorList  GetActors()  const { return m_Actors;   };
 
 	physx::PxShape* OnCameraRayCast();
 
@@ -53,7 +54,6 @@ private:
 	Physics*                     m_Physics;
 
 	MeshCounter*                 m_MeshCounter;
-	std::vector<SceneObject>     m_SceneObjects;
 	std::vector<RenderObject>    m_RenderObjectsLine;
 	std::vector<int>             m_PickedShapeIds;
 

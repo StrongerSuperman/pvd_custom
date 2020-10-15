@@ -3,11 +3,11 @@
 #include "PhysicsEngine.h"
 
 
-class PhysicsWorld : public IPhysicsSceneProvider
+class IPhysics : public IPhysicsSceneProvider
 {
 public:
-	explicit PhysicsWorld();
-	virtual ~PhysicsWorld();
+	explicit IPhysics();
+	virtual ~IPhysics();
 
 	inline PhysicsEngine*  GetPhysicsEngine() const          { return PhysicsEngine::GetInstance(); };
 	inline physx::PxScene* GetPxScene()       const override { return m_PxScene;                    };

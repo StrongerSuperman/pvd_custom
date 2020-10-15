@@ -46,7 +46,7 @@ void MainWindow::OnOpenFileFolder()
 	{
 		delete m_Scene;
 	}
-	m_Scene = new Scene();
+	m_Scene = new Scene;
 	const auto fileList = { fileName.toStdString() };
 	m_Scene->Load(fileList);
 	GetGlWidget()->SetScene(m_Scene);

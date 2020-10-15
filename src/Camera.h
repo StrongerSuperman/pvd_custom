@@ -1,10 +1,10 @@
 #pragma once
 
-#include "CameraControl.h"
+#include "ICamera.h"
 #include "MathHelper.h"
 
 
-class Camera : public CameraControl
+class Camera : public ICamera
 {
 
 public:

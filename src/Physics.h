@@ -6,7 +6,7 @@
 
 #include <glm/glm.hpp>
 
-#include "PhysicsWorld.h"
+#include "IPhysics.h"
 
 
 using ColorMap = std::map<int, glm::vec3>;
@@ -33,7 +33,7 @@ enum BitOpType
 	And,
 };
 
-class Physics : public PhysicsWorld
+class Physics : public IPhysics
 {
 public:
 	explicit Physics();

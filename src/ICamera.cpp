@@ -1,7 +1,7 @@
-#include "CameraControl.h"
+#include "ICamera.h"
 
 
-CameraControl::CameraControl():
+ICamera::ICamera():
 	m_MouseX(0),
 	m_MouseY(0),
 	m_MouseLeftBtnFirstPress(false),
@@ -13,26 +13,26 @@ CameraControl::CameraControl():
 {
 }
 
-CameraControl::~CameraControl()
+ICamera::~ICamera()
 {
 }
 
 
-void CameraControl::HandleMouseLeftBtnPress(int x, int y)
+void ICamera::HandleMouseLeftBtnPress(int x, int y)
 {
 	(void)(x);
 	(void)(y);
 	m_MouseLeftBtnFirstPress = true;
 }
 
-void CameraControl::HandleMouseRightBtnPress(int x, int y)
+void ICamera::HandleMouseRightBtnPress(int x, int y)
 {
 	(void)(x);
 	(void)(y);
 	m_MouseRightBtnFirstPress = true;
 }
 
-void CameraControl::HandleMouseLeftBtnMove(int x, int y)
+void ICamera::HandleMouseLeftBtnMove(int x, int y)
 {
 	if (m_MouseLeftBtnFirstPress)
 	{
@@ -51,7 +51,7 @@ void CameraControl::HandleMouseLeftBtnMove(int x, int y)
 	OrbitRotate(dx*speed, -dy* speed);
 }
 
-void CameraControl::HandleMouseRightBtnMove(int x, int y)
+void ICamera::HandleMouseRightBtnMove(int x, int y)
 {
 	if (m_MouseRightBtnFirstPress)
 	{
@@ -70,33 +70,33 @@ void CameraControl::HandleMouseRightBtnMove(int x, int y)
 	EulerRotate(dx*speed, dy*speed);
 }
 
-void CameraControl::HandleMouseLeftBtnRelease(int x, int y)
+void ICamera::HandleMouseLeftBtnRelease(int x, int y)
 {
 	(void)(x);
 	(void)(y);
 	m_MouseLeftBtnFirstPress = false;
 }
 
-void CameraControl::HandleMouseRightBtnRelease(int x, int y)
+void ICamera::HandleMouseRightBtnRelease(int x, int y)
 {
 	(void)(x);
 	(void)(y);
 	m_MouseRightBtnFirstPress = false;
 }
 
-void CameraControl::HandleMouseLeftBtnDoubleClick(int x, int y)
+void ICamera::HandleMouseLeftBtnDoubleClick(int x, int y)
 {
 	(void)(x);
 	(void)(y);
 }
 
-void CameraControl::HandleMouseScroll(int delta)
+void ICamera::HandleMouseScroll(int delta)
 {
 	auto speed = m_MouseScrollSpeed * 0.1f;
 	ZoomByMove(delta*speed);
 }
 
-void CameraControl::HandleKey(unsigned char key)
+void ICamera::HandleKey(unsigned char key)
 {
 	auto speed = m_KeyMoveSpeed * 0.1f;
 	switch (toupper(key))

@@ -3,12 +3,12 @@
 #include "CameraFTPS.h"
 
 
-class CameraControl : public CameraFTPS
+class ICamera : public CameraFTPS
 {
 
 public:
-	CameraControl();
-	virtual ~CameraControl();
+	ICamera();
+	virtual ~ICamera();
 
 	virtual void HandleMouseLeftBtnPress(int x, int y);
 	virtual void HandleMouseRightBtnPress(int x, int y);

@@ -18,19 +18,13 @@ GlWidget::~GlWidget()
 void GlWidget::SetScene(Scene *scene)
 {
 	m_ActiveScene = scene;
-
-	m_ActiveScene->GetCamera()->SetAspectRatio((float)m_Width / (float)m_Height);
-	m_ActiveScene->GetCamera()->SetViewPort(0.0f, 0.0f, (float)m_Width, (float)m_Height);
+	setupCameraView();
 }
 
 
 void GlWidget::initializeGL()
 {
-	if (m_ActiveScene)
-	{
-		m_ActiveScene->GetCamera()->SetAspectRatio((float)m_Width / (float)m_Height);
-		m_ActiveScene->GetCamera()->SetViewPort(0.0f, 0.0f, (float)m_Width, (float)m_Height);
-	}
+	setupCameraView();
 
 	emit Initialized();
 }
@@ -41,11 +35,7 @@ void GlWidget::resizeGL(int w, int h)
 	m_Height = h;
 	glViewport(0, 0, m_Width, m_Height);
 
-	if (m_ActiveScene)
-	{
-		m_ActiveScene->GetCamera()->SetAspectRatio((float)m_Width / (float)m_Height);
-		m_ActiveScene->GetCamera()->SetViewPort(0.0f, 0.0f, (float)m_Width, (float)m_Height);
-	}
+	setupCameraView();
 }
 
 void GlWidget::paintGL()
@@ -172,4 +162,15 @@ void GlWidget::keyReleaseEvent(QKeyEvent *ev)
 	}
 
 	(void)(ev);
+}
+
+void GlWidget::setupCameraView()
+{
+	if (!m_ActiveScene)
+	{
+		return;
+	}
+
+	m_ActiveScene->GetCamera()->SetAspectRatio((float)m_Width / (float)m_Height);
+	m_ActiveScene->GetCamera()->SetViewPort(0.0f, 0.0f, (float)m_Width, (float)m_Height);
 }

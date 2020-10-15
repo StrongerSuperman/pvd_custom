@@ -1,18 +1,18 @@
-#include "PhysicsWorld.h"
+#include "IPhysics.h"
 
-PhysicsWorld::PhysicsWorld() :
+IPhysics::IPhysics() :
 	m_PxScene(nullptr),
 	m_DefaultMaterial(nullptr)
 {
 }
 
-PhysicsWorld::~PhysicsWorld()
+IPhysics::~IPhysics()
 {
 	Deinitialize();
 }
 
 
-void PhysicsWorld::Initialize()
+void IPhysics::Initialize()
 {
 	physx::PxSceneDesc sceneDescriptor(GetPhysicsEngine()->GetPhysics()->getTolerancesScale());
 	sceneDescriptor.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
@@ -25,7 +25,7 @@ void PhysicsWorld::Initialize()
 	m_DefaultMaterial = GetPhysicsEngine()->GetPhysics()->createMaterial(0.5f, 0.5f, 0.5f);
 }
 
-void PhysicsWorld::Deinitialize()
+void IPhysics::Deinitialize()
 {
 	GetPhysicsEngine()->SetActiveScene(nullptr);
 
@@ -33,6 +33,6 @@ void PhysicsWorld::Deinitialize()
 	m_PxScene->release();
 }
 
-void PhysicsWorld::Update()
+void IPhysics::Update()
 {
 }
