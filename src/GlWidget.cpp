@@ -52,7 +52,7 @@ void GlWidget::paintGL()
 		m_ActiveScene->Render();
 	}
 
-	QTimer::singleShot(1000 / 60, this, SLOT(update()));
+	//QTimer::singleShot(1000 / 60, this, SLOT(update()));
 }
 
 
@@ -76,6 +76,7 @@ void GlWidget::mousePressEvent(QMouseEvent *ev)
 			m_MouseRightBtnPressed = true;
 		}
 	}
+	update();
 }
 
 void GlWidget::mouseMoveEvent(QMouseEvent *ev)
@@ -93,6 +94,7 @@ void GlWidget::mouseMoveEvent(QMouseEvent *ev)
 	{
 		m_ActiveScene->GetCamera()->HandleMouseRightBtnMove(ev->x(), ev->y());
 	}
+	update();
 }
 
 void GlWidget::mouseReleaseEvent(QMouseEvent *ev)
@@ -112,6 +114,7 @@ void GlWidget::mouseReleaseEvent(QMouseEvent *ev)
 		m_ActiveScene->GetCamera()->HandleMouseRightBtnRelease(ev->x(), ev->y());
 		m_MouseRightBtnPressed = false;
 	}
+	update();
 }
 
 void GlWidget::mouseDoubleClickEvent(QMouseEvent *ev)
@@ -126,6 +129,7 @@ void GlWidget::mouseDoubleClickEvent(QMouseEvent *ev)
 		m_ActiveScene->GetCamera()->HandleMouseLeftBtnDoubleClick(ev->x(), ev->y());
 		emit ShapePicked(m_ActiveScene->OnCameraRayCast());
 	}
+	update();
 }
 
 void GlWidget::wheelEvent(QWheelEvent *ev)
@@ -136,6 +140,7 @@ void GlWidget::wheelEvent(QWheelEvent *ev)
 	}
 
 	m_ActiveScene->GetCamera()->HandleMouseScroll(ev->delta());
+	update();
 }
 
 void GlWidget::keyPressEvent(QKeyEvent *ev)
@@ -152,6 +157,7 @@ void GlWidget::keyPressEvent(QKeyEvent *ev)
 		case Qt::Key_A: m_ActiveScene->GetCamera()->HandleKey('A'); break;
 		case Qt::Key_D: m_ActiveScene->GetCamera()->HandleKey('D'); break;
 	}
+	update();
 }
 
 void GlWidget::keyReleaseEvent(QKeyEvent *ev)
