@@ -47,12 +47,6 @@
     <Filter Include="Source Files\Script">
       <UniqueIdentifier>{125a92d1-c703-4d72-85d2-649b95ed5d24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Script\UI">
-      <UniqueIdentifier>{a3a63090-7d66-443a-8aa7-0515d237d2be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Script\UI">
-      <UniqueIdentifier>{0b0fb183-76ad-46d0-8fb0-001ed1311251}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\Core">
       <UniqueIdentifier>{609b6ffe-daf4-4034-8deb-b43969c0a71a}</UniqueIdentifier>
     </Filter>
@@ -77,12 +71,6 @@
     <Filter Include="Source Files\Engine\Core\Camera">
       <UniqueIdentifier>{dc31bab7-9903-4389-93fb-e13a9292d362}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Core\Helper">
-      <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Engine\Core\Helper">
-      <UniqueIdentifier>{35a2e9ee-358a-44a5-aa12-a5668089d9e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Engine\Core\Scene">
       <UniqueIdentifier>{c6e16167-8e03-40ee-b213-76d7aac60209}</UniqueIdentifier>
     </Filter>
@@ -94,6 +82,30 @@
     </Filter>
     <Filter Include="Source Files\Engine\Interface">
       <UniqueIdentifier>{16a3f250-49c7-421d-8100-5e6aa77f1cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Script\Logic">
+      <UniqueIdentifier>{8eb05821-9bc6-421d-9453-3697f194d14a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script\Logic">
+      <UniqueIdentifier>{a57934a7-b78f-4244-b3cd-7edb74fccd10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Script\Logic\UI">
+      <UniqueIdentifier>{eadeaf9f-239d-4012-a01e-7b0e6d6d1d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script\Logic\UI">
+      <UniqueIdentifier>{068e123a-4f5a-46ef-bdf1-1fd54752cb59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Script\Common">
+      <UniqueIdentifier>{15dc5f05-9557-4bc1-8280-1bf09460683f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script\Common">
+      <UniqueIdentifier>{35a2e9ee-358a-44a5-aa12-a5668089d9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Script\Common\Widget">
+      <UniqueIdentifier>{a3a63090-7d66-443a-8aa7-0515d237d2be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Script\Common\Widget">
+      <UniqueIdentifier>{0b0fb183-76ad-46d0-8fb0-001ed1311251}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -128,25 +140,16 @@
       <Filter>Source Files\Engine\Core\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\MathHelper.cpp">
-      <Filter>Source Files\Engine\Core\Helper</Filter>
+      <Filter>Source Files\Script\Common</Filter>
     </ClCompile>
     <ClCompile Include="src\FileHelper.cpp">
-      <Filter>Source Files\Engine\Core\Helper</Filter>
+      <Filter>Source Files\Script\Common</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderHelper.cpp">
-      <Filter>Source Files\Engine\Core\Helper</Filter>
+      <Filter>Source Files\Script\Common</Filter>
     </ClCompile>
     <ClCompile Include="src\PhysicsObject.cpp">
       <Filter>Source Files\Engine\Core\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MainWindow.cpp">
-      <Filter>Source Files\Script\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TreeViewAttr.cpp">
-      <Filter>Source Files\Script\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TreeViewScene.cpp">
-      <Filter>Source Files\Script\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\IScene.cpp">
       <Filter>Source Files\Engine\Interface</Filter>
@@ -163,23 +166,32 @@
     <ClCompile Include="src\SceneObject.cpp">
       <Filter>Source Files\Engine\Core\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>Source Files\Script</Filter>
-    </ClCompile>
     <ClCompile Include="src\TreeView.cpp">
-      <Filter>Source Files\Script\UI</Filter>
+      <Filter>Source Files\Script\Common\Widget</Filter>
     </ClCompile>
     <ClCompile Include="src\GlWidget.cpp">
-      <Filter>Source Files\Script\UI</Filter>
+      <Filter>Source Files\Script\Common\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files\Script\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
+      <Filter>Source Files\Script\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>Source Files\Script\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>Source Files\Script\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainWindow.cpp">
+      <Filter>Source Files\Script\Logic\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeViewAttr.cpp">
+      <Filter>Source Files\Script\Logic\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeViewScene.cpp">
+      <Filter>Source Files\Script\Logic\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,13 +220,13 @@
       <Filter>Header Files\Engine\Core\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\MathHelper.h">
-      <Filter>Header Files\Engine\Core\Helper</Filter>
+      <Filter>Header Files\Script\Common</Filter>
     </ClInclude>
     <ClInclude Include="src\FileHelper.h">
-      <Filter>Header Files\Engine\Core\Helper</Filter>
+      <Filter>Header Files\Script\Common</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderHelper.h">
-      <Filter>Header Files\Engine\Core\Helper</Filter>
+      <Filter>Header Files\Script\Common</Filter>
     </ClInclude>
     <ClInclude Include="src\PhysicsObject.h">
       <Filter>Header Files\Engine\Core\Physics</Filter>
@@ -234,17 +246,17 @@
     <ClInclude Include="src\SceneObject.h">
       <Filter>Header Files\Engine\Core\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics.h">
-      <Filter>Header Files\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene.h">
-      <Filter>Header Files\Script</Filter>
-    </ClInclude>
     <ClInclude Include="src\Camera.h">
-      <Filter>Header Files\Script</Filter>
+      <Filter>Header Files\Script\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics.h">
+      <Filter>Header Files\Script\Logic</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer.h">
-      <Filter>Header Files\Script</Filter>
+      <Filter>Header Files\Script\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene.h">
+      <Filter>Header Files\Script\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -256,20 +268,20 @@
     <QtMoc Include="src\App.h">
       <Filter>Header Files\Script</Filter>
     </QtMoc>
-    <QtMoc Include="src\MainWindow.h">
-      <Filter>Header Files\Script\UI</Filter>
-    </QtMoc>
-    <QtMoc Include="src\TreeViewAttr.h">
-      <Filter>Header Files\Script\UI</Filter>
-    </QtMoc>
-    <QtMoc Include="src\TreeViewScene.h">
-      <Filter>Header Files\Script\UI</Filter>
-    </QtMoc>
     <QtMoc Include="src\TreeView.h">
-      <Filter>Header Files\Script\UI</Filter>
+      <Filter>Header Files\Script\Common\Widget</Filter>
     </QtMoc>
     <QtMoc Include="src\GlWidget.h">
-      <Filter>Header Files\Script\UI</Filter>
+      <Filter>Header Files\Script\Common\Widget</Filter>
+    </QtMoc>
+    <QtMoc Include="src\MainWindow.h">
+      <Filter>Header Files\Script\Logic\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TreeViewAttr.h">
+      <Filter>Header Files\Script\Logic\UI</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TreeViewScene.h">
+      <Filter>Header Files\Script\Logic\UI</Filter>
     </QtMoc>
   </ItemGroup>
 </Project>
