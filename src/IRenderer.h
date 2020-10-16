@@ -22,6 +22,7 @@ protected:
 	RenderProgramPhong*      m_RenderProgramPhong;
 
 	virtual void setObjectColor(const RenderObject* object);
+
 	inline RenderEngine*  GetRenderEngine() const { return RenderEngine::GetInstance(); };
 
 private:

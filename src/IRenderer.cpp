@@ -1,7 +1,7 @@
 #include "IRenderer.h"
 
 
-IRenderer::IRenderer():
+IRenderer::IRenderer() :
 	m_RenderProgramPhong(nullptr)
 {
 }
@@ -76,7 +76,7 @@ void IRenderer::bindObject(const RenderObject* object)
 
 void IRenderer::drawObject(const RenderObject* object)
 {
-	if(object->renderMode == RenderMode::Triangle)
+	if (object->renderMode == RenderMode::Triangle)
 	{
 		if (object->renderBuffer.indicesNum > 0)
 		{

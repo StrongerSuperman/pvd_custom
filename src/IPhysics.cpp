@@ -20,6 +20,7 @@ void IPhysics::Initialize()
 	sceneDescriptor.filterShader = &physx::PxDefaultSimulationFilterShader;
 
 	m_PxScene = GetPhysicsEngine()->GetPhysics()->createScene(sceneDescriptor);
+
 	GetPhysicsEngine()->SetActiveScene(this);
 
 	m_DefaultMaterial = GetPhysicsEngine()->GetPhysics()->createMaterial(0.5f, 0.5f, 0.5f);

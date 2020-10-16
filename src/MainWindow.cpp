@@ -51,6 +51,8 @@ void MainWindow::OnOpenFileFolder()
 	m_Scene->Load(fileList);
 	GetGlWidget()->SetScene(m_Scene);
 
+	GetComboBoxShade()->setCurrentIndex(1);
+
 	// init scene shade config
 	OnShadeComboBoxIndexChanged(GetComboBoxShade()->currentText());
 	OnFilterComboBoxIndexChanged(GetComboBoxFilter()->currentText());
@@ -371,6 +373,12 @@ void MainWindow::showItemAttr(void* ptr, const QString& typeName)
 
 void MainWindow::showSelectedShape(void* ptr, const QString& typeName)
 {
+	auto scene = GetGlWidget()->GetActiveScene();
+	if (!scene)
+	{
+		return;
+	}
+
 	std::vector<physx::PxShape*> shapes;
 
 	if (typeName == QString("PxRigidStatic"))
@@ -380,6 +388,12 @@ void MainWindow::showSelectedShape(void* ptr, const QString& typeName)
 		auto nbShapes = actor->getNbShapes();
 		shapes.resize(nbShapes);
 		actor->getShapes(&shapes[0], nbShapes);
+
+		if (shapes.size() > 0)
+		{
+			auto aabb = { actor->getWorldBounds() };
+			scene->GetCamera()->ZoomToBox(CalculateAABB(aabb));
+		}
 	}
 	else if (typeName == QString("PxRigidDynamic"))
 	{
@@ -388,6 +402,12 @@ void MainWindow::showSelectedShape(void* ptr, const QString& typeName)
 		auto nbShapes = actor->getNbShapes();
 		shapes.resize(nbShapes);
 		actor->getShapes(&shapes[0], nbShapes);
+
+		if (shapes.size() > 0)
+		{
+			auto aabb = { actor->getWorldBounds() };
+			scene->GetCamera()->ZoomToBox(CalculateAABB(aabb));
+		}
 	}
 	else if (typeName == QString("PxShape"))
 	{
@@ -395,12 +415,8 @@ void MainWindow::showSelectedShape(void* ptr, const QString& typeName)
 		shapes.push_back(shape);
 	}
 
-	auto scene = GetGlWidget()->GetActiveScene();
-	if (!scene)
-	{
-		return;
-	}
 	scene->SetPickedShapes(shapes);
+	GetGlWidget()->update();
 }
 
 void MainWindow::deleteAttrTreeModel()

@@ -15,7 +15,9 @@ void Renderer::setObjectColor(const RenderObject* object)
 	auto iter = std::find(m_PickedObjIds.begin(), m_PickedObjIds.end(), object->id);
 	if (iter != m_PickedObjIds.end())
 	{
-		m_RenderProgramPhong->SetObjectColor(glm::vec3(0.5f, 0.5f, 0.5f));
+		auto orgColor = object->renderData.color;
+		auto color = glm::vec3(orgColor.x + 0.3f, orgColor.y + 0.3f, orgColor.z + 0.3f);
+		m_RenderProgramPhong->SetObjectColor(color);
 	}
 	else
 	{

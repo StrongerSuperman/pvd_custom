@@ -35,7 +35,7 @@ const char* FRAGMENT_SHADER_CODE_PHONG =
 	"void main()\n"
 	"{\n"
 		"// ambient \n"
-		"float ambientStrength = 0.1;\n"
+		"float ambientStrength = 0.2;\n"
 		"vec3 ambient = ambientStrength * lightColor;\n"
 		"\n"
 		"// diffuse \n"

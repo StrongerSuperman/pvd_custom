@@ -47,14 +47,19 @@ void Scene::Load(const std::vector<std::string>& filenames)
 	int counter = 0;
 	for (int i = 0; i < m_Actors.size(); i++)
 	{
-		auto mat = physx::PxMat44(
+		/*auto mat = physx::PxMat44(
 			physx::PxVec4(1, 0, 0, 0),
+			physx::PxVec4(0, 0, 1, 0),
 			physx::PxVec4(0, 1, 0, 0),
-			physx::PxVec4(0, 0, -1, 0),
 			physx::PxVec4(0, 0, 0, 1)
 		);
 		auto transform = physx::PxTransform(mat);
-		m_Actors[i]->setGlobalPose(m_Actors[i]->getGlobalPose()*transform);
+		m_Actors[i]->setGlobalPose(transform*m_Actors[i]->getGlobalPose()*transform);*/
+
+		/*auto transform = m_Actors[i]->getGlobalPose();
+		transform.q = physx::PxQuat(-transform.q.x, -transform.q.z, -transform.q.y, transform.q.w);
+		transform.p = physx::PxVec3(transform.p.x, transform.p.z, transform.p.y);
+		m_Actors[i]->setGlobalPose(transform);*/
 
 		physx::PxU32 nbShapes = m_Actors[i]->getNbShapes();
 		std::vector<physx::PxShape*> shapes(nbShapes);
