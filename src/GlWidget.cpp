@@ -42,7 +42,7 @@ void GlWidget::paintGL()
 {
 	glViewport(0, 0, m_Width, m_Height);
 	glClearColor(0.5f, 0.6f, 0.7f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -56,8 +56,6 @@ void GlWidget::paintGL()
 	{
 		m_ActiveScene->Render();
 	}
-
-	//QTimer::singleShot(1000 / 60, this, SLOT(update()));
 }
 
 

@@ -38,8 +38,6 @@ void Camera::updateRay(int x, int y)
 	rayDir = glm::normalize(rayDir);
 
 #ifndef COORDINATE_RIGHT_HANDED
-	auto eye = glm::vec3(GetEye().x, GetEye().y, -GetEye().z);
-	auto dir = glm::vec3(rayDir.x, rayDir.y, -rayDir.z);
 	m_Ray.SetOrigin(glm::vec3(GetEye().x, GetEye().y, -GetEye().z));
 	m_Ray.SetDirection(glm::vec3(rayDir.x, rayDir.y, -rayDir.z));
 #else
