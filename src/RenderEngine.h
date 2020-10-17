@@ -7,6 +7,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
+#include <QDebug>
 #include <QOpenGLFunctions>
 
 
@@ -14,8 +15,7 @@ enum IndicesType
 {
 	U32,
 	U16,
-	U8,
-	None
+	U8
 };
 
 

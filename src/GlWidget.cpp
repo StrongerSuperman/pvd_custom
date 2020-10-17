@@ -46,6 +46,11 @@ void GlWidget::paintGL()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+#ifndef COORDINATE_RIGHT_HANDED
+	glFrontFace(GL_CW);
+#else
+	glFrontFace(GL_CCW);
+#endif
 
 	if (m_ActiveScene)
 	{

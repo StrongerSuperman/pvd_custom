@@ -31,9 +31,25 @@ void IRenderer::Render(const RenderObject &object, const ICamera &camera)
 }
 
 
-void IRenderer::setObjectColor(const RenderObject* object)
+void IRenderer::setObjectColor(const RenderObject* object, const ICamera* camera)
 {
+	(void)camera;
 	m_RenderProgramPhong->SetObjectColor(object->renderData.color);
+}
+
+void IRenderer::setLightPosition(const RenderObject* object, const ICamera* camera)
+{
+	(void)object;
+	auto position = camera->GetEye() + glm::vec3(10.0, 10.0, 10.0);
+	m_RenderProgramPhong->SetLightPosition(position);
+}
+
+void IRenderer::setLightColor(const RenderObject* object, const ICamera* camera)
+{
+	(void)object;
+	(void)camera;
+	auto color = glm::vec3(1.0, 1.0, 1.0);
+	m_RenderProgramPhong->SetLightColor(color);
 }
 
 
@@ -105,10 +121,9 @@ void IRenderer::sendData(const RenderObject* object, const ICamera* camera)
 	m_RenderProgramPhong->SetObjectModelMatrix(object->renderData.modelMatrix);
 	m_RenderProgramPhong->SetCameraViewMatrix(camera->GetViewMatrix());
 	m_RenderProgramPhong->SetCameraProjectionMatrix(camera->GetProjectionMatrix());
-
-	setObjectColor(object);
-
 	m_RenderProgramPhong->SetCameraPosition(camera->GetEye());
-	m_RenderProgramPhong->SetLightPosition(camera->GetEye() + glm::vec3(10.0, 10.0, 10.0));
-	m_RenderProgramPhong->SetLightColor(glm::vec3(1.0, 1.0, 1.0));
+
+	setObjectColor(object, camera);
+	setLightPosition(object, camera);
+	setLightColor(object, camera);
 }

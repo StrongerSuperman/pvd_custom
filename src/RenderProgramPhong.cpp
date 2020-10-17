@@ -14,9 +14,14 @@ const char* VERTEX_SHADER_CODE_PHONG =
 	"\n"
 	"void main()\n"
 	"{\n"
-	"   normal = inNormal;\n"
+	"\n"
+	"   normal = vec3(transpose(inverse(model)) * vec4(inNormal, 1.0));\n"
 	"   fragPos = vec3(model * vec4(inPos, 1.0));\n"
-	"	gl_Position = projection * view * vec4(fragPos, 1.0);\n"
+#ifndef COORDINATE_RIGHT_HANDED
+	"   normal = normalize(vec3(normal.x, normal.y, -normal.z));\n"
+	"   fragPos = vec3(fragPos.x, fragPos.y, -fragPos.z);\n"
+#endif
+	"   gl_Position = projection * view * vec4(fragPos, 1.0);\n"
 	"}\n"
 };
 

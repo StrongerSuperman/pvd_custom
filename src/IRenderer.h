@@ -19,9 +19,11 @@ public:
 	void Render(const RenderObject &object, const ICamera &camera);
 
 protected:
-	RenderProgramPhong*      m_RenderProgramPhong;
+	RenderProgramPhong*  m_RenderProgramPhong;
 
-	virtual void setObjectColor(const RenderObject* object);
+	virtual void setObjectColor(const RenderObject* object, const ICamera* camera);
+	virtual void setLightPosition(const RenderObject* object, const ICamera* camera);
+	virtual void setLightColor(const RenderObject* object, const ICamera* camera);
 
 	inline RenderEngine*  GetRenderEngine() const { return RenderEngine::GetInstance(); };
 

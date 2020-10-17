@@ -119,7 +119,8 @@ GLuint RenderEngine::CreateShader(const char *shaderText, GLenum type)
 
 		if (log[0] != 0)
 		{
-			std::cout << log << "\n";
+			//std::cout << log << "\n";
+			qDebug() << log << "\n";
 		}
 	}
 
@@ -148,7 +149,8 @@ GLuint RenderEngine::CreateProgram(GLuint vertexShader, GLuint fragmentShader)
 
 		if (log[0] != 0)
 		{
-			std::cout << log << "\n";
+			//std::cout << log << "\n";
+			qDebug() << log << "\n";
 		}
 	}
 
@@ -208,7 +210,7 @@ GLuint RenderEngine::CreateIndicesBuffer(uint indexNum, const void* indices, Ind
 		return CreateVertexBuffer(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * indexNum, indices);
 	}
 
-	assert(indicesType == None);
+	assert(0), "Undefined indices type!";
 	return -1;
 }
 

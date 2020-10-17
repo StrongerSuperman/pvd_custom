@@ -21,3 +21,5 @@
 RenderObject CreateRenderObjectFromPxGeometry(int id, const physx::PxGeometryHolder& geomHd, const physx::PxMat44& posMat, MeshCounter* counter);
 RenderBuffer CreateBoxRenderBuffer(float extentX, float extentY, float extentZ);
 RenderBuffer CreateCapsuleRenderBuffer(float radius, float halfHeight, uint slices = 10, uint stacks = 10);
+
+RenderObject CreateRenderObjectFromRay(const Ray& ray);

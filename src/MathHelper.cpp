@@ -94,9 +94,16 @@ physx::PxBounds3 CalculateAABB(const std::vector<physx::PxBounds3> &bounds)
 	float xMin = *std::max_element(std::begin(boundsXMin), std::end(boundsXMin));
 	float yMin = *std::max_element(std::begin(boundsYMin), std::end(boundsYMin));
 	float zMin = *std::max_element(std::begin(boundsZMin), std::end(boundsZMin));
+
+#ifndef COORDINATE_RIGHT_HANDED
+	return physx::PxBounds3(
+		physx::PxVec3(xMin, yMin, -zMin),
+		physx::PxVec3(xMax, yMax, -zMax));
+#else
 	return physx::PxBounds3(
 		physx::PxVec3(xMin, yMin, zMin),
 		physx::PxVec3(xMax, yMax, zMax));
+#endif
 }
 
 bool RayCast(const Ray &ray, physx::PxScene* pxScene, physx::PxRaycastBuffer& hitinfo)

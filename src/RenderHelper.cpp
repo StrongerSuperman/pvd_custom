@@ -399,3 +399,24 @@ RenderBuffer CreateCapsuleRenderBuffer(float radius, float halfHeight, uint slic
 
 	return CreateRenderBuffer(vertices, verticesNum, indices, trianglesNum * 3);
 }
+
+
+RenderObject CreateRenderObjectFromRay(const Ray& ray)
+{
+	auto startP = ray.GetOrigin();
+	auto startPNormal = glm::normalize(startP);
+	auto endP = startP + 10000.0f*ray.GetDirection();
+	auto endPNormal = glm::normalize(endP);
+
+	GLfloat vertices[] =
+	{
+		startP.x, startP.y, startP.z, startPNormal.x, startPNormal.y, startPNormal.z,
+		endP.x, endP.y, endP.z, endPNormal.x, endPNormal.y, endPNormal.z,
+	};
+	glm::mat4x4 model(1.0);
+	glm::vec3 color(0, 0.8, 0.3);
+
+	auto renderData = RenderData(color, model);
+	auto renderbuffer = CreateRenderBuffer(static_cast<void *>(vertices), 2, nullptr, 0);
+	return RenderObject(0, renderData, renderbuffer, RenderMode::Line);
+}

@@ -47,20 +47,6 @@ void Scene::Load(const std::vector<std::string>& filenames)
 	int counter = 0;
 	for (int i = 0; i < m_Actors.size(); i++)
 	{
-		/*auto mat = physx::PxMat44(
-			physx::PxVec4(1, 0, 0, 0),
-			physx::PxVec4(0, 0, 1, 0),
-			physx::PxVec4(0, 1, 0, 0),
-			physx::PxVec4(0, 0, 0, 1)
-		);
-		auto transform = physx::PxTransform(mat);
-		m_Actors[i]->setGlobalPose(transform*m_Actors[i]->getGlobalPose()*transform);*/
-
-		/*auto transform = m_Actors[i]->getGlobalPose();
-		transform.q = physx::PxQuat(-transform.q.x, -transform.q.z, -transform.q.y, transform.q.w);
-		transform.p = physx::PxVec3(transform.p.x, transform.p.z, transform.p.y);
-		m_Actors[i]->setGlobalPose(transform);*/
-
 		physx::PxU32 nbShapes = m_Actors[i]->getNbShapes();
 		std::vector<physx::PxShape*> shapes(nbShapes);
 		m_Actors[i]->getShapes(&shapes[0], nbShapes);
@@ -219,27 +205,8 @@ void Scene::shadeObjectByBitOpType(std::vector<int>& words, BitOpType logicOpTyp
 
 void Scene::genRenderObjectRay(const Ray& ray)
 {
-	auto startP = ray.GetOrigin();
-	auto startPNormal = glm::normalize(startP);
-	auto endP = startP + 10000.0f*ray.GetDirection();
-	auto endPNormal = glm::normalize(endP);
-
-	physx::PxBounds3 aabb = GetAABB();
-	glm::vec3 center = PxVec3ToGlmVector3(aabb.getCenter());
-
 	m_RenderObjectsLine.clear();
-	GLfloat vertices[] =
-	{
-		startP.x, startP.y, startP.z, startPNormal.x, startPNormal.y, startPNormal.z,
-		endP.x, endP.y, endP.z, endPNormal.x, endPNormal.y, endPNormal.z,
-	};
-	glm::mat4x4 model(1.0f);
-	glm::vec3 color(0, 0.8, 0.3);
-
-	auto renderData = RenderData(color, model);
-	auto renderbuffer = CreateRenderBuffer(static_cast<void *>(vertices), 2, nullptr, 0);
-	auto lineObject = RenderObject(0, renderData, renderbuffer, RenderMode::Line);
-	m_RenderObjectsLine.push_back(lineObject);
+	m_RenderObjectsLine.push_back(CreateRenderObjectFromRay(ray));
 }
 
 void Scene::pintMeshCounter()
