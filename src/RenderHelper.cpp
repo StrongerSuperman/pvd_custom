@@ -196,14 +196,14 @@ RenderBuffer CreateBoxRenderBuffer(float extentX, float extentY, float extentZ)
 		vertexes[offset++] = glm::vec3(x, y, z);
 		vertexes[offset++] = glm::vec3(0, 1, 0);
 
+		vertexes[offset++] = glm::vec3(x, -y, -z);
+		vertexes[offset++] = glm::vec3(0, -1, 0);
+		vertexes[offset++] = glm::vec3(-x, -y, -z);
+		vertexes[offset++] = glm::vec3(0, -1, 0);
 		vertexes[offset++] = glm::vec3(x, -y, z);
-		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(0, -1, 0);
 		vertexes[offset++] = glm::vec3(-x, -y, z);
-		vertexes[offset++] = glm::vec3(-1, 0, 0);
-		vertexes[offset++] = glm::vec3(x, -y, z);
-		vertexes[offset++] = glm::vec3(-1, 0, 0);
-		vertexes[offset++] = glm::vec3(-x, -y, z);
-		vertexes[offset++] = glm::vec3(-1, 0, 0);
+		vertexes[offset++] = glm::vec3(0, -1, 0);
 
 		vertexes[offset++] = glm::vec3(-x, y, z);
 		vertexes[offset++] = glm::vec3(0, 0, 1);
@@ -224,13 +224,13 @@ RenderBuffer CreateBoxRenderBuffer(float extentX, float extentY, float extentZ)
 		vertexes[offset++] = glm::vec3(0, 1, 0);
 
 		vertexes[offset++] = glm::vec3(x, y, -z);
-		vertexes[offset++] = glm::vec3(1, 0, 0);
+		vertexes[offset++] = glm::vec3(0, 0, -1);
 		vertexes[offset++] = glm::vec3(-x, y, -z);
-		vertexes[offset++] = glm::vec3(1, 0, 0);
+		vertexes[offset++] = glm::vec3(0, 0, -1);
 		vertexes[offset++] = glm::vec3(x, -y, -z);
-		vertexes[offset++] = glm::vec3(1, 0, 0);
+		vertexes[offset++] = glm::vec3(0, 0, -1);
 		vertexes[offset++] = glm::vec3(-x, -y, -z);
-		vertexes[offset++] = glm::vec3(1, 0, 0);
+		vertexes[offset++] = glm::vec3(0, 0, -1);
 
 		vertexes[offset++] = glm::vec3(-x, y, -z);
 		vertexes[offset++] = glm::vec3(-1, 0, 0);

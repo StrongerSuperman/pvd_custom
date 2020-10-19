@@ -49,7 +49,7 @@ const char* FRAGMENT_SHADER_CODE_PHONG =
 		"vec3 diffuse = diff * lightColor;\n"
 		"\n"
 		"// specular\n"
-		"float specularStrength = 0.5;\n"
+		"float specularStrength = 0.3;\n"
 		"vec3 viewDir = normalize(viewPos - fragPos);\n"
 		"vec3 reflectDir = reflect(-lightDir, normal);\n"
 		"float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);\n"

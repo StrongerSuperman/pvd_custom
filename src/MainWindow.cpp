@@ -163,6 +163,7 @@ void MainWindow::OnShadeComboBoxIndexChanged(const QString &text)
 	{
 		scene->SetShadeType(QueryColor);
 	}
+	GetGlWidget()->update();
 }
 
 void MainWindow::OnFilterComboBoxIndexChanged(const QString &text)
@@ -180,6 +181,7 @@ void MainWindow::OnFilterComboBoxIndexChanged(const QString &text)
 	{
 		scene->SetFilterType(Query);
 	}
+	GetGlWidget()->update();
 }
 
 
@@ -476,4 +478,5 @@ void MainWindow::bitOpWords(QVector<QString>& wordsStr, BitOpType logicOpType)
 		}
 	}
 	scene->ShadeObjectByBitOp(words, logicOpType);
+	GetGlWidget()->update();
 }
