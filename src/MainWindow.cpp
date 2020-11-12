@@ -241,6 +241,16 @@ void MainWindow::initialize()
 	m_Ui->setupUi(this);
 	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, QSize(1000, 610), qApp->desktop()->availableGeometry()));
 
+	// set theme
+	QString filename = QCoreApplication::applicationDirPath();
+	QFile file(filename + "/theme/dark.qss");
+	if (file.open(QFile::ReadOnly))
+	{
+		QString styleSheet = QLatin1String(file.readAll());
+		qApp->setStyleSheet(styleSheet);
+		file.close();
+	}
+
 	// shade comboBox
 	GetComboBoxShade()->addItem(QWidget::tr("simulation_group"));
 	GetComboBoxShade()->addItem(QWidget::tr("simulation_color"));

@@ -12,6 +12,7 @@ Renderer::~Renderer()
 
 void Renderer::setObjectColor(const RenderObject* object, const ICamera* camera)
 {
+	(void)camera;
 	auto iter = std::find(m_PickedObjIds.begin(), m_PickedObjIds.end(), object->id);
 	if (iter != m_PickedObjIds.end())
 	{
@@ -24,14 +25,3 @@ void Renderer::setObjectColor(const RenderObject* object, const ICamera* camera)
 		m_RenderProgramPhong->SetObjectColor(object->renderData.color);
 	}
 }
-
-//void Renderer::setLightPosition(const RenderObject* object, const ICamera* camera)
-//{
-//
-//}
-//
-//void Renderer::setLightColor(const RenderObject* object, const ICamera* camera)
-//{
-//
-//}
-
