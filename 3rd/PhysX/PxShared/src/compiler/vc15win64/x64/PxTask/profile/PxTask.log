@@ -1,0 +1,3 @@
+﻿  TaskManager.cpp
+LINK : warning LNK4044: 无法识别的选项“/INCREMENTAL:NO”；已忽略
+  PxTask.vcxproj -> C:\Users\bestr\Documents\Library\PhysX\PhysX-3.4\PxShared\src\compiler\vc15win64\./../../../lib/vc15win64\PxTaskPROFILE_x64.lib

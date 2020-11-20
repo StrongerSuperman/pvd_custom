@@ -1,5 +1,6 @@
 .vs/
-3rd/PhysX/*
-3rd/glm/*
-bin/*
+3rd/PhysX/PhysX_3.4/Bin/*
+3rd/PhysX/PxShared/bin/*
 build/*
+*.pri
+*.pro

@@ -1,0 +1,2 @@
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v141:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+release|x64|C:\Users\bestr\Documents\Library\PhysX\PhysX-3.4\PhysX_3.4\Source\compiler\vc15win64\|
