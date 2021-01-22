@@ -1,6 +1,14 @@
 .vs/
 3rd/PhysX/PhysX_3.4/Bin/*
 3rd/PhysX/PxShared/bin/*
+
+bin/Debug/Qt5Cored.dll
+bin/Debug/Qt5Guid.dll
+bin/Debug/Qt5Widgetsd.dll
+bin/Release/Qt5Core.dll
+bin/Release/Qt5Gui.dll
+bin/Release/Qt5Widgets.dll
+
 build/*
 *.pri
 *.pro
