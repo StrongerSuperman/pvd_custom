@@ -242,8 +242,8 @@ void MainWindow::initialize()
 	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, QSize(1000, 610), qApp->desktop()->availableGeometry()));
 
 	// set theme
-	QString filename = QCoreApplication::applicationDirPath();
-	QFile file(filename + "/theme/dark.qss");
+	QString theme_filename = QCoreApplication::applicationDirPath() + "/../../res/theme/dark.qss";
+	QFile file(theme_filename);
 	if (file.open(QFile::ReadOnly))
 	{
 		QString styleSheet = QLatin1String(file.readAll());
