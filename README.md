@@ -1,7 +1,7 @@
 # pvd_custom
 a custom pvd tool
 
-# build for msvc
+# build for windows (win64-msvc2017)
 mkdir build  
 cd build  
 cmake ../  
