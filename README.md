@@ -5,7 +5,7 @@ a custom pvd tool
 ```
 mkdir build  
 cd build  
-cmake --build ./  --target pvd——custom --config Release  
+cmake --build ./  --target pvd_custom --config Release  
 ```
 
 # demo
