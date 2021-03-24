@@ -27,9 +27,9 @@ const char* VERTEX_SHADER_CODE_PHONG =
 
 const char* FRAGMENT_SHADER_CODE_PHONG =
 {
-  "#version 420 \n"
+	"#version 420 \n"
 	"in vec3 fragPos;\n"
-    "in vec3 normal;\n"
+	"in vec3 normal;\n"
 	"out vec4 fragColor;\n"
 	"\n"
 	"uniform vec3 objectColor;\n"
@@ -51,8 +51,8 @@ const char* FRAGMENT_SHADER_CODE_PHONG =
 		"// specular\n"
 		"float specularStrength = 0.3;\n"
 		"vec3 viewDir = normalize(viewPos - fragPos);\n"
-		"vec3 reflectDir = reflect(-lightDir, normal);\n"
-		"float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);\n"
+		"vec3 halfDir = normalize(lightDir + viewDir);\n"
+		"float spec = pow(max(dot(viewDir, halfDir), 0.0), 32);\n"
 		"vec3 specular = specularStrength * spec * lightColor;\n"
 		"\n"
 		"vec3 result = (ambient + diffuse + specular) * objectColor;\n"

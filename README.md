@@ -5,6 +5,7 @@ a custom pvd tool
 ```
 mkdir build  
 cd build  
+cmake .. -DCMAKE_BUILD_TYPE=Release  
 cmake --build ./  --target pvd_custom --config Release  
 ```
 
