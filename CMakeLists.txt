@@ -14,7 +14,7 @@ set(TARGET pvd_custom)
 set(HEADERS)
 set(SOURCES)
 set(UI)
-file(GLOB_RECURSE HEADERS ${CMAKE_SOURCE_DIR}/src/*.h)
+file(GLOB_RECURSE HEADERS ${CMAKE_SOURCE_DIR}/src/*.hpp)
 file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 file(GLOB_RECURSE UI ${CMAKE_SOURCE_DIR}/src/*.ui)
 source_group(TREE "${CMAKE_SOURCE_DIR}" FILES ${HEADERS} ${SOURCES} ${UI})
@@ -27,13 +27,13 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 message(STATUS "find qt package")
 set(CMAKE_PREFIX_PATH "$ENV{QTDIR512}")  #set qt env path
 find_package(Qt5 COMPONENTS Core Gui Widgets OpenGL REQUIRED)
-set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/ui)  #required
+set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/src/logic/ui_qt)  #required
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-add_executable(${TARGET} ${HEADERS} ${SOURCES} ${UI})
+add_executable(${TARGET} ${HEADERS} ${SOURCES})
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     message(STATUS "build with debug")
